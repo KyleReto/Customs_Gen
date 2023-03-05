@@ -1,11 +1,33 @@
 {
     "fonts":{
-        "stats":"fonts\\WCManoNegraBoldBta.otf",
-        "card_name":"fonts\\WCManoNegraBoldBta.otf",
-        "secondary_title":"fonts\\WCManoNegraBoldBta.otf",
-        "effect-regular":"fonts\\FiraSansExtraCondensed-Regular.ttf",
-        "effect-italic":"fonts\\FiraSansExtraCondensed-Italic.ttf",
-        "effect-bold":"fonts\\FiraSansExtraCondensed-Bold.ttf",
-        "effect-bold-italic":"fonts\\FiraSansExtraCondensed-BoldItalic.ttf"
+        "stats":"fonts/WCManoNegraBoldBta.otf",
+        "card_name":"fonts/WCManoNegraBoldBta.otf",
+        "secondary_title":"fonts/WCManoNegraBoldBta.otf",
+        "effect-regular":"fonts/FiraSansExtraCondensed-Regular.ttf",
+        "effect-italic":"fonts/FiraSansExtraCondensed-Italic.ttf",
+        "effect-bold":"fonts/FiraSansExtraCondensed-Bold.ttf",
+        "effect-bold-italic":"fonts/FiraSansExtraCondensed-BoldItalic.ttf"
+    },
+    "images":{
+        "character_frame":{
+            "path":"character_frame.png",
+            "x_offset":0,
+            "y_offset":0
+        },
+        "exceed_flip":{
+            "path":"exceed_flip.png",
+            "x_offset":0,
+            "y_offset":0
+        },
+        "character_critical":{
+            "path":"character_critical.png",
+            "x_offset":0,
+            "y_offset":0
+        },
+        "critical_icon":{
+            "path":"critical_icon.png",
+            "x_offset":534,
+            "y_offset":860
+        }
     }
 }
