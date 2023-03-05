@@ -1,0 +1,11 @@
+{
+    "fonts":{
+        "stats":"fonts\\WCManoNegraBoldBta.otf",
+        "card_name":"fonts\\WCManoNegraBoldBta.otf",
+        "secondary_title":"fonts\\WCManoNegraBoldBta.otf",
+        "effect-regular":"fonts\\FiraSansExtraCondensed-Regular.ttf",
+        "effect-italic":"fonts\\FiraSansExtraCondensed-Italic.ttf",
+        "effect-bold":"fonts\\FiraSansExtraCondensed-Bold.ttf",
+        "effect-bold-italic":"fonts\\FiraSansExtraCondensed-BoldItalic.ttf"
+    }
+}
