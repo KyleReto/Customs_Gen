@@ -4,7 +4,7 @@
     Use `Ctrl+Shift+P` to open the command palette.   
     Type `Python: Create Environment` into the command palette.   
     Select `Venv` from the list.   
-    If prompted, select some variant of Python 3.9 as your interpreter.   
+    If prompted, select some variant of Python 3.11 as your interpreter.   
     If prompted, check the box to install `requirements.txt`, then click "OK".   
 2. Ensure that your terminal in VSCode says `(.venv)` in green. If it does, you're all set!   
    
