@@ -1,9 +1,11 @@
 CardName,CardType,Owner,Copies,TextBox,Cost,Range,Power,Speed,Armor,Guard,SecondaryCost,SecondaryName,SecondarySubtype,SecondaryType,SecondaryTextBox,Frame,CharacterIcon,Art
 Character Name,Character,,1,"Character text
 Bold text: Normal Text (Italic Text)
-This character can Critical for 2 Gauge",3,,,,,,2,,,Critical,,,,
-Exceed Name,Exceed,,1,"Exceed text
-Bold text: Normal Text (Italic Text)",,,,,,,,,,,,,,
+This character can  -- Critical for 2 Gauge
+("" --"" = crit symbol)",3,,,,,,2,,,Critical,,,,
+Exceed Name,Exceed,,1,"Exceed Text
+Bold text: Normal Text (Italic Text)
++0~1 Range, +2-3 Range, +1 Power, -1 Speed, +2 Armor, -4 Guard",,,,,,,,,,,,,,
 Unique Name,Unique,,1,"Unique text
 Bold text: Normal Text (Italic Text)",,,,,,,,,,,,,,
 Ultra 1 Name,Ultra,,2,"Ultra 1 text
@@ -31,14 +33,16 @@ Bold text: Normal Text (Italic Text)
 This boost is an Overload",,,
 Special 3 Name,Ultra,,2,"Ultra 3 text
 Bold text: Normal Text (Italic Text)
-This card is an Ultra",,X,X,X,X,X,,Boost 5 Name ,Instant,,"Boost 5 Text
+This card is an Ultra
++0~1 Range, +2-3 Range, +1 Power, -1 Speed, +2 Armor, -4 Guard",,X,X,X,X,X,,Boost 5 Name ,Instant,,"Boost 5 Text
 Bold text: Normal Text (Italic Text)
 This boost has no secondary type",,,
 Special 4 Name,Special,,1,"Special 4 text
 Bold text: Normal Text (Italic Text)
 There is only one copy of this card",,-,-,-,-,-,,Boost 6 Name ,,Force Boost,"Boost 6 Text
 Bold text: Normal Text (Italic Text)
-This boost has no subtype",,,
+This boost has no subtype
++0~1 Range, +2-3 Range, +1 Power, -1 Speed, +2 Armor, -4 Guard",,,
 Special 5 Name,Special,,3,"Special 5 text
 Bold text: Normal Text (Italic Text)
 There are three copies of this card",,N/A,N/A,N/A,N/A,N/A,,Boost 7 Name ,Continuous,Force Boost,"Boost 6 Text
