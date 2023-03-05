@@ -1,0 +1,46 @@
+CardName,CardType,Owner,Copies,TextBox,Cost,Range,Power,Speed,Armor,Guard,SecondaryCost,SecondaryName,SecondarySubtype,SecondaryType,SecondaryTextBox,Frame,CharacterIcon,Art
+Character Name,Character,,1,"Character text
+Bold text: Normal Text (Italic Text)
+This character can Critical for 2 Gauge",3,,,,,,2,,,Critical,,,,
+Exceed Name,Exceed,,1,"Exceed text
+Bold text: Normal Text (Italic Text)",,,,,,,,,,,,,,
+Unique Name,Unique,,1,"Unique text
+Bold text: Normal Text (Italic Text)",,,,,,,,,,,,,,
+Ultra 1 Name,Ultra,,2,"Ultra 1 text
+Bold text: Normal Text (Italic Text)
+This card has 2 gauge cost",2,1,1,2,3,4,1,Boost 1 Name,Continuous,Force Boost,"Boost 1 Text
+Bold text: Normal Text (Italic Text)
+This boost is continuous, and has 1 force cost",,,
+Ultra 2 Name,Ultra,,2,"Ultra 2 text
+Bold text: Normal Text (Italic Text)
+This card has 1 gauge cost",1,2~3,2,3,4,5,1,Boost 2 Name,Instant,Gauge Boost,"Boost 2 Text
+Bold text: Normal Text (Italic Text)
+This boost is instant, and has 1 gauge cost",,,
+"Special 1 Name, but it's super long-winded and has way too much text to test how our program handles overly long strings.",Special,,2,"Special 1 text
+Bold text: Normal Text (Italic Text)
+This card has 1 force cost",1,4-5,3,4,5,6,,Boost 3 Name ,,Transformation,"Boost 3 Text
+Bold text: Normal Text (Italic Text)
+This boost is a transformation",,,
+Special 2 Name,Special,,2,"Special 2 text
+Bold text: Normal Text (Italic Text)
+This card has far too much text, to see how our program handles excessively long strings in card effects. The following is lorem ipsum: What color to use for the image. Default is black. If given, this should be a single integer or floating point value for single-band modes, and a tuple for multi-band modes (one value per band). When creating RGB images, you can also use color strings as supported by the ImageColor module. If the color is None, the image is not initialised.What color to use for the image. Default is black. If given, this should be a single integer or floating point value for single-band modes, and a tuple for multi-band modes (one value per band). When creating RGB images, you can also use color strings as supported by the ImageColor module. If the color is None, the image is not initialised.
+This line starts with a line break.
+
+This line starts with two line breaks.",,5~6,4,5,6,7,,Boost 4 Name ,,Overload,"Boost 4 Text
+Bold text: Normal Text (Italic Text)
+This boost is an Overload",,,
+Special 3 Name,Ultra,,2,"Ultra 3 text
+Bold text: Normal Text (Italic Text)
+This card is an Ultra",,X,X,X,X,X,,Boost 5 Name ,Instant,,"Boost 5 Text
+Bold text: Normal Text (Italic Text)
+This boost has no secondary type",,,
+Special 4 Name,Special,,1,"Special 4 text
+Bold text: Normal Text (Italic Text)
+There is only one copy of this card",,-,-,-,-,-,,Boost 6 Name ,,Force Boost,"Boost 6 Text
+Bold text: Normal Text (Italic Text)
+This boost has no subtype",,,
+Special 5 Name,Special,,3,"Special 5 text
+Bold text: Normal Text (Italic Text)
+There are three copies of this card",,N/A,N/A,N/A,N/A,N/A,,Boost 7 Name ,Continuous,Force Boost,"Boost 6 Text
+Bold text: Normal Text (Italic Text)
+This boost has far too much text. What follows is lorem ipsum: What color to use for the image. Default is black. If given, this should be a single integer or floating point value for single-band modes, and a tuple for multi-band modes (one value per band). When creating RGB images, you can also use color strings as supported by the ImageColor module. If the color is None, the image is not initialised. What color to use for the image. Default is black. If given, this should be a single integer or floating point value for single-band modes, and a tuple for multi-band modes (one value per band). When creating RGB images, you can also use color strings as supported by the ImageColor module. If the color is None, the image is not initialised.",,,
