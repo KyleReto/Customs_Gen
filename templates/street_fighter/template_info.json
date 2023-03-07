@@ -1,33 +1,48 @@
 {
     "fonts":{
-        "stats":"fonts/WCManoNegraBoldBta.otf",
-        "card_name":"fonts/WCManoNegraBoldBta.otf",
-        "secondary_title":"fonts/WCManoNegraBoldBta.otf",
-        "effect-regular":"fonts/FiraSansExtraCondensed-Regular.ttf",
-        "effect-italic":"fonts/FiraSansExtraCondensed-Italic.ttf",
-        "effect-bold":"fonts/FiraSansExtraCondensed-Bold.ttf",
-        "effect-bold-italic":"fonts/FiraSansExtraCondensed-BoldItalic.ttf"
+        "stats":"templates/street_fighter/fonts/WCManoNegraBoldBta.otf",
+        "card_name":"templates/street_fighter/fonts/WCManoNegraBoldBta.otf",
+        "secondary_title":"templates/street_fighter/fonts/WCManoNegraBoldBta.otf",
+        "effect_regular":"templates/street_fighter/fonts/FiraSansExtraCondensed-Regular.ttf",
+        "effect_bold":"templates/street_fighter/fonts/FiraSansExtraCondensed-Bold.ttf",
+        "effect_italic":"templates/street_fighter/fonts/FiraSansExtraCondensed-Italic.ttf",
+        "effect_bold_italic":"templates/street_fighter/fonts/FiraSansExtraCondensed-BoldItalic.ttf"
     },
     "images":{
+        "character_background":{
+            "path":"templates/street_fighter/character_background.png",
+            "dest_offsets":[0,0],
+            "source_offsets":[0,0]
+        },
+        "exceed_background":{
+            "path":"templates/street_fighter/character_background.png",
+            "dest_offsets":[0,0],
+            "source_offsets":[0,0]
+        },
+        "card_background":{
+            "path":"templates/street_fighter/character_background.png",
+            "dest_offsets":[0,0],
+            "source_offsets":[0,0]
+        },
         "character_frame":{
-            "path":"character_frame.png",
-            "x_offset":0,
-            "y_offset":0
+            "path":"templates/street_fighter/character_frame.png",
+            "dest_offsets":[0,0],
+            "source_offsets":[0,0]
         },
         "exceed_flip":{
-            "path":"exceed_flip.png",
-            "x_offset":0,
-            "y_offset":0
+            "path":"templates/street_fighter/exceed_flip.png",
+            "dest_offsets":[0,0],
+            "source_offsets":[0,0]
         },
         "character_critical":{
-            "path":"character_critical.png",
-            "x_offset":0,
-            "y_offset":0
+            "path":"templates/street_fighter/character_critical.png",
+            "dest_offsets":[0,0],
+            "source_offsets":[0,0]
         },
         "critical_icon":{
-            "path":"critical_icon.png",
-            "x_offset":534,
-            "y_offset":860
+            "path":"templates/street_fighter/critical_icon.png",
+            "dest_offsets":[534,860],
+            "source_offsets":[0,0]
         }
     }
 }
