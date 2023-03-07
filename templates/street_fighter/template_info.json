@@ -1,12 +1,45 @@
 {
-    "fonts":{
-        "stats":"templates/street_fighter/fonts/WCManoNegraBoldBta.otf",
-        "card_name":"templates/street_fighter/fonts/WCManoNegraBoldBta.otf",
-        "secondary_title":"templates/street_fighter/fonts/WCManoNegraBoldBta.otf",
-        "effect_regular":"templates/street_fighter/fonts/FiraSansExtraCondensed-Regular.ttf",
-        "effect_bold":"templates/street_fighter/fonts/FiraSansExtraCondensed-Bold.ttf",
-        "effect_italic":"templates/street_fighter/fonts/FiraSansExtraCondensed-Italic.ttf",
-        "effect_bold_italic":"templates/street_fighter/fonts/FiraSansExtraCondensed-BoldItalic.ttf"
+    "text":{
+        "card_name":{
+            "fonts":["templates/street_fighter/fonts/WCManoNegraBoldBta.otf"],
+            "bounding_box":[0,660,372,751],
+            "default_font_size":88,
+            "default_line_height":88
+        },
+        "stats":{
+            "fonts":["templates/street_fighter/fonts/WCManoNegraBoldBta.otf"],
+            "bounding_box":[620,840,739,925],
+            "default_font_size":64,
+            "default_line_height":64
+        },
+        "secondary_title":{
+            "fonts":["templates/street_fighter/fonts/WCManoNegraBoldBta.otf"],
+            "bounding_box":[100,750,650,970],
+            "default_font_size":88,
+            "default_line_height":88
+        },
+        "card_effect":{
+            "fonts":["templates/street_fighter/fonts/FiraSansExtraCondensed-Regular.ttf",
+            "templates/street_fighter/fonts/FiraSansExtraCondensed-Bold.ttf",
+            "templates/street_fighter/fonts/FiraSansExtraCondensed-Italic.ttf",
+            "templates/street_fighter/fonts/FiraSansExtraCondensed-BoldItalic.ttf"],
+            "bounding_box":[100,750,650,970],
+            "default_font_size":33,
+            "default_line_height":33
+        },
+        "watermark":{
+            "fonts":["templates/street_fighter/fonts/FiraSansExtraCondensed-BoldItalic.ttf"],
+            "bounding_box":[0,1000,750,1024],
+            "default_font_size":14,
+            "default_line_height":14
+        }
+    },
+    "badges":{
+        " --":{
+            "path":"templates/street_fighter/critical_icon.png",
+            "dest_offsets":[-5,0],
+            "source_offsets":[0,0]
+        }
     },
     "images":{
         "character_background":{
@@ -41,7 +74,7 @@
         },
         "critical_icon":{
             "path":"templates/street_fighter/critical_icon.png",
-            "dest_offsets":[534,860],
+            "dest_offsets":[-5,0],
             "source_offsets":[0,0]
         }
     }
