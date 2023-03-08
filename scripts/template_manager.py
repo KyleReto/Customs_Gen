@@ -14,16 +14,15 @@ f.close()
 f = open(config_path)
 config_info = json.load(f)
 f.close()
-card.name = "PAPELNE"
+card.card_name = "EXCEED GUY"
 card.card_type = "Character"
 card.owner = 'Arc System Works'
 card.copies = 1
-card.text_box = """<italic></italic>Character text
+card.text_box = """Exceed Text
 <bold>Bold text:</bold> Normal Text <italic>(Italic Text)</italic>
-This character can <bold>  -- Critical</bold> <italic>for <bold>2 Gauge, \nand will spin until he counters</bold></italic>
-<bold><#FF0000>+2 Power</#FF0000></bold>
-(\" --\" = crit symbol)\\<\\>/"""
-card.cost = 3
+<bold><#0000ff>+0~1 Range</#0000ff>, <#0000ff>+2-3 Range</#0000ff>, <#ff0000>+1 Power</#ff0000>,
+ <#ffcc32>-1 Speed</#ffcc32>, <#9900ff>+2 Armor</#9900ff>, <#6aa84f>-4 Guard</#6aa84f></bold>"""
+card.cost = ''
 card.secondary_cost = 2
 card.secondary_type = 'Critical'
 card.template_info = template_info
@@ -44,11 +43,11 @@ def manage_tags(tag_str, color_list, style_list):
             style_list.append(tag_str)
 
 # Converts a string with bespoke markdown into a plaintext string and corresponding formatting information
-def parse_markdown(str):
+def parse_markdown(str, default_color):
     # array of 3-tuples (style, color, text)
     string_data = []
     style = ['regular']
-    color = ['#000000']
+    color = [default_color]
     # Matches any unescaped '<' or '>'
     for index, substr in enumerate(re.split(r'(?<!\\)[<>]', str)):
         # Odd outputs are always text, even is always formatting info
@@ -95,7 +94,6 @@ def draw_badges(image, substr, font, substr_offset, badge_dict):
             draw_box = draw.textbbox((substr_offset,0), substr[0:badge_match.start()], font=font)
             new_dict = copy.deepcopy(badge_dict[badge_key])
             new_dict['dest_offsets'][0] = new_dict['dest_offsets'][0] + draw_box[2]
-            print(new_dict)
             out_im = composite_images(out_im, new_dict)
     return out_im
 
@@ -134,9 +132,9 @@ def get_line_height(font_size, num_lines, box_height):
         line_size = free_space + font_size
     return line_size
 
-def text_by_style(image, text, style_dict, badge_dict={}):
+def text_by_style(image, text, style_dict, badge_dict={}, default_color='#000000'):
     return draw_text(image, text, style_dict['fonts'],style_dict['bounding_box'], 
-                  max_font_size=style_dict['default_font_size'], max_vertical_spacing=style_dict['default_line_height'], badge_dict=badge_dict)
+                  max_font_size=style_dict['default_font_size'], max_vertical_spacing=style_dict['default_line_height'], badge_dict=badge_dict, default_color=default_color)
 
 # Draws text in the canvas, converting between styles and adjusting size and spacing on the fly
 # canvas = PIL Image object
@@ -146,9 +144,9 @@ def text_by_style(image, text, style_dict, badge_dict={}):
 # max_font_size = largest font size to scale up to, in pixels.
 # max_vertical_spacing = largest space between lines, in pixels.
 
-# Draw at max font size, then scale down dynamically.
-def draw_text(canvas, text, font_files, bounding_box, max_font_size=33, max_vertical_spacing=50, align='center', badge_dict={}):
-    markdown_objects = parse_markdown(text)
+# TODO: Align text
+def draw_text(canvas, text, font_files, bounding_box, max_font_size=33, max_vertical_spacing=50, align='center', badge_dict={}, default_color='#000000'):
+    markdown_objects = parse_markdown(text, default_color)
     text_size = (bounding_box[2] - bounding_box[0], bounding_box[3] - bounding_box[1])
     image_lines = compose_text(markdown_objects, font_files, max_font_size, badge_dict=badge_dict)
     line_height = min(max_vertical_spacing, get_line_height(max_font_size, len(image_lines),text_size[1]))
@@ -169,7 +167,7 @@ def draw_text(canvas, text, font_files, bounding_box, max_font_size=33, max_vert
         old_dimensions = text_image.size
         new_dimensions = (int(old_dimensions[0]*resize_factor),int(old_dimensions[1]*resize_factor))
         text_image = text_image.resize(new_dimensions, resample=Image.LANCZOS)
-    dest_corner = (bounding_box[0], bounding_box[1])
+    dest_corner = (bounding_box[0], bounding_box[1] + (text_size[1] - (cursor_y+line_height))//2)
     source_corner = ((text_image.size[0]-text_size[0])// 2, 0)
     canvas.alpha_composite(text_image, dest_corner,source_corner)
     return canvas
@@ -183,12 +181,33 @@ def generate_character(card):
         composite_images(card_image, template_images["character_background"])
         composite_images(card_image, config_images["character_image"])
         composite_images(card_image, template_images["character_frame"])
-        composite_images(card_image, template_images["character_critical"])
+        if card.secondary_type == 'Critical':
+            composite_images(card_image, template_images["character_critical"])
         composite_images(card_image, template_images["exceed_flip"])
         text_by_style(card_image, str(card.cost), text['stats'])
         text_by_style(card_image, card.text_box, text['card_effect'], badge_dict=template_info["badges"])
-        text_by_style(card_image, card.name, text['card_name'])
-        text_by_style(card_image, f"<bold>FAN CARD NOT OFFICIAL. Exceed © Level 99 Games. {card.name} © {card.owner}. All assets copyright their respective owners.</bold>", text['watermark'])
+        text_by_style(card_image, card.card_name, text['card_name'])
+        text_by_style(card_image, f"<bold>FAN CARD NOT OFFICIAL. Exceed © Level 99 Games. {card.card_name} © {card.owner}. All assets copyright their respective owners.</bold>", text['watermark'])
+        return card_image
+    
+def generate_exceed(card):
+    template_images = card.template_info["images"]
+    config_images = card.config_info["images"]
+    text = card.template_info['text']
+
+    with Image.new("RGBA", tuple(card.config_info['image_size_px']),(0,0,0,0)) as card_image:
+        composite_images(card_image, template_images["exceed_background"])
+        composite_images(card_image, config_images["exceed_image"])
+        composite_images(card_image, template_images["exceed_frame"])
+        if card.secondary_type == 'Critical':
+            composite_images(card_image, template_images["character_critical"])
+        if card.cost:
+            composite_images(card_image, template_images["exceed_flip"])
+            text_by_style(card_image, str(card.cost), text['stats'])
+        text_by_style(card_image, card.text_box, text['card_effect'], badge_dict=template_info["badges"], default_color='#FFFFFF')
+        text_by_style(card_image, card.card_name, text['card_name'], default_color='#FFFFFF')
+        text_by_style(card_image, f"<bold>FAN CARD NOT OFFICIAL. Exceed © Level 99 Games. {card.card_name} © {card.owner}. All assets copyright their respective owners.</bold>", text['watermark'], default_color='#FFFFFF')
         return card_image
 
-generate_character(card).save('output/character.png')
+
+generate_exceed(card).save('output/exceed.png')
