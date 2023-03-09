@@ -1,37 +1,100 @@
 {
     "text":{
-        "card_name":{
+        "character_name":{
             "fonts":["templates/street_fighter/fonts/WCManoNegraBoldBta.otf"],
             "bounding_box":[20,660,400,751],
             "default_font_size":88,
-            "default_line_height":88
+            "default_line_height":88,
+            "text_color":"#000000"
+        },
+        "exceed_name":{
+            "fonts":["templates/street_fighter/fonts/WCManoNegraBoldBta.otf"],
+            "bounding_box":[20,660,400,751],
+            "default_font_size":88,
+            "default_line_height":88,
+            "text_color":"#FFFFFF"
+        },
+        "special_name":{
+            "fonts":["templates/street_fighter/fonts/WCManoNegraBoldBta.otf"],
+            "bounding_box":[20,660,400,751],
+            "default_font_size":88,
+            "default_line_height":88,
+            "text_color":"#000000"
+        },
+        "ultra_name":{
+            "fonts":["templates/street_fighter/fonts/WCManoNegraBoldBta.otf"],
+            "bounding_box":[20,660,400,751],
+            "default_font_size":88,
+            "default_line_height":88,
+            "text_color":"#000000"
+        },
+        "unique_name":{
+            "fonts":["templates/street_fighter/fonts/WCManoNegraBoldBta.otf"],
+            "bounding_box":[20,660,400,751],
+            "default_font_size":88,
+            "default_line_height":88,
+            "text_color":"#000000"
         },
         "stats":{
             "fonts":["templates/street_fighter/fonts/WCManoNegraBoldBta.otf"],
             "bounding_box":[660,830,710,910],
             "default_font_size":64,
-            "default_line_height":64
+            "default_line_height":64,
+            "text_color":"#000000"
         },
         "secondary_title":{
             "fonts":["templates/street_fighter/fonts/WCManoNegraBoldBta.otf"],
             "bounding_box":[100,750,650,970],
             "default_font_size":88,
-            "default_line_height":88
+            "default_line_height":88,
+            "text_color":"#000000"
         },
-        "card_effect":{
+        "character_effect":{
             "fonts":["templates/street_fighter/fonts/FiraSansExtraCondensed-Regular.ttf",
             "templates/street_fighter/fonts/FiraSansExtraCondensed-Bold.ttf",
             "templates/street_fighter/fonts/FiraSansExtraCondensed-Italic.ttf",
             "templates/street_fighter/fonts/FiraSansExtraCondensed-BoldItalic.ttf"],
             "bounding_box":[100,750,650,970],
             "default_font_size":33,
-            "default_line_height":40
+            "default_line_height":40,
+            "text_color":"#000000"
+        },
+        "exceed_effect":{
+            "fonts":["templates/street_fighter/fonts/FiraSansExtraCondensed-Regular.ttf",
+            "templates/street_fighter/fonts/FiraSansExtraCondensed-Bold.ttf",
+            "templates/street_fighter/fonts/FiraSansExtraCondensed-Italic.ttf",
+            "templates/street_fighter/fonts/FiraSansExtraCondensed-BoldItalic.ttf"],
+            "bounding_box":[100,750,650,970],
+            "default_font_size":33,
+            "default_line_height":40,
+            "text_color":"#FFFFFF"
+        },
+        "special_effect":{
+            "fonts":["templates/street_fighter/fonts/FiraSansExtraCondensed-Regular.ttf",
+            "templates/street_fighter/fonts/FiraSansExtraCondensed-Bold.ttf",
+            "templates/street_fighter/fonts/FiraSansExtraCondensed-Italic.ttf",
+            "templates/street_fighter/fonts/FiraSansExtraCondensed-BoldItalic.ttf"],
+            "bounding_box":[100,750,650,970],
+            "default_font_size":33,
+            "default_line_height":40,
+            "text_color":"#000000"
+        },
+        "unique_effect":{
+            "fonts":["templates/street_fighter/fonts/FiraSansExtraCondensed-Regular.ttf",
+            "templates/street_fighter/fonts/FiraSansExtraCondensed-Bold.ttf",
+            "templates/street_fighter/fonts/FiraSansExtraCondensed-Italic.ttf",
+            "templates/street_fighter/fonts/FiraSansExtraCondensed-BoldItalic.ttf"],
+            "bounding_box":[100,750,650,970],
+            "default_font_size":33,
+            "default_line_height":40,
+            "text_color":"#000000"
         },
         "watermark":{
             "fonts":["templates/street_fighter/fonts/FiraSansExtraCondensed-BoldItalic.ttf"],
             "bounding_box":[0,1000,750,1024],
             "default_font_size":14,
-            "default_line_height":14
+            "default_line_height":14,
+            "text_color":"#000000"
         }
     },
     "badges":{

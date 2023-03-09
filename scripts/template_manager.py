@@ -132,9 +132,9 @@ def get_line_height(font_size, num_lines, box_height):
         line_size = free_space + font_size
     return line_size
 
-def text_by_style(image, text, style_dict, badge_dict={}, default_color='#000000'):
+def text_by_style(image, text, style_dict, badge_dict={}):
     return draw_text(image, text, style_dict['fonts'],style_dict['bounding_box'], 
-                  max_font_size=style_dict['default_font_size'], max_vertical_spacing=style_dict['default_line_height'], badge_dict=badge_dict, default_color=default_color)
+                  max_font_size=style_dict['default_font_size'], max_vertical_spacing=style_dict['default_line_height'], badge_dict=badge_dict, default_color=style_dict['text_color'])
 
 # Draws text in the canvas, converting between styles and adjusting size and spacing on the fly
 # canvas = PIL Image object
@@ -184,9 +184,11 @@ def generate_character(card):
         if card.secondary_type == 'Critical':
             composite_images(card_image, template_images["character_critical"])
         composite_images(card_image, template_images["exceed_flip"])
-        text_by_style(card_image, str(card.cost), text['stats'])
-        text_by_style(card_image, card.text_box, text['card_effect'], badge_dict=template_info["badges"])
-        text_by_style(card_image, card.card_name, text['card_name'])
+        if card.cost:
+            composite_images(card_image, template_images["exceed_flip"])
+            text_by_style(card_image, card.cost, text['stats'])
+        text_by_style(card_image, card.text_box, text['character_effect'], badge_dict=template_info["badges"])
+        text_by_style(card_image, card.card_name, text['character_name'])
         text_by_style(card_image, f"<bold>FAN CARD NOT OFFICIAL. Exceed © Level 99 Games. {card.card_name} © {card.owner}. All assets copyright their respective owners.</bold>", text['watermark'])
         return card_image
     
@@ -203,11 +205,11 @@ def generate_exceed(card):
             composite_images(card_image, template_images["character_critical"])
         if card.cost:
             composite_images(card_image, template_images["exceed_flip"])
-            text_by_style(card_image, str(card.cost), text['stats'])
-        text_by_style(card_image, card.text_box, text['card_effect'], badge_dict=template_info["badges"], default_color='#FFFFFF')
-        text_by_style(card_image, card.card_name, text['card_name'], default_color='#FFFFFF')
-        text_by_style(card_image, f"<bold>FAN CARD NOT OFFICIAL. Exceed © Level 99 Games. {card.card_name} © {card.owner}. All assets copyright their respective owners.</bold>", text['watermark'], default_color='#FFFFFF')
+            text_by_style(card_image, card.cost, text['stats'])
+        text_by_style(card_image, card.text_box, text['exceed_effect'], badge_dict=template_info["badges"])
+        text_by_style(card_image, card.card_name, text['exceed_name'])
+        text_by_style(card_image, f"<bold>FAN CARD NOT OFFICIAL. Exceed © Level 99 Games. {card.card_name} © {card.owner}. All assets copyright their respective owners.</bold>", text['watermark'])
         return card_image
 
 
-generate_exceed(card).save('output/exceed.png')
+generate_character(card).save('output/temp.png')
