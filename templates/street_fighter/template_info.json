@@ -16,37 +16,100 @@
         },
         "special_name":{
             "fonts":["templates/street_fighter/fonts/WCManoNegraBoldBta.otf"],
-            "bounding_box":[20,660,400,751],
-            "default_font_size":88,
-            "default_line_height":88,
-            "text_color":"#000000"
+            "bounding_box":[95,20,630,115],
+            "default_font_size":68,
+            "default_line_height":68,
+            "text_color":"#FFFFFF"
         },
         "ultra_name":{
             "fonts":["templates/street_fighter/fonts/WCManoNegraBoldBta.otf"],
-            "bounding_box":[20,660,400,751],
-            "default_font_size":88,
-            "default_line_height":88,
-            "text_color":"#000000"
+            "bounding_box":[95,20,630,115],
+            "default_font_size":68,
+            "default_line_height":68,
+            "text_color":"#FFFFFF"
         },
         "unique_name":{
             "fonts":["templates/street_fighter/fonts/WCManoNegraBoldBta.otf"],
-            "bounding_box":[20,660,400,751],
-            "default_font_size":88,
-            "default_line_height":88,
+            "bounding_box":[95,20,630,115],
+            "default_font_size":68,
+            "default_line_height":68,
+            "text_color":"#FFFFFF"
+        },
+        "secondary_title":{
+            "fonts":["templates/street_fighter/fonts/WCManoNegraBoldBta.otf"],
+            "bounding_box":[110,800,750,850],
+            "default_font_size":40,
+            "default_line_height":40,
             "text_color":"#000000"
         },
-        "stats":{
+        "exceed_cost":{
             "fonts":["templates/street_fighter/fonts/WCManoNegraBoldBta.otf"],
             "bounding_box":[660,830,710,910],
             "default_font_size":64,
             "default_line_height":64,
             "text_color":"#000000"
         },
-        "secondary_title":{
+        "revert_cost":{
             "fonts":["templates/street_fighter/fonts/WCManoNegraBoldBta.otf"],
-            "bounding_box":[100,750,650,970],
-            "default_font_size":88,
-            "default_line_height":88,
+            "bounding_box":[660,830,710,910],
+            "default_font_size":64,
+            "default_line_height":64,
+            "text_color":"#000000"
+        },
+        "ultra_cost":{
+            "fonts":["templates/street_fighter/fonts/WCManoNegraBoldBta.otf"],
+            "bounding_box":[0,0,0,0],
+            "default_font_size":64,
+            "default_line_height":64,
+            "text_color":"#000000"
+        },
+        "special_cost":{
+            "fonts":["templates/street_fighter/fonts/WCManoNegraBoldBta.otf"],
+            "bounding_box":[0,0,0,0],
+            "default_font_size":64,
+            "default_line_height":64,
+            "text_color":"#000000"
+        },
+        "secondary_force_cost":{
+            "fonts":["templates/street_fighter/fonts/WCManoNegraBoldBta.otf"],
+            "bounding_box":[0,0,0,0],
+            "default_font_size":64,
+            "default_line_height":64,
+            "text_color":"#000000"
+        },
+        "secondary_gauge_cost":{
+            "fonts":["templates/street_fighter/fonts/WCManoNegraBoldBta.otf"],
+            "bounding_box":[0,0,0,0],
+            "default_font_size":64,
+            "default_line_height":64,
+            "text_color":"#000000"
+        },
+        "range":{
+            "fonts":["templates/street_fighter/fonts/WCManoNegraBoldBta.otf"],
+            "bounding_box":[0,0,0,0],
+            "default_font_size":64,
+            "default_line_height":64,
+            "text_color":"#000000"
+        },
+        "power":{
+            "fonts":["templates/street_fighter/fonts/WCManoNegraBoldBta.otf"],
+            "bounding_box":[0,0,0,0],
+            "default_font_size":64,
+            "default_line_height":64,
+            "text_color":"#000000"
+        },
+        "speed":{
+            "fonts":["templates/street_fighter/fonts/WCManoNegraBoldBta.otf"],
+            "bounding_box":[0,0,0,0],
+            "default_font_size":64,
+            "default_line_height":64,
+            "text_color":"#000000"
+        },
+        "armor":{
+            "fonts":["templates/street_fighter/fonts/WCManoNegraBoldBta.otf"],
+            "bounding_box":[0,0,0,0],
+            "default_font_size":64,
+            "default_line_height":64,
             "text_color":"#000000"
         },
         "character_effect":{
@@ -74,7 +137,7 @@
             "templates/street_fighter/fonts/FiraSansExtraCondensed-Bold.ttf",
             "templates/street_fighter/fonts/FiraSansExtraCondensed-Italic.ttf",
             "templates/street_fighter/fonts/FiraSansExtraCondensed-BoldItalic.ttf"],
-            "bounding_box":[100,750,650,970],
+            "bounding_box":[0,615,750,790],
             "default_font_size":33,
             "default_line_height":40,
             "text_color":"#000000"
@@ -89,8 +152,18 @@
             "default_line_height":40,
             "text_color":"#000000"
         },
+        "secondary_effect":{
+            "fonts":["templates/street_fighter/fonts/FiraSansExtraCondensed-Regular.ttf",
+            "templates/street_fighter/fonts/FiraSansExtraCondensed-Bold.ttf",
+            "templates/street_fighter/fonts/FiraSansExtraCondensed-Italic.ttf",
+            "templates/street_fighter/fonts/FiraSansExtraCondensed-BoldItalic.ttf"],
+            "bounding_box":[80,850,720,1000],
+            "default_font_size":33,
+            "default_line_height":40,
+            "text_color":"#000000"
+        },
         "watermark":{
-            "fonts":["templates/street_fighter/fonts/FiraSansExtraCondensed-BoldItalic.ttf"],
+            "fonts":["templates/street_fighter/fonts/FiraSansExtraCondensed-Regular.ttf"],
             "bounding_box":[0,1000,750,1024],
             "default_font_size":14,
             "default_line_height":14,
@@ -111,12 +184,17 @@
             "source_offsets":[0,0]
         },
         "exceed_background":{
-            "path":"templates/street_fighter/images/character_background.png",
+            "path":"templates/street_fighter/images/exceed_background.png",
             "dest_offsets":[0,0],
             "source_offsets":[0,0]
         },
-        "card_background":{
-            "path":"templates/street_fighter/images/character_background.png",
+        "special_background":{
+            "path":"templates/street_fighter/images/special_background.png",
+            "dest_offsets":[0,0],
+            "source_offsets":[0,0]
+        },
+        "ultra_background":{
+            "path":"templates/street_fighter/images/ultra_background.png",
             "dest_offsets":[0,0],
             "source_offsets":[0,0]
         },
@@ -131,12 +209,12 @@
             "source_offsets":[0,0]
         },
         "special_frame":{
-            "path":"templates/street_fighter/images/character_frame.png",
+            "path":"templates/street_fighter/images/special_frame.png",
             "dest_offsets":[0,0],
             "source_offsets":[0,0]
         },
         "ultra_frame":{
-            "path":"templates/street_fighter/images/character_frame.png",
+            "path":"templates/street_fighter/images/ultra_frame.png",
             "dest_offsets":[0,0],
             "source_offsets":[0,0]
         },

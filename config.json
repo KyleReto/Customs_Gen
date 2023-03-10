@@ -20,43 +20,43 @@
         },
         "card_art":[
             {
-                "path":"character_images/special1.png",
+                "path":"character_images/special_1.png",
                 "dest_offsets":[0,0],
                 "source_offsets":[0,0]
             },{
-                "path":"character_images/special1.png",
+                "path":"character_images/special_1.png",
                 "dest_offsets":[0,0],
                 "source_offsets":[0,0]
             },{
-                "path":"character_images/special1.png",
+                "path":"character_images/special_1.png",
                 "dest_offsets":[0,0],
                 "source_offsets":[0,0]
             },{
-                "path":"character_images/special1.png",
+                "path":"character_images/special_1.png",
                 "dest_offsets":[0,0],
                 "source_offsets":[0,0]
             },{
-                "path":"character_images/special1.png",
+                "path":"character_images/special_1.png",
                 "dest_offsets":[0,0],
                 "source_offsets":[0,0]
             },{
-                "path":"character_images/special1.png",
+                "path":"character_images/special_1.png",
                 "dest_offsets":[0,0],
                 "source_offsets":[0,0]
             },{
-                "path":"character_images/special1.png",
+                "path":"character_images/special_1.png",
                 "dest_offsets":[0,0],
                 "source_offsets":[0,0]
             },{
-                "path":"character_images/special1.png",
+                "path":"character_images/special_1.png",
                 "dest_offsets":[0,0],
                 "source_offsets":[0,0]
             },{
-                "path":"character_images/special1.png",
+                "path":"character_images/special_1.png",
                 "dest_offsets":[0,0],
                 "source_offsets":[0,0]
             },{
-                "path":"character_images/special1.png",
+                "path":"character_images/special_1.png",
                 "dest_offsets":[0,0],
                 "source_offsets":[0,0]
             }

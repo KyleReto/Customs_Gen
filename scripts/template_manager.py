@@ -14,17 +14,27 @@ f.close()
 f = open(config_path)
 config_info = json.load(f)
 f.close()
-card.card_name = "EXCEED GUY"
-card.card_type = "Character"
+card.card_name = "SPECIAL 1"
+card.card_type = "Special"
 card.owner = 'Arc System Works'
 card.copies = 1
 card.text_box = """Exceed Text
 <bold>Bold text:</bold> Normal Text <italic>(Italic Text)</italic>
 <bold><#0000ff>+0~1 Range</#0000ff>, <#0000ff>+2-3 Range</#0000ff>, <#ff0000>+1 Power</#ff0000>,
  <#ffcc32>-1 Speed</#ffcc32>, <#9900ff>+2 Armor</#9900ff>, <#6aa84f>-4 Guard</#6aa84f></bold>"""
-card.cost = ''
-card.secondary_cost = 2
-card.secondary_type = 'Critical'
+card.secondary_text_box = '''Boost 1 Text
+<bold>Bold text:</bold> Normal Text <italic>(Italic Text)</italic>
+This boost is continuous, and has 1 force cost'''
+card.cost = '1'
+card.secondary_cost = '2'
+card.secondary_type = 'force_boost'
+card.secondary_subtype = 'Continuous'
+card.range = '4-5'
+card.power = '3'
+card.speed = '4'
+card.armor = '5'
+card.guard = '6'
+card.secondary_name = 'Boost 3 Name'
 card.template_info = template_info
 card.config_info = config_info
 # End development code
@@ -145,6 +155,7 @@ def text_by_style(image, text, style_dict, badge_dict={}):
 # max_vertical_spacing = largest space between lines, in pixels.
 
 # TODO: Align text
+# TODO: Add the ability to add borders of arbitrary weight (remember to scale borders to dynamic font size)
 def draw_text(canvas, text, font_files, bounding_box, max_font_size=33, max_vertical_spacing=50, align='center', badge_dict={}, default_color='#000000'):
     markdown_objects = parse_markdown(text, default_color)
     text_size = (bounding_box[2] - bounding_box[0], bounding_box[3] - bounding_box[1])
@@ -186,7 +197,7 @@ def generate_character(card):
         composite_images(card_image, template_images["exceed_flip"])
         if card.cost:
             composite_images(card_image, template_images["exceed_flip"])
-            text_by_style(card_image, card.cost, text['stats'])
+            text_by_style(card_image, card.cost, text['exceed_cost'])
         text_by_style(card_image, card.text_box, text['character_effect'], badge_dict=template_info["badges"])
         text_by_style(card_image, card.card_name, text['character_name'])
         text_by_style(card_image, f"<bold>FAN CARD NOT OFFICIAL. Exceed © Level 99 Games. {card.card_name} © {card.owner}. All assets copyright their respective owners.</bold>", text['watermark'])
@@ -205,11 +216,28 @@ def generate_exceed(card):
             composite_images(card_image, template_images["character_critical"])
         if card.cost:
             composite_images(card_image, template_images["exceed_flip"])
-            text_by_style(card_image, card.cost, text['stats'])
+            text_by_style(card_image, card.cost, text['revert_cost'])
         text_by_style(card_image, card.text_box, text['exceed_effect'], badge_dict=template_info["badges"])
         text_by_style(card_image, card.card_name, text['exceed_name'])
         text_by_style(card_image, f"<bold>FAN CARD NOT OFFICIAL. Exceed © Level 99 Games. {card.card_name} © {card.owner}. All assets copyright their respective owners.</bold>", text['watermark'])
         return card_image
+    
+def generate_special(card, special_index):
+    template_images = card.template_info["images"]
+    config_images = card.config_info["images"]
+    text = card.template_info['text']
+
+    with Image.new("RGBA", tuple(card.config_info['image_size_px']),(0,0,0,0)) as card_image:
+        composite_images(card_image, template_images["special_background"])
+        composite_images(card_image, config_images["card_art"][special_index])
+        composite_images(card_image, template_images["special_frame"])
+
+        text_by_style(card_image, card.text_box, text['special_effect'], badge_dict=template_info["badges"])
+        text_by_style(card_image, card.secondary_text_box, text['secondary_effect'], badge_dict=template_info["badges"])
+        text_by_style(card_image, card.card_name, text['special_name'])
+        text_by_style(card_image, card.secondary_name, text['secondary_title'])
+        text_by_style(card_image, f"FAN CARD NOT OFFICIAL. Exceed © Level 99 Games. {card.card_name} © {card.owner}. All assets copyright their respective owners.", text['watermark'])
+    return card_image
 
 
-generate_character(card).save('output/temp.png')
+generate_special(card, 0).save('output/temp.png')
