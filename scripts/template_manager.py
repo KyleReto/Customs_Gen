@@ -20,24 +20,32 @@ card.owner = 'Arc System Works'
 card.copies = 1
 card.text_box = """Exceed Text
 <bold>Bold text:</bold> Normal Text <italic>(Italic Text)</italic>
-<bold><#0000ff>+0~1 Range</#0000ff>, <#0000ff>+2-3 Range</#0000ff>, <#ff0000>+1 Power</#ff0000>,
- <#ffcc32>-1 Speed</#ffcc32>, <#9900ff>+2 Armor</#9900ff>, <#6aa84f>-4 Guard</#6aa84f></bold>"""
+<bold><#0069ff>+0~1 Range</#0069ff>, <#0069ff>+2-3 Range</#0069ff>, <#b80000>+1 Power</#b80000>,
+ <#877400>-1 Speed</#877400>, <#7d2e81>+2 Armor</#7d2e81>, <#127a00>-4 Guard</#127a00></bold>"""
 card.secondary_text_box = '''Boost 1 Text
 <bold>Bold text:</bold> Normal Text <italic>(Italic Text)</italic>
 This boost is continuous, and has 1 force cost'''
 card.cost = '1'
-card.secondary_cost = '2'
-card.secondary_type = 'force_boost'
+card.secondary_cost = '1'
+card.secondary_type = 'Force Boost'
 card.secondary_subtype = 'Continuous'
 card.range = '4-5'
 card.power = '3'
 card.speed = '4'
 card.armor = '5'
 card.guard = '6'
-card.secondary_name = 'Boost 3 Name'
+card.secondary_name = 'ANGER CHARGE'
 card.template_info = template_info
 card.config_info = config_info
 # End development code
+
+default_img = {"path":"assets/default_image.png",
+        "dest_offsets":[0,0],
+        "source_offsets":[0,0]}
+default_text = {
+        "fonts":["assets/Minion Pro Regular.ttf"],
+        "bounding_box":[0,0]+card.config_info['image_size_px']
+    }
 
 # Open and closes tags as needed using lists to manage their states
 def manage_tags(tag_str, color_list, style_list):
@@ -78,22 +86,17 @@ def parse_markdown(str, default_color):
 # Composite two images, where the first is larger than the second.
 # canvas = PIL image object
 # addition_dict = dict with path and offsets defined
+# TODO: Add the ability to scale images, optionally
 def composite_images(canvas, addition_dict):
-    dest_offsets, src_offsets = [0,0], [0,0]
+    dest_offsets = get_attr_if_present(addition_dict, 'dest_offsets', [0,0])
+    src_offsets = get_attr_if_present(addition_dict, 'source_offsets', [0,0])
     try:
-        dest_offsets = addition_dict['dest_offsets']
-        src_offsets = addition_dict['source_offsets']
-    except KeyError:
-        print(f"Missings some offset definitions for \"{addition_dict['path']}\". "\
-              "Using default offsets of 0 where definitions  are missing.")
-    finally:
-        try:
-            with Image.open(addition_dict['path']) as addition_image:
-                canvas.alpha_composite(addition_image, tuple(dest_offsets), tuple(src_offsets))
-        except FileNotFoundError:
-            print(f"Couldn't find a file at path \"{addition_dict['path']}.\" "\
-            "If an image for this object exists in this template, "\
-            "make sure that it's defined correctly in template_info.json.")
+        with Image.open(addition_dict['path']) as addition_image:
+            canvas.alpha_composite(addition_image, tuple(dest_offsets), tuple(src_offsets))
+    except FileNotFoundError:
+        print(f"Couldn't find a file at path \"{addition_dict['path']}.\" "\
+        "If an image for this object exists in this template, "\
+        "make sure that it's defined correctly in template_info.json.")
     return canvas
 
 def draw_badges(image, substr, font, substr_offset, badge_dict):
@@ -142,9 +145,25 @@ def get_line_height(font_size, num_lines, box_height):
         line_size = free_space + font_size
     return line_size
 
+def get_attr_if_present(dict, attr, default, blame=None):
+    try:
+        out = dict[attr]
+    except KeyError:
+        if blame:
+            print(f"Attempted to get attribute {attr}, but it wasn't defined by the {blame} " 
+                  "section of the template.")
+        out = default
+    return out
+
 def text_by_style(image, text, style_dict, badge_dict={}):
-    return draw_text(image, text, style_dict['fonts'],style_dict['bounding_box'], 
-                  max_font_size=style_dict['default_font_size'], max_vertical_spacing=style_dict['default_line_height'], badge_dict=badge_dict, default_color=style_dict['text_color'])
+    return draw_text(image, text, 
+                     style_dict['fonts'],
+                     style_dict['bounding_box'], 
+                     max_font_size=get_attr_if_present(style_dict, 'default_font_size', 88),
+                     max_vertical_spacing=get_attr_if_present(style_dict, 'default_line_height', 88), 
+                     align=get_attr_if_present(style_dict,'align', 'center'),
+                     badge_dict=badge_dict,
+                     default_color=get_attr_if_present(style_dict,'text_color', '#000000'))
 
 # Draws text in the canvas, converting between styles and adjusting size and spacing on the fly
 # canvas = PIL Image object
@@ -154,8 +173,7 @@ def text_by_style(image, text, style_dict, badge_dict={}):
 # max_font_size = largest font size to scale up to, in pixels.
 # max_vertical_spacing = largest space between lines, in pixels.
 
-# TODO: Align text
-# TODO: Add the ability to add borders of arbitrary weight (remember to scale borders to dynamic font size)
+# TODO: Add the ability to add text outlines of arbitrary weight & color (remember to scale borders to dynamic font size)
 def draw_text(canvas, text, font_files, bounding_box, max_font_size=33, max_vertical_spacing=50, align='center', badge_dict={}, default_color='#000000'):
     markdown_objects = parse_markdown(text, default_color)
     text_size = (bounding_box[2] - bounding_box[0], bounding_box[3] - bounding_box[1])
@@ -164,11 +182,16 @@ def draw_text(canvas, text, font_files, bounding_box, max_font_size=33, max_vert
     text_image = Image.new("RGBA", (5000,5000),(0,0,0,0))
     cursor_y = 0
     max_width = 0
+    center_x = text_image.size[0] // 2
     for idx, line in enumerate(image_lines):
-        center_x = text_image.size[0] // 2
         line_bbox = line.getbbox()
         cursor_y = idx*line_height
-        text_location = (center_x-line_bbox[2]//2,cursor_y)
+        if align == 'left':
+            text_location = (center_x-text_size[0]//2,cursor_y)
+        elif align == 'right':
+            text_location = ((center_x+text_size[0]//2)-line_bbox[2],cursor_y)
+        else:
+            text_location = (center_x-line_bbox[2]//2,cursor_y)
         text_image.alpha_composite(line,text_location,(0,0))
         if line_bbox[2] > max_width:
             max_width = line_bbox[2]
@@ -183,6 +206,8 @@ def draw_text(canvas, text, font_files, bounding_box, max_font_size=33, max_vert
     canvas.alpha_composite(text_image, dest_corner,source_corner)
     return canvas
 
+# TODO: Add support for secondary boxes (e.g. S5)
+# TODO: Update to allow for optional aspects of the template
 def generate_character(card):
     template_images = card.template_info["images"]
     config_images = card.config_info["images"]
@@ -202,7 +227,7 @@ def generate_character(card):
         text_by_style(card_image, card.card_name, text['character_name'])
         text_by_style(card_image, f"<bold>FAN CARD NOT OFFICIAL. Exceed © Level 99 Games. {card.card_name} © {card.owner}. All assets copyright their respective owners.</bold>", text['watermark'])
         return card_image
-    
+
 def generate_exceed(card):
     template_images = card.template_info["images"]
     config_images = card.config_info["images"]
@@ -226,18 +251,50 @@ def generate_special(card, special_index):
     template_images = card.template_info["images"]
     config_images = card.config_info["images"]
     text = card.template_info['text']
+    badge_dict = get_attr_if_present(template_info, "badges", {})
 
     with Image.new("RGBA", tuple(card.config_info['image_size_px']),(0,0,0,0)) as card_image:
-        composite_images(card_image, template_images["special_background"])
-        composite_images(card_image, config_images["card_art"][special_index])
-        composite_images(card_image, template_images["special_frame"])
-
-        text_by_style(card_image, card.text_box, text['special_effect'], badge_dict=template_info["badges"])
-        text_by_style(card_image, card.secondary_text_box, text['secondary_effect'], badge_dict=template_info["badges"])
-        text_by_style(card_image, card.card_name, text['special_name'])
-        text_by_style(card_image, card.secondary_name, text['secondary_title'])
-        text_by_style(card_image, f"FAN CARD NOT OFFICIAL. Exceed © Level 99 Games. {card.card_name} © {card.owner}. All assets copyright their respective owners.", text['watermark'])
+        composite_images(card_image, get_attr_if_present(template_images,"special_background",default_img,"Images"))
+        composite_images(card_image, get_attr_if_present(config_images["card_art"],special_index,default_img,"User Images: Card Art"))
+        composite_images(card_image, get_attr_if_present(template_images, "special_frame", default_img,"Images"))
+        if card.secondary_type == 'Force Boost':
+            composite_images(card_image, get_attr_if_present(template_images, "force_boost_symbol", default_img,"Images"))
+            text_by_style(card_image, card.secondary_cost, get_attr_if_present(text,'secondary_force_cost',default_text,"Text"))
+        elif card.secondary_type == 'Gauge Boost':
+            composite_images(card_image, get_attr_if_present(template_images, "gauge_boost_symbol", default_img,"Images"))
+            text_by_style(card_image, card.secondary_cost, get_attr_if_present(text,'secondary_gauge_cost',default_text,"Text"))
+        elif card.secondary_type == 'Transformation':
+            composite_images(card_image, get_attr_if_present(template_images, "transformation_symbol", default_img,"Images"))
+        elif card.secondary_type == 'Overload':
+            composite_images(card_image, get_attr_if_present(template_images, "overload_symbol", default_img,"Images"))
+        
+        if card.secondary_subtype == 'Continuous':
+            composite_images(card_image, get_attr_if_present(template_images,"continuous_boost_symbol",default_img,"Images"))
+        elif card.secondary_subtype == 'Instant':
+            # Fails silently; Exceed doesn't require an instant boost symbol
+            composite_images(card_image, get_attr_if_present(template_images,"instant_boost_symbol",default_img))
+        
+        text_by_style(card_image, card.text_box, get_attr_if_present(text,'special_effect',default_text,"Text"), badge_dict=badge_dict)
+        text_by_style(card_image, card.secondary_text_box, get_attr_if_present(text,'secondary_effect',default_text,"Text"), badge_dict=badge_dict)
+        text_by_style(card_image, card.card_name, get_attr_if_present(text,'special_name',default_text,"Text"))
+        text_by_style(card_image, card.secondary_name, get_attr_if_present(text,'secondary_title',default_text,"Text"))
+        text_by_style(card_image, card.range, get_attr_if_present(text,'range',default_text,"Text"))
+        text_by_style(card_image, card.power, get_attr_if_present(text,'power',default_text,"Text"))
+        text_by_style(card_image, card.speed, get_attr_if_present(text,'speed',default_text,"Text"))
+        if card.cost:
+            composite_images(card_image, get_attr_if_present(template_images, "force_special_symbol", default_img,"Images"))
+            text_by_style(card_image, card.cost, get_attr_if_present(text,'special_cost',default_text,"Text"))
+        if card.guard:
+            composite_images(card_image, get_attr_if_present(template_images, "guard_stat_background", default_img,"Images"))
+            text_by_style(card_image, card.guard, get_attr_if_present(text,'guard',default_text,"Text"))
+        if card.armor:
+            composite_images(card_image, get_attr_if_present(template_images, "armor_stat_background", default_img,"Images"))
+            text_by_style(card_image, card.armor, get_attr_if_present(text,'armor',default_text,"Text"))
+        
+        composite_images(card_image, get_attr_if_present(config_images,"character_logo",default_img,"User Images: Character Logo"))
+        composite_images(card_image, get_attr_if_present(template_images,"special_character_logo_mask",default_img))
+        text_by_style(card_image, f"FAN CARD NOT OFFICIAL. Exceed © Level 99 Games. {card.card_name} © {card.owner}. All assets copyright their respective owners.", 
+                      get_attr_if_present(text,'watermark',default_text,"Text"))
     return card_image
-
 
 generate_special(card, 0).save('output/temp.png')
