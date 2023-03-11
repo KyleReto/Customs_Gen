@@ -1,22 +1,17 @@
 {
-    "key":"value",
-    "comment":"This is a user-facing config file, used for setting up an export batch",
     "image_size_px":[750,1024],
     "images":{
         "character_image":{
             "path":"character_images/character_art.png",
             "dest_offsets":[0,0],
-            "source_offsets":[0,0]
+            "source_offsets":[0,0,0,0]
         },
         "exceed_image":{
-            "path":"character_images/character_art.png",
-            "dest_offsets":[0,0],
-            "source_offsets":[0,0]
+            "path":"character_images/character_art.png"
         },
-        "character_badge":{
-            "path":"character_images/character_badge.png",
-            "dest_offsets":[0,0],
-            "source_offsets":[0,0]
+        "character_logo":{
+            "path":"character_images/character_logo.png",
+            "dest_offsets":[-15,20]
         },
         "card_art":[
             {
@@ -24,41 +19,23 @@
                 "dest_offsets":[0,0],
                 "source_offsets":[0,0]
             },{
-                "path":"character_images/special_1.png",
-                "dest_offsets":[0,0],
-                "source_offsets":[0,0]
+                "path":"character_images/special_1.png"
             },{
-                "path":"character_images/special_1.png",
-                "dest_offsets":[0,0],
-                "source_offsets":[0,0]
+                "path":"character_images/special_1.png"
             },{
-                "path":"character_images/special_1.png",
-                "dest_offsets":[0,0],
-                "source_offsets":[0,0]
+                "path":"character_images/special_1.png"
             },{
-                "path":"character_images/special_1.png",
-                "dest_offsets":[0,0],
-                "source_offsets":[0,0]
+                "path":"character_images/special_1.png"
             },{
-                "path":"character_images/special_1.png",
-                "dest_offsets":[0,0],
-                "source_offsets":[0,0]
+                "path":"character_images/special_1.png"
             },{
-                "path":"character_images/special_1.png",
-                "dest_offsets":[0,0],
-                "source_offsets":[0,0]
+                "path":"character_images/special_1.png"
             },{
-                "path":"character_images/special_1.png",
-                "dest_offsets":[0,0],
-                "source_offsets":[0,0]
+                "path":"character_images/special_1.png"
             },{
-                "path":"character_images/special_1.png",
-                "dest_offsets":[0,0],
-                "source_offsets":[0,0]
+                "path":"character_images/special_1.png"
             },{
-                "path":"character_images/special_1.png",
-                "dest_offsets":[0,0],
-                "source_offsets":[0,0]
+                "path":"character_images/special_1.png"
             }
         ]
     }
