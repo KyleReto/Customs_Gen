@@ -30,7 +30,7 @@
             "default_line_height":88,
             "text_color":"#FFFFFF",
             "align": "left",
-            "outline":[5,"#FFFFFF"]
+            "outline":[5,"#000000"]
         },
         "special_name":{
             "fonts":["templates/street_fighter/fonts/WCManoNegraBoldBta.otf"],
@@ -38,8 +38,7 @@
             "default_font_size":64,
             "default_line_height":64,
             "text_color":"#FFFFFF",
-            "align": "left",
-            "outline":[2,"#880000"]
+            "align": "left"
         },
         "ultra_name":{
             "fonts":["templates/street_fighter/fonts/WCManoNegraBoldBta.otf"],
@@ -81,14 +80,14 @@
         },
         "ultra_cost":{
             "fonts":["templates/street_fighter/fonts/WCManoNegraBoldBta.otf"],
-            "bounding_box":[0,0,0,0],
+            "bounding_box":[28,15,90,105],
             "default_font_size":64,
             "default_line_height":64,
             "outline":[3,"#FFFFFF"]
         },
         "special_cost":{
             "fonts":["templates/street_fighter/fonts/WCManoNegraBoldBta.otf"],
-            "bounding_box":[10,40,90,110],
+            "bounding_box":[5,37,90,110],
             "default_font_size":64,
             "outline":[3,"#FFFFFF"]
         },
@@ -100,7 +99,7 @@
         },
         "secondary_gauge_cost":{
             "fonts":["templates/street_fighter/fonts/WCManoNegraBoldBta.otf"],
-            "bounding_box":[20,880,115,965],
+            "bounding_box":[15,875,115,965],
             "default_font_size":68,
             "outline":[3,"#FFFFFF"]
         },
@@ -172,6 +171,15 @@
             "default_font_size":33,
             "default_line_height":40
         },
+        "ultra_effect":{
+            "fonts":["templates/street_fighter/fonts/FiraSansExtraCondensed-Regular.ttf",
+            "templates/street_fighter/fonts/FiraSansExtraCondensed-Bold.ttf",
+            "templates/street_fighter/fonts/FiraSansExtraCondensed-Italic.ttf",
+            "templates/street_fighter/fonts/FiraSansExtraCondensed-BoldItalic.ttf"],
+            "bounding_box":[0,615,750,790],
+            "default_font_size":33,
+            "default_line_height":40
+        },
         "unique_effect":{
             "fonts":["templates/street_fighter/fonts/FiraSansExtraCondensed-Regular.ttf",
             "templates/street_fighter/fonts/FiraSansExtraCondensed-Bold.ttf",
@@ -232,6 +240,9 @@
         "special_frame":{
             "path":"templates/street_fighter/images/special_frame.png"
         },
+        "ultra_frame":{
+            "path":"templates/street_fighter/images/ultra_frame.png"
+        },
         "special_character_logo_mask":{
             "path":"templates/street_fighter/images/special_character_logo_mask.png"
         },
@@ -248,11 +259,20 @@
             "path":"templates/street_fighter/images/force_special_symbol.png",
             "dest_offsets":[-2,10]
         },
-        "armor_stat_background":{
-            "path":"templates/street_fighter/images/armor_stat_background.png"
+        "ultra_gauge_symbol":{
+            "path":"templates/street_fighter/images/ultra_gauge_symbol.png"
         },
-        "guard_stat_background":{
-            "path":"templates/street_fighter/images/guard_stat_background.png"
+        "special_armor_stat_background":{
+            "path":"templates/street_fighter/images/special_armor_stat_background.png"
+        },
+        "special_guard_stat_background":{
+            "path":"templates/street_fighter/images/special_guard_stat_background.png"
+        },
+        "ultra_armor_stat_background":{
+            "path":"templates/street_fighter/images/ultra_armor_stat_background.png"
+        },
+        "ultra_guard_stat_background":{
+            "path":"templates/street_fighter/images/ultra_guard_stat_background.png"
         },
         "continuous_boost_symbol":{
             "path":"templates/street_fighter/images/continuous_boost_symbol.png"
