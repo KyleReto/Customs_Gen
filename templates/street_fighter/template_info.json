@@ -12,14 +12,16 @@
             "default_font_size": "Optional value, sets the default font size of text in this box. Text will be scaled down if it is too wide.",
             "default_line_height": "Optional value, sets the default height of each line. Text will be vertically squished closer together if if is too tall.",
             "text_color": "Optional value, sets the color of text. Defaults to black.",
-            "align":"Optional value: 'center', 'left', or 'right'. Sets the alignment direction of text. Defaults to 'center'."
+            "align":"Optional value: 'center', 'left', or 'right'. Sets the alignment direction of text. Defaults to 'center'.",
+            "outline":"Optional value: [weight, color] of the outline of the text. Weight is in px, color is hex code."
         },
         "character_name":{
             "fonts":["templates/street_fighter/fonts/WCManoNegraBoldBta.otf"],
             "bounding_box":[20,660,400,751],
             "default_font_size":88,
             "default_line_height":88,
-            "align": "left"
+            "align": "left",
+            "outline":[5,"#FFFFFF"]
         },
         "exceed_name":{
             "fonts":["templates/street_fighter/fonts/WCManoNegraBoldBta.otf"],
@@ -27,7 +29,8 @@
             "default_font_size":88,
             "default_line_height":88,
             "text_color":"#FFFFFF",
-            "align": "left"
+            "align": "left",
+            "outline":[5,"#FFFFFF"]
         },
         "special_name":{
             "fonts":["templates/street_fighter/fonts/WCManoNegraBoldBta.otf"],
@@ -58,40 +61,47 @@
             "bounding_box":[110,805,750,850],
             "default_font_size":50,
             "default_line_height":50,
-            "align": "left"
+            "align": "left",
+            "outline":[2,"#FFFFFF"]
         },
         "exceed_cost":{
             "fonts":["templates/street_fighter/fonts/WCManoNegraBoldBta.otf"],
             "bounding_box":[660,830,710,910],
             "default_font_size":64,
-            "default_line_height":64
+            "default_line_height":64,
+            "outline":[3,"#FFFFFF"]
         },
         "revert_cost":{
             "fonts":["templates/street_fighter/fonts/WCManoNegraBoldBta.otf"],
             "bounding_box":[660,830,710,910],
             "default_font_size":64,
-            "default_line_height":64
+            "default_line_height":64,
+            "outline":[3,"#FFFFFF"]
         },
         "ultra_cost":{
             "fonts":["templates/street_fighter/fonts/WCManoNegraBoldBta.otf"],
             "bounding_box":[0,0,0,0],
             "default_font_size":64,
-            "default_line_height":64
+            "default_line_height":64,
+            "outline":[3,"#FFFFFF"]
         },
         "special_cost":{
             "fonts":["templates/street_fighter/fonts/WCManoNegraBoldBta.otf"],
             "bounding_box":[10,40,90,110],
-            "default_font_size":64
+            "default_font_size":64,
+            "outline":[3,"#FFFFFF"]
         },
         "secondary_force_cost":{
             "fonts":["templates/street_fighter/fonts/WCManoNegraBoldBta.otf"],
-            "bounding_box":[15,870,115,975],
-            "default_font_size":68
+            "bounding_box":[5,870,125,975],
+            "default_font_size":68,
+            "outline":[3,"#FFFFFF"]
         },
         "secondary_gauge_cost":{
             "fonts":["templates/street_fighter/fonts/WCManoNegraBoldBta.otf"],
             "bounding_box":[20,880,115,965],
-            "default_font_size":68
+            "default_font_size":68,
+            "outline":[3,"#FFFFFF"]
         },
         "range":{
             "fonts":["templates/street_fighter/fonts/WCManoNegraBoldBta.otf"],

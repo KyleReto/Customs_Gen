@@ -20,8 +20,8 @@ card.owner = 'Arc System Works'
 card.copies = 1
 card.text_box = """Exceed Text
 <bold>Bold text:</bold> Normal Text <italic>(Italic Text)</italic>
-<bold><#0069ff>+0~1 Range</#0069ff>, <#0069ff>+2-3 Range</#0069ff>, <#b80000>+1 Power</#b80000>,
- <#877400>-1 Speed</#877400>, <#7d2e81>+2 Armor</#7d2e81>, <#127a00>-4 Guard</#127a00></bold>"""
+<bold><@3#000000><#00abea>+0~1 Range</#></@>, <@3#000000><#00abea>+2-3 Range</#></@>, <@3#000000><#f54137>+1 Power</#></@>,
+ <@3#000000><#fff5a5>-1 Speed</#></@>, <@3#000000><#ae96c3>+2 Armor</#></@>, <@3#000000><#39ab55>-4 Guard</#></@></bold>"""
 card.secondary_text_box = '''Boost 1 Text
 <bold>Bold text:</bold> Normal Text <italic>(Italic Text)</italic>
 This boost is continuous, and has 1 force cost'''
@@ -48,24 +48,30 @@ default_text = {
     }
 
 # Open and closes tags as needed using lists to manage their states
-def manage_tags(tag_str, color_list, style_list):
+def manage_tags(tag_str, color_list, style_list, outline_list):
     if tag_str[0] == '/':
         if tag_str[1] == '#':
             color_list.pop()
+        elif tag_str[1] == '@':
+            outline_list.pop()
         else:
             style_list.pop()
     else:
         if tag_str[0] == '#':
             color_list.append(tag_str)
+        elif tag_str[0] == '@':
+            split = tag_str.split('#')
+            outline_list.append([int(split[0][1:]),'#' + split[1]])
         else:
             style_list.append(tag_str)
 
 # Converts a string with bespoke markdown into a plaintext string and corresponding formatting information
-def parse_markdown(str, default_color):
-    # array of 3-tuples (style, color, text)
+def parse_markdown(str, default_color, default_outline):
+    # array of 5-tuples (style, color, outline_weight, outline_color, text)
     string_data = []
     style = ['regular']
     color = [default_color]
+    outline = [default_outline]
     # Matches any unescaped '<' or '>'
     for index, substr in enumerate(re.split(r'(?<!\\)[<>]', str)):
         # Odd outputs are always text, even is always formatting info
@@ -74,9 +80,9 @@ def parse_markdown(str, default_color):
             if (style.count('bold') and style.count('italic')):
                 final_style = 'bold_italic'
             # Remove any escape characters left over
-            string_data += [(final_style, color[-1], re.sub(r'(?<!\\)\\', '', substr))]
+            string_data += [(final_style, color[-1], outline[-1][0], outline[-1][1], re.sub(r'(?<!\\)\\', '', substr))]
         else:
-            manage_tags(substr, color, style)
+            manage_tags(substr, color, style, outline)
             
     # Remove any left over empty string sections
     string_data = [element for element in string_data if element[2] != '']
@@ -121,18 +127,19 @@ def compose_text(markdown_objects, font_paths, font_size, badge_dict={}):
              'bold_italic':ImageFont.truetype(safe_font_paths[3], font_size)}
     txt_arr = [Image.new("RGBA", (5000,200),(0,0,0,0))]
     x_offset = 0
-    for style, color, text_data in markdown_objects:
+    for style, color, outline_weight, outline_color, text_data in markdown_objects:
         substrings = text_data.split('\n')
         for idx, substr in enumerate(substrings):
             if (idx >= 1):
-                txt_arr[-1].crop((0,0,x_offset,font_size))
+                txt_arr[-1].crop((0,0,x_offset+(outline_weight*2),font_size+(outline_weight*2)))
                 txt_arr += [Image.new("RGBA", (5000,200),(0,0,0,0))]
                 x_offset = 0
             draw = ImageDraw.Draw(txt_arr[-1])
             draw_box = draw.textbbox((x_offset,0), substr, font=fonts[style])
-            draw.text((x_offset,0), substr, color, font=fonts[style])
+            draw.text((x_offset+outline_weight,0), substr, font=fonts[style], fill=outline_color, stroke_width=outline_weight)
+            draw.text((x_offset+outline_weight,0), substr, color, font=fonts[style])
             txt_arr[-1] = draw_badges(txt_arr[-1], substr, fonts[style], x_offset, badge_dict)
-            x_offset += draw_box[2]-draw_box[0]
+            x_offset += draw_box[2]-draw_box[0]+outline_weight/2
     return txt_arr
 
 def get_line_height(font_size, num_lines, box_height):
@@ -163,7 +170,8 @@ def text_by_style(image, text, style_dict, badge_dict={}):
                      max_vertical_spacing=get_attr_if_present(style_dict, 'default_line_height', 88), 
                      align=get_attr_if_present(style_dict,'align', 'center'),
                      badge_dict=badge_dict,
-                     default_color=get_attr_if_present(style_dict,'text_color', '#000000'))
+                     default_color=get_attr_if_present(style_dict,'text_color', '#000000'),
+                     default_outline=get_attr_if_present(style_dict,'outline', [0,'#000000']))
 
 # Draws text in the canvas, converting between styles and adjusting size and spacing on the fly
 # canvas = PIL Image object
@@ -173,9 +181,8 @@ def text_by_style(image, text, style_dict, badge_dict={}):
 # max_font_size = largest font size to scale up to, in pixels.
 # max_vertical_spacing = largest space between lines, in pixels.
 
-# TODO: Add the ability to add text outlines of arbitrary weight & color (remember to scale borders to dynamic font size)
-def draw_text(canvas, text, font_files, bounding_box, max_font_size=33, max_vertical_spacing=50, align='center', badge_dict={}, default_color='#000000'):
-    markdown_objects = parse_markdown(text, default_color)
+def draw_text(canvas, text, font_files, bounding_box, max_font_size=33, max_vertical_spacing=50, align='center', badge_dict={}, default_color='#000000', default_outline=[0,'#000000']):
+    markdown_objects = parse_markdown(text, default_color, default_outline)
     text_size = (bounding_box[2] - bounding_box[0], bounding_box[3] - bounding_box[1])
     image_lines = compose_text(markdown_objects, font_files, max_font_size, badge_dict=badge_dict)
     line_height = min(max_vertical_spacing, get_line_height(max_font_size, len(image_lines),text_size[1]))
@@ -207,44 +214,47 @@ def draw_text(canvas, text, font_files, bounding_box, max_font_size=33, max_vert
     return canvas
 
 # TODO: Add support for secondary boxes (e.g. S5)
-# TODO: Update to allow for optional aspects of the template
 def generate_character(card):
     template_images = card.template_info["images"]
     config_images = card.config_info["images"]
     text = card.template_info['text']
+    badge_dict = get_attr_if_present(template_info, "badges", {})
 
     with Image.new("RGBA", tuple(card.config_info['image_size_px']),(0,0,0,0)) as card_image:
-        composite_images(card_image, template_images["character_background"])
-        composite_images(card_image, config_images["character_image"])
-        composite_images(card_image, template_images["character_frame"])
+        composite_images(card_image, get_attr_if_present(template_images,"character_background",default_img,"Images"))
+        composite_images(card_image, get_attr_if_present(config_images,"character_image",default_img,"Images"))
+        composite_images(card_image, get_attr_if_present(template_images,"character_frame",default_img,"Images"))
         if card.secondary_type == 'Critical':
-            composite_images(card_image, template_images["character_critical"])
-        composite_images(card_image, template_images["exceed_flip"])
+            composite_images(card_image, get_attr_if_present(template_images,"character_critical",default_img, "Images"))
+        composite_images(card_image, get_attr_if_present(template_images,"exceed_flip",default_img, "Images"))
         if card.cost:
-            composite_images(card_image, template_images["exceed_flip"])
-            text_by_style(card_image, card.cost, text['exceed_cost'])
-        text_by_style(card_image, card.text_box, text['character_effect'], badge_dict=template_info["badges"])
-        text_by_style(card_image, card.card_name, text['character_name'])
-        text_by_style(card_image, f"<bold>FAN CARD NOT OFFICIAL. Exceed © Level 99 Games. {card.card_name} © {card.owner}. All assets copyright their respective owners.</bold>", text['watermark'])
+            composite_images(card_image, get_attr_if_present(template_images,"exceed_flip",default_img, "Images"))
+            text_by_style(card_image, card.cost, get_attr_if_present(text,'exceed_cost',default_text, "Text"))
+        text_by_style(card_image, card.text_box, get_attr_if_present(text,'character_effect',default_text, "Text"), badge_dict=badge_dict)
+        text_by_style(card_image, card.card_name, get_attr_if_present(text,'character_name',default_text, "Text"))
+        text_by_style(card_image, f"<bold>FAN CARD NOT OFFICIAL. Exceed © Level 99 Games. {card.card_name} © {card.owner}. All assets copyright their respective owners.</bold>", 
+                      get_attr_if_present(text,'watermark',default_text, "Text"))
         return card_image
 
 def generate_exceed(card):
     template_images = card.template_info["images"]
     config_images = card.config_info["images"]
     text = card.template_info['text']
+    badge_dict = get_attr_if_present(template_info, "badges", {})
 
     with Image.new("RGBA", tuple(card.config_info['image_size_px']),(0,0,0,0)) as card_image:
-        composite_images(card_image, template_images["exceed_background"])
-        composite_images(card_image, config_images["exceed_image"])
-        composite_images(card_image, template_images["exceed_frame"])
+        composite_images(card_image, get_attr_if_present(template_images,"exceed_background",default_img, "Images"))
+        composite_images(card_image, get_attr_if_present(config_images,"exceed_image",default_img, "Images"))
+        composite_images(card_image, get_attr_if_present(template_images,"exceed_frame",default_img, "Images"))
         if card.secondary_type == 'Critical':
-            composite_images(card_image, template_images["character_critical"])
+            composite_images(card_image, get_attr_if_present(template_images,"character_critical",default_img, "Images"))
         if card.cost:
-            composite_images(card_image, template_images["exceed_flip"])
-            text_by_style(card_image, card.cost, text['revert_cost'])
-        text_by_style(card_image, card.text_box, text['exceed_effect'], badge_dict=template_info["badges"])
-        text_by_style(card_image, card.card_name, text['exceed_name'])
-        text_by_style(card_image, f"<bold>FAN CARD NOT OFFICIAL. Exceed © Level 99 Games. {card.card_name} © {card.owner}. All assets copyright their respective owners.</bold>", text['watermark'])
+            composite_images(card_image, get_attr_if_present(template_images,"exceed_flip",default_img, "Images"))
+            text_by_style(card_image, card.cost, get_attr_if_present(text,'revert_cost',default_text, "Text"))
+        text_by_style(card_image, card.text_box, get_attr_if_present(text,'exceed_effect',default_text, "Text"), badge_dict=badge_dict)
+        text_by_style(card_image, card.card_name, get_attr_if_present(text,'exceed_name',default_text, "Text"))
+        text_by_style(card_image, f"<bold>FAN CARD NOT OFFICIAL. Exceed © Level 99 Games. {card.card_name} © {card.owner}. All assets copyright their respective owners.</bold>", 
+                      get_attr_if_present(text,'watermark',default_text))
         return card_image
     
 def generate_special(card, special_index):
@@ -297,4 +307,4 @@ def generate_special(card, special_index):
                       get_attr_if_present(text,'watermark',default_text,"Text"))
     return card_image
 
-generate_special(card, 0).save('output/temp.png')
+generate_special(card,0).save('output/temp.png')
