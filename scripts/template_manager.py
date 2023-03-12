@@ -14,7 +14,7 @@ f.close()
 f = open(config_path)
 config_info = json.load(f)
 f.close()
-card.card_name = "SPECIAL 1"
+card.card_name = "ULTRA NAME"
 card.card_type = "Special"
 card.owner = 'Arc System Works'
 card.copies = 1
@@ -24,11 +24,11 @@ card.text_box = """Exceed Text
  <@2#000000><#fff5a5>-1 Speed</#></@>, <@2#000000><#ae96c3>+2 Armor</#></@>, <@2#000000><#39ab55>-4 Guard</#></@></bold>"""
 card.secondary_text_box = '''Boost 1 Text
 <bold>Bold text:</bold> Normal Text <italic>(Italic Text)</italic>
-This boost is continuous, and has 1 force cost'''
+This is a transformation'''
 card.cost = '1'
 card.secondary_cost = '1'
 card.secondary_type = 'Force Boost'
-card.secondary_subtype = 'Continuous'
+card.secondary_subtype = 'Instant'
 card.range = '4-5'
 card.power = '3'
 card.speed = '4'
@@ -257,7 +257,7 @@ def generate_exceed(card):
                       get_attr_if_present(text,'watermark',default_text))
         return card_image
     
-def generate_special(card, special_index):
+def generate_special(card, card_index):
     template_images = card.template_info["images"]
     config_images = card.config_info["images"]
     text = card.template_info['text']
@@ -265,8 +265,10 @@ def generate_special(card, special_index):
 
     with Image.new("RGBA", tuple(card.config_info['image_size_px']),(0,0,0,0)) as card_image:
         composite_images(card_image, get_attr_if_present(template_images,"special_background",default_img,"Images"))
-        composite_images(card_image, get_attr_if_present(config_images["card_art"],special_index,default_img,"User Images: Card Art"))
+        composite_images(card_image, get_attr_if_present(config_images["card_art"],card_index,default_img,"User Images: Card Art"))
         composite_images(card_image, get_attr_if_present(template_images, "special_frame", default_img,"Images"))
+        composite_images(card_image, get_attr_if_present(config_images,"character_logo",default_img,"User Images: Character Logo"))
+        composite_images(card_image, get_attr_if_present(template_images,"special_character_logo_mask",default_img))
         if card.secondary_type == 'Force Boost':
             composite_images(card_image, get_attr_if_present(template_images, "force_boost_symbol", default_img,"Images"))
             text_by_style(card_image, card.secondary_cost, get_attr_if_present(text,'secondary_force_cost',default_text,"Text"))
@@ -295,16 +297,63 @@ def generate_special(card, special_index):
             composite_images(card_image, get_attr_if_present(template_images, "force_special_symbol", default_img,"Images"))
             text_by_style(card_image, card.cost, get_attr_if_present(text,'special_cost',default_text,"Text"))
         if card.guard:
-            composite_images(card_image, get_attr_if_present(template_images, "guard_stat_background", default_img,"Images"))
+            composite_images(card_image, get_attr_if_present(template_images, "special_guard_stat_background", default_img,"Images"))
             text_by_style(card_image, card.guard, get_attr_if_present(text,'guard',default_text,"Text"))
         if card.armor:
-            composite_images(card_image, get_attr_if_present(template_images, "armor_stat_background", default_img,"Images"))
+            composite_images(card_image, get_attr_if_present(template_images, "special_armor_stat_background", default_img,"Images"))
             text_by_style(card_image, card.armor, get_attr_if_present(text,'armor',default_text,"Text"))
-        
-        composite_images(card_image, get_attr_if_present(config_images,"character_logo",default_img,"User Images: Character Logo"))
-        composite_images(card_image, get_attr_if_present(template_images,"special_character_logo_mask",default_img))
         text_by_style(card_image, f"FAN CARD NOT OFFICIAL. Exceed © Level 99 Games. {card.card_name} © {card.owner}. All assets copyright their respective owners.", 
                       get_attr_if_present(text,'watermark',default_text,"Text"))
     return card_image
 
-generate_special(card,0).save('output/temp.png')
+
+def generate_ultra(card, card_index):
+    template_images = card.template_info["images"]
+    config_images = card.config_info["images"]
+    text = card.template_info['text']
+    badge_dict = get_attr_if_present(template_info, "badges", {})
+
+    with Image.new("RGBA", tuple(card.config_info['image_size_px']),(0,0,0,0)) as card_image:
+        composite_images(card_image, get_attr_if_present(template_images,"ultra_background",default_img,"Images"))
+        composite_images(card_image, get_attr_if_present(config_images["card_art"],card_index,default_img,"User Images: Card Art"))
+        composite_images(card_image, get_attr_if_present(template_images, "ultra_frame", default_img,"Images"))
+        composite_images(card_image, get_attr_if_present(config_images,"character_logo",default_img,"User Images: Character Logo"))
+        composite_images(card_image, get_attr_if_present(template_images,"ultra_character_logo_mask",default_img))
+        if card.secondary_type == 'Force Boost':
+            composite_images(card_image, get_attr_if_present(template_images, "force_boost_symbol", default_img,"Images"))
+            text_by_style(card_image, card.secondary_cost, get_attr_if_present(text,'secondary_force_cost',default_text,"Text"))
+        elif card.secondary_type == 'Gauge Boost':
+            composite_images(card_image, get_attr_if_present(template_images, "gauge_boost_symbol", default_img,"Images"))
+            text_by_style(card_image, card.secondary_cost, get_attr_if_present(text,'secondary_gauge_cost',default_text,"Text"))
+        elif card.secondary_type == 'Transformation':
+            composite_images(card_image, get_attr_if_present(template_images, "transformation_symbol", default_img,"Images"))
+        elif card.secondary_type == 'Overload':
+            composite_images(card_image, get_attr_if_present(template_images, "overload_symbol", default_img,"Images"))
+        
+        if card.secondary_subtype == 'Continuous':
+            composite_images(card_image, get_attr_if_present(template_images,"continuous_boost_symbol",default_img,"Images"))
+        elif card.secondary_subtype == 'Instant':
+            # Fails silently; Exceed doesn't require an instant boost symbol
+            composite_images(card_image, get_attr_if_present(template_images,"instant_boost_symbol",default_img))
+        
+        text_by_style(card_image, card.text_box, get_attr_if_present(text,'ultra_effect',default_text,"Text"), badge_dict=badge_dict)
+        text_by_style(card_image, card.secondary_text_box, get_attr_if_present(text,'secondary_effect',default_text,"Text"), badge_dict=badge_dict)
+        text_by_style(card_image, card.card_name, get_attr_if_present(text,'ultra_name',default_text,"Text"))
+        text_by_style(card_image, card.secondary_name, get_attr_if_present(text,'secondary_title',default_text,"Text"))
+        text_by_style(card_image, card.range, get_attr_if_present(text,'range',default_text,"Text"))
+        text_by_style(card_image, card.power, get_attr_if_present(text,'power',default_text,"Text"))
+        text_by_style(card_image, card.speed, get_attr_if_present(text,'speed',default_text,"Text"))
+        composite_images(card_image, get_attr_if_present(template_images, "ultra_gauge_symbol", default_img,"Images"))
+        text_by_style(card_image, card.cost, get_attr_if_present(text,'ultra_cost',default_text,"Text"))
+        if card.guard:
+            composite_images(card_image, get_attr_if_present(template_images, "ultra_guard_stat_background", default_img,"Images"))
+            text_by_style(card_image, card.guard, get_attr_if_present(text,'guard',default_text,"Text"))
+        if card.armor:
+            composite_images(card_image, get_attr_if_present(template_images, "ultra_armor_stat_background", default_img,"Images"))
+            text_by_style(card_image, card.armor, get_attr_if_present(text,'armor',default_text,"Text"))
+        
+        text_by_style(card_image, f"FAN CARD NOT OFFICIAL. Exceed © Level 99 Games. {card.card_name} © {card.owner}. All assets copyright their respective owners.", 
+                      get_attr_if_present(text,'watermark',default_text,"Text"))
+    return card_image
+
+generate_ultra(card,0).save('output/temp.png')
