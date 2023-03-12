@@ -20,8 +20,8 @@ card.owner = 'Arc System Works'
 card.copies = 1
 card.text_box = """Exceed Text
 <bold>Bold text:</bold> Normal Text <italic>(Italic Text)</italic>
-<bold><@3#000000><#00abea>+0~1 Range</#></@>, <@3#000000><#00abea>+2-3 Range</#></@>, <@3#000000><#f54137>+1 Power</#></@>,
- <@3#000000><#fff5a5>-1 Speed</#></@>, <@3#000000><#ae96c3>+2 Armor</#></@>, <@3#000000><#39ab55>-4 Guard</#></@></bold>"""
+<bold><@2#000000><#00abea>+0~1 Range</#></@>, <@2#000000><#00abea>+2-3 Range</#></@>, <@2#000000><#f54137>+1 Power</#></@>,
+ <@2#000000><#fff5a5>-1 Speed</#></@>, <@2#000000><#ae96c3>+2 Armor</#></@>, <@2#000000><#39ab55>-4 Guard</#></@></bold>"""
 card.secondary_text_box = '''Boost 1 Text
 <bold>Bold text:</bold> Normal Text <italic>(Italic Text)</italic>
 This boost is continuous, and has 1 force cost'''

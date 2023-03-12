@@ -34,11 +34,12 @@
         },
         "special_name":{
             "fonts":["templates/street_fighter/fonts/WCManoNegraBoldBta.otf"],
-            "bounding_box":[95,20,630,100],
+            "bounding_box":[100,20,630,100],
             "default_font_size":64,
             "default_line_height":64,
             "text_color":"#FFFFFF",
-            "align": "left"
+            "align": "left",
+            "outline":[2,"#880000"]
         },
         "ultra_name":{
             "fonts":["templates/street_fighter/fonts/WCManoNegraBoldBta.otf"],
@@ -105,37 +106,43 @@
         },
         "range":{
             "fonts":["templates/street_fighter/fonts/WCManoNegraBoldBta.otf"],
-            "bounding_box":[25,90,230,200],
+            "bounding_box":[35,90,230,200],
             "default_font_size":76,
             "default_line_height":76,
-            "text_color":"#FFFFFF"
+            "text_color":"#FFFFFF",
+            "outline":[5,"#263c85"]
         },
         "power":{
             "fonts":["templates/street_fighter/fonts/WCManoNegraBoldBta.otf"],
-            "bounding_box":[32,190,155,315],
+            "bounding_box":[42,180,155,315],
             "default_font_size":76,
             "default_line_height":76,
-            "text_color":"#FFFFFF"
+            "text_color":"#FFFFFF",
+            "outline":[5,"#721714"]
         },
         "speed":{
             "fonts":["templates/street_fighter/fonts/WCManoNegraBoldBta.otf"],
-            "bounding_box":[25,300,140,395],
+            "bounding_box":[35,290,140,395],
             "default_font_size":76,
-            "default_line_height":76
+            "default_line_height":76,
+            "text_color":"#FFFFFF",
+            "outline":[5,"#7f6c27"]
         },
         "armor":{
             "fonts":["templates/street_fighter/fonts/WCManoNegraBoldBta.otf"],
             "bounding_box":[17,400,160,500],
             "default_font_size":76,
             "default_line_height":76,
-            "text_color":"#FFFFFF"
+            "text_color":"#FFFFFF",
+            "outline":[5,"#7a3b82"]
         },
         "guard":{
             "fonts":["templates/street_fighter/fonts/WCManoNegraBoldBta.otf"],
             "bounding_box":[27,480,190,585],
             "default_font_size":76,
             "default_line_height":76,
-            "text_color":"#FFFFFF"
+            "text_color":"#FFFFFF",
+            "outline":[5,"#3e7c3b"]
         },
         "character_effect":{
             "fonts":["templates/street_fighter/fonts/FiraSansExtraCondensed-Regular.ttf",
@@ -184,10 +191,12 @@
             "default_line_height":40
         },
         "watermark":{
-            "fonts":["templates/street_fighter/fonts/FiraSansExtraCondensed-Regular.ttf"],
+            "fonts":["templates/street_fighter/fonts/FiraSansExtraCondensed-Bold.ttf"],
             "bounding_box":[0,1000,750,1024],
             "default_font_size":14,
-            "default_line_height":14
+            "default_line_height":14,
+            "text_color":"#FFFFFF",
+            "outline":[2,"#000000"]
         }
     },
     "badges":{
