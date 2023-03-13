@@ -1,5 +1,6 @@
 {
     "image_size_px":[750,1024],
+    "creator": "Shabacka",
     "images":{
         "image_identifier":{
         "path":"required/path/to/image.png",
@@ -7,6 +8,7 @@
         "source_offsets":["Optional, left", "top","right","bottom bounds of the rectangle to crop your image by"]
         },
         "character_image":{
+            "type": "image",
             "path":"character_images/character_art.png",
             "dest_offsets":[0,0]
         },
