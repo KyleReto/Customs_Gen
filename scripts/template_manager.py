@@ -406,7 +406,7 @@ def generate_card(card):
         for card_type, card_data in card['template_info']['data'].items():
             for attribute_label, card_attribute in card_data.items():
                 show_if = get_attr_if_present(card_attribute,'show_if', '')
-                show_equals = get_attr_if_present(card_attribute,'show_equals', show_if)
+                show_equals = get_attr_if_present(card_attribute,'show_equal', show_if)
                 show_not_equal = get_attr_if_present(card_attribute,'show_not_equal', None)
                 if show_if != show_equals or show_if == show_not_equal:
                     continue

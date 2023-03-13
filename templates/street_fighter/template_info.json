@@ -16,7 +16,7 @@
                 "type":"image",
                 "path":"templates/street_fighter/images/character_critical.png",
                 "show_if":"{card,secondary_type}",
-                "show_equals":"Critical"
+                "show_equal":"Critical"
             },
             "exceed_flip":{
                 "type":"image",
