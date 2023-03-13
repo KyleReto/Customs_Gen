@@ -3,6 +3,20 @@ import json
 import re
 import copy
 import unittest.mock as mock
+import csv
+import re
+
+#select bold 
+bold_words = ['Now:', 'Before:', 'Hit:', 'After:', 'Cleanup:', 'Ignore Armor', 'Ignore Guard', 'Critical', 'Strike', 'Advantage']
+stat_words = {
+    'Range': '#00abea',
+    'Power': '#f54137',
+    'Speed': '#fff5a5',
+    'Armor': '#ae96c3',
+    'Guard': '#39ab55'
+}
+
+
 
 # Development code
 card = mock.Mock()
@@ -20,7 +34,7 @@ card.owner = 'Arc System Works'
 card.copies = 1
 card.text_box = """Exceed Text
 <bold>Bold text:</bold> Normal Text <italic>(Italic Text)</italic>
-<bold><@2#000000><#00abea>+0~1 Range</#></@>, <@2#000000><#00abea>+2-3 Range</#></@>, <@2#000000><#f54137>+1 Power</#></@>,
+<bold><@2#000000><>+0~1 Range</#></@>, <@2#000000><#00abea>+2-3 Range</#></@>, <@2#000000><>+1 Power</#></@>,
  <@2#000000><#fff5a5>-1 Speed</#></@>, <@2#000000><#ae96c3>+2 Armor</#></@>, <@2#000000><#39ab55>-4 Guard</#></@></bold>"""
 card.secondary_text_box = '''Boost 1 Text
 <bold>Bold text:</bold> Normal Text <italic>(Italic Text)</italic>
@@ -192,6 +206,8 @@ def draw_text(canvas, text, font_files, bounding_box, max_font_size=33, max_vert
     center_x = text_image.size[0] // 2
     for idx, line in enumerate(image_lines):
         line_bbox = line.getbbox()
+        if line_bbox == None:
+            continue
         cursor_y = idx*line_height
         if align == 'left':
             text_location = (center_x-text_size[0]//2,cursor_y)
@@ -356,4 +372,121 @@ def generate_ultra(card, card_index):
                       get_attr_if_present(text,'watermark',default_text,"Text"))
     return card_image
 
-generate_ultra(card,0).save('output/temp.png')
+def format_color_words(text):
+    for key in stat_words:
+        text = re.sub('\+([0-9]*) ' + key, '<bold> <' + stat_words[key] + '><@3#000000>' + "+\\1 " + key + '</@></#></bold>', text)
+    return text
+
+def format_bold_words(text):
+    #TODO: Make case insensitive
+    for word in bold_words:
+        text = text.replace(word, '<bold>' + word + '</bold>')
+    return text
+
+def capitalize_important_words(text):
+    for word in bold_words:
+        uncapped = word.lower()
+        text = text.replace(uncapped, word)
+    return text
+
+
+def format_common_text(text):
+    text = capitalize_important_words(text)
+    text = format_bold_words(text)
+    text = format_color_words(text)
+    return text
+
+def create_cards(csvPath, templatePath):
+
+    csv_path = csvPath
+    with open(csv_path) as csv_file:
+        csv_reader = csv.reader(csv_file, delimiter=',')
+        line_count = 0
+        special_count = 0
+        ultra_count = 0
+        char_name = "Character"
+
+
+        for row in csv_reader:
+            card = mock.Mock()
+            config_path = './config.json'
+            f = open(templatePath + '/template_info.json')
+            template_info = json.load(f)
+            f.close()
+            f = open(config_path)
+            config_info = json.load(f)
+            f.close()
+        
+
+            if row[1] == 'Special' or row[1] == 'Ultra':
+                
+                card.card_name = row[0]
+                card.card_type = row[1]
+                card.owner = row[2]
+                card.copies = row[3]
+                
+                primary_text = format_common_text(row[4])
+                card.text_box = primary_text
+
+                secondary_text = format_common_text(row[15])
+                card.secondary_text_box = secondary_text
+                card.cost = row[5]
+                card.secondary_cost = row[11]
+                if card.secondary_cost == '':
+                    card.secondary_cost = '0'
+
+                card.secondary_type = row[14]
+                card.secondary_subtype = row[13]
+                card.range = row[6]
+                card.power = row[7]
+                card.speed = row[8]
+                card.armor = row[9]
+                card.guard = row[10]
+                card.secondary_name = row[12]
+                
+                card.template_info = template_info
+                card.config_info = config_info
+                
+                if row[1] == 'Special':
+                    special_count = special_count + 1
+                    generate_special(card, special_count).save('output/' + row[0] + '.png')
+                else:
+                    ultra_count = ultra_count + 1
+                    generate_ultra(card, ultra_count).save('output/' + row[0] + '.png')
+
+                print("Generated " + row[0])
+                # End development code
+
+
+
+
+            if row[1] == 'Character' or row[1] == 'Exceed':
+                
+
+                card.card_name = row[0]
+
+                card.text_box = format_common_text(row[4])
+                card.cost = row[5]
+                card.secondary_type = row[14]
+                card.secondary_cost = row[11]
+                card.owner = row[2]
+
+                card.template_info = template_info
+                card.config_info = config_info
+
+                if row[1] == 'Character':
+                    char_name = row[0]
+                    generate_character(card).save('output/' + row[0] + '.png')
+                else:
+                    card.card_name = char_name
+                    generate_exceed(card).save('output/' + char_name + '_Exceed.png')
+                print("Generated " + row[0])
+                # End front code
+
+            
+
+
+
+    
+    return 0
+
