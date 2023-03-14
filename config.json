@@ -13,9 +13,11 @@
             "dest_offsets":[0,0]
         },
         "exceed_image":{
+            "type": "image",
             "path":"character_images/character_art.png"
         },
         "character_logo":{
+            "type": "image",
             "path":"character_images/character_logo.png",
             "dest_offsets":[-15,20]
         },

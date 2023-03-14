@@ -7,16 +7,16 @@ import unittest.mock as mock
 # Development code
 template_path = './templates/street_fighter/'
 config_path = './config.json'
-f = open(template_path + 'template_info.json')
+f = open(template_path + 'template_info.json', encoding='utf-8')
 template_info = json.load(f)
 f.close()
-f = open(config_path)
+f = open(config_path, encoding='utf-8')
 config_info = json.load(f)
 f.close()
 
 card = {}
 card['card_name'] = "ULTRA NAME"
-card['card_type'] = "Special"
+card['card_type'] = "Ultra"
 card['owner'] = 'Character Name'
 card['copies'] = 1
 card['text_box'] = """Exceed Text
@@ -25,7 +25,7 @@ card['text_box'] = """Exceed Text
  <@2#000000><#fff5a5>-1 Speed</#></@>, <@2#000000><#ae96c3>+2 Armor</#></@>, <@2#000000><#39ab55>-4 Guard</#></@></bold>"""
 card['secondary_text_box'] = '''Boost 1 Text
 <bold>Bold text:</bold> Normal Text <italic>(Italic Text)</italic>
-This is a transformation'''
+This boost costs 1 Force.'''
 card['cost'] = '1'
 card['secondary_cost'] = '1'
 card['secondary_type'] = 'Force Boost'
@@ -158,8 +158,7 @@ def get_attr_if_present(dict, attr, default, blame=None):
         out = dict[attr]
     except KeyError:
         if blame:
-            print(f"Attempted to get attribute {attr}, but it wasn't defined by the {blame} " 
-                  "section of the template.")
+            print(f"Attempted to get attribute {attr}, but it wasn't defined in {blame}.")
         out = default
     return out
 
@@ -214,164 +213,6 @@ def draw_text(canvas, text, font_files, bounding_box, max_font_size=33, max_vert
     canvas.alpha_composite(text_image, dest_corner,source_corner)
     return canvas
 
-# DEPRECATED: Use generate_card() instead
-def generate_character(card):
-    template_images = card.template_info["images"]
-    config_images = card.config_info["images"]
-    text = card.template_info['text']
-    badge_dict = get_attr_if_present(template_info, "badges", {})
-
-    with Image.new("RGBA", tuple(card.config_info['image_size_px']),(0,0,0,0)) as card_image:
-        composite_images(card_image, get_attr_if_present(template_images,"character_background",default_img,"Images"))
-        composite_images(card_image, get_attr_if_present(config_images,"character_image",default_img,"Config: Images"))
-        composite_images(card_image, get_attr_if_present(template_images,"character_frame",default_img,"Images"))
-        if card.secondary_type == 'Critical':
-            composite_images(card_image, get_attr_if_present(template_images,"character_critical",default_img, "Images"))
-        composite_images(card_image, get_attr_if_present(template_images,"exceed_flip",default_img, "Images"))
-        if card.cost:
-            composite_images(card_image, get_attr_if_present(template_images,"exceed_flip",default_img, "Images"))
-            text_by_style(card_image, card.cost, get_attr_if_present(text,'exceed_cost',default_text, "Text"))
-        text_by_style(card_image, card.text_box, get_attr_if_present(text,'character_effect',default_text, "Text"), badge_dict=badge_dict)
-        text_by_style(card_image, card.card_name, get_attr_if_present(text,'character_name',default_text, "Text"))
-        text_by_style(card_image, "FAN CARD NOT OFFICIAL. Exceed © Level 99 Games. " 
-                      f"Template by {get_attr_if_present(template_info,'creator','{Template Designer}','Template')}. " 
-                      f"Card by {get_attr_if_present(config_info,'creator','{Card Designer}','Config')}. "
-                      "All assets copyright their respective owners.",
-                      get_attr_if_present(text,'watermark',default_text,"Text"))
-        return card_image
-
-# DEPRECATED: Use generate_card() instead
-def generate_exceed(card):
-    template_images = card.template_info["images"]
-    config_images = card.config_info["images"]
-    text = card.template_info['text']
-    badge_dict = get_attr_if_present(template_info, "badges", {})
-
-    with Image.new("RGBA", tuple(card.config_info['image_size_px']),(0,0,0,0)) as card_image:
-        composite_images(card_image, get_attr_if_present(template_images,"exceed_background",default_img, "Images"))
-        composite_images(card_image, get_attr_if_present(config_images,"exceed_image",default_img, "Images"))
-        composite_images(card_image, get_attr_if_present(template_images,"exceed_frame",default_img, "Images"))
-        if card.secondary_type == 'Critical':
-            composite_images(card_image, get_attr_if_present(template_images,"character_critical",default_img, "Images"))
-        if card.cost:
-            composite_images(card_image, get_attr_if_present(template_images,"exceed_flip",default_img, "Images"))
-            text_by_style(card_image, card.cost, get_attr_if_present(text,'revert_cost',default_text, "Text"))
-        text_by_style(card_image, card.text_box, get_attr_if_present(text,'exceed_effect',default_text, "Text"), badge_dict=badge_dict)
-        text_by_style(card_image, card.card_name, get_attr_if_present(text,'exceed_name',default_text, "Text"))
-        text_by_style(card_image, "FAN CARD NOT OFFICIAL. Exceed © Level 99 Games. " 
-                      f"Template by {get_attr_if_present(template_info,'creator','{Template Designer}','Template')}. " 
-                      f"Card by {get_attr_if_present(config_info,'creator','{Card Designer}','Config')}. "
-                      "All assets copyright their respective owners.",
-                      get_attr_if_present(text,'watermark',default_text,"Text"))
-        return card_image
-
-# DEPRECATED: Use generate_card() instead
-def generate_special(card, card_index):
-    template_images = card.template_info["images"]
-    config_images = card.config_info["images"]
-    text = card.template_info['text']
-    badge_dict = get_attr_if_present(template_info, "badges", {})
-
-    with Image.new("RGBA", tuple(card.config_info['image_size_px']),(0,0,0,0)) as card_image:
-        composite_images(card_image, get_attr_if_present(template_images,"special_background",default_img,"Images"))
-        composite_images(card_image, get_attr_if_present(config_images["card_art"],card_index,default_img,"User Images: Card Art"))
-        composite_images(card_image, get_attr_if_present(template_images, "special_frame", default_img,"Images"))
-        composite_images(card_image, get_attr_if_present(config_images,"character_logo",default_img,"User Images: Character Logo"))
-        composite_images(card_image, get_attr_if_present(template_images,"special_character_logo_mask",default_img))
-        if card.secondary_type == 'Force Boost':
-            composite_images(card_image, get_attr_if_present(template_images, "force_boost_symbol", default_img,"Images"))
-            text_by_style(card_image, card.secondary_cost, get_attr_if_present(text,'secondary_force_cost',default_text,"Text"))
-        elif card.secondary_type == 'Gauge Boost':
-            composite_images(card_image, get_attr_if_present(template_images, "gauge_boost_symbol", default_img,"Images"))
-            text_by_style(card_image, card.secondary_cost, get_attr_if_present(text,'secondary_gauge_cost',default_text,"Text"))
-        elif card.secondary_type == 'Transformation':
-            composite_images(card_image, get_attr_if_present(template_images, "transformation_symbol", default_img,"Images"))
-        elif card.secondary_type == 'Overload':
-            composite_images(card_image, get_attr_if_present(template_images, "overload_symbol", default_img,"Images"))
-        
-        if card.secondary_subtype == 'Continuous':
-            composite_images(card_image, get_attr_if_present(template_images,"continuous_boost_symbol",default_img,"Images"))
-        elif card.secondary_subtype == 'Instant':
-            # Fails silently; Exceed doesn't require an instant boost symbol
-            composite_images(card_image, get_attr_if_present(template_images,"instant_boost_symbol",default_img))
-        
-        text_by_style(card_image, card.text_box, get_attr_if_present(text,'special_effect',default_text,"Text"), badge_dict=badge_dict)
-        text_by_style(card_image, card.secondary_text_box, get_attr_if_present(text,'secondary_effect',default_text,"Text"), badge_dict=badge_dict)
-        text_by_style(card_image, card.card_name, get_attr_if_present(text,'special_name',default_text,"Text"))
-        text_by_style(card_image, card.secondary_name, get_attr_if_present(text,'secondary_title',default_text,"Text"))
-        text_by_style(card_image, card.range, get_attr_if_present(text,'range',default_text,"Text"))
-        text_by_style(card_image, card.power, get_attr_if_present(text,'power',default_text,"Text"))
-        text_by_style(card_image, card.speed, get_attr_if_present(text,'speed',default_text,"Text"))
-        if card.cost:
-            composite_images(card_image, get_attr_if_present(template_images, "force_special_symbol", default_img,"Images"))
-            text_by_style(card_image, card.cost, get_attr_if_present(text,'special_cost',default_text,"Text"))
-        if card.guard:
-            composite_images(card_image, get_attr_if_present(template_images, "special_guard_stat_background", default_img,"Images"))
-            text_by_style(card_image, card.guard, get_attr_if_present(text,'guard',default_text,"Text"))
-        if card.armor:
-            composite_images(card_image, get_attr_if_present(template_images, "special_armor_stat_background", default_img,"Images"))
-            text_by_style(card_image, card.armor, get_attr_if_present(text,'armor',default_text,"Text"))
-        # TODO: Get character's home IP info from... somewhere?
-        text_by_style(card_image, "FAN CARD NOT OFFICIAL. Exceed © Level 99 Games. " 
-                      f"Template by {get_attr_if_present(template_info,'creator','{Template Designer}','Template')}. " 
-                      f"Card by {get_attr_if_present(config_info,'creator','{Card Designer}','Config')}. "
-                      "All assets copyright their respective owners.",
-                      get_attr_if_present(text,'watermark',default_text,"Text"))
-    return card_image
-
-# DEPRECATED: Use generate_card() instead
-def generate_ultra(card, card_index):
-    template_images = card.template_info["images"]
-    config_images = card.config_info["images"]
-    text = card.template_info['text']
-    badge_dict = get_attr_if_present(template_info, "badges", {})
-
-    with Image.new("RGBA", tuple(card.config_info['image_size_px']),(0,0,0,0)) as card_image:
-        composite_images(card_image, get_attr_if_present(template_images,"ultra_background",default_img,"Images"))
-        composite_images(card_image, get_attr_if_present(config_images["card_art"],card_index,default_img,"User Images: Card Art"))
-        composite_images(card_image, get_attr_if_present(template_images, "ultra_frame", default_img,"Images"))
-        composite_images(card_image, get_attr_if_present(config_images,"character_logo",default_img,"User Images: Character Logo"))
-        composite_images(card_image, get_attr_if_present(template_images,"ultra_character_logo_mask",default_img))
-        if card.secondary_type == 'Force Boost':
-            composite_images(card_image, get_attr_if_present(template_images, "force_boost_symbol", default_img,"Images"))
-            text_by_style(card_image, card.secondary_cost, get_attr_if_present(text,'secondary_force_cost',default_text,"Text"))
-        elif card.secondary_type == 'Gauge Boost':
-            composite_images(card_image, get_attr_if_present(template_images, "gauge_boost_symbol", default_img,"Images"))
-            text_by_style(card_image, card.secondary_cost, get_attr_if_present(text,'secondary_gauge_cost',default_text,"Text"))
-        elif card.secondary_type == 'Transformation':
-            composite_images(card_image, get_attr_if_present(template_images, "transformation_symbol", default_img,"Images"))
-        elif card.secondary_type == 'Overload':
-            composite_images(card_image, get_attr_if_present(template_images, "overload_symbol", default_img,"Images"))
-        
-        if card.secondary_subtype == 'Continuous':
-            composite_images(card_image, get_attr_if_present(template_images,"continuous_boost_symbol",default_img,"Images"))
-        elif card.secondary_subtype == 'Instant':
-            # Fails silently; Exceed doesn't require an instant boost symbol
-            composite_images(card_image, get_attr_if_present(template_images,"instant_boost_symbol",default_img))
-        
-        text_by_style(card_image, card.text_box, get_attr_if_present(text,'ultra_effect',default_text,"Text"), badge_dict=badge_dict)
-        text_by_style(card_image, card.secondary_text_box, get_attr_if_present(text,'secondary_effect',default_text,"Text"), badge_dict=badge_dict)
-        text_by_style(card_image, card.card_name, get_attr_if_present(text,'ultra_name',default_text,"Text"))
-        text_by_style(card_image, card.secondary_name, get_attr_if_present(text,'secondary_title',default_text,"Text"))
-        text_by_style(card_image, card.range, get_attr_if_present(text,'range',default_text,"Text"))
-        text_by_style(card_image, card.power, get_attr_if_present(text,'power',default_text,"Text"))
-        text_by_style(card_image, card.speed, get_attr_if_present(text,'speed',default_text,"Text"))
-        composite_images(card_image, get_attr_if_present(template_images, "ultra_gauge_symbol", default_img,"Images"))
-        text_by_style(card_image, card.cost, get_attr_if_present(text,'ultra_cost',default_text,"Text"))
-        if card.guard:
-            composite_images(card_image, get_attr_if_present(template_images, "ultra_guard_stat_background", default_img,"Images"))
-            text_by_style(card_image, card.guard, get_attr_if_present(text,'guard',default_text,"Text"))
-        if card.armor:
-            composite_images(card_image, get_attr_if_present(template_images, "ultra_armor_stat_background", default_img,"Images"))
-            text_by_style(card_image, card.armor, get_attr_if_present(text,'armor',default_text,"Text"))
-        
-        text_by_style(card_image, "FAN CARD NOT OFFICIAL. Exceed © Level 99 Games. " 
-                      f"Template by {get_attr_if_present(template_info,'creator','{Template Designer}','Template')}. " 
-                      f"Card by {get_attr_if_present(config_info,'creator','{Card Designer}','Config')}. "
-                      "All assets copyright their respective owners.",
-                      get_attr_if_present(text,'watermark',default_text,"Text"))
-    return card_image
-
 # Replace any {} strings with their corresponding data
 def replace_data(obj, translation_table):
     if type(obj) == str:
@@ -381,10 +222,13 @@ def replace_data(obj, translation_table):
         except json.decoder.JSONDecodeError:
             # Load as string otherwise
             return re.sub(r'[\"\']', '', obj.format(**translation_table))
-    elif type(obj) != dict:
+    elif type(obj) == list:
+        for idx, value in enumerate(obj):
+            obj[idx] = replace_data(value, translation_table)
         return obj
-    for key, value in obj.items():
-        obj[key] = replace_data(value, translation_table)
+    elif type(obj) == dict:
+        for key, value in obj.items():
+            obj[key] = replace_data(value, translation_table)
     return obj
 
 def create_translation_table(obj, table, key_path):
@@ -395,7 +239,6 @@ def create_translation_table(obj, table, key_path):
         create_translation_table(value, table, key_path + ',' + key)
     return table
 
-# TODO: When rendering the watermark, there's a Â added for some reason. Fix this.
 def generate_card(card):
     translation_table = {}
     translation_table = create_translation_table(card['template_info'], translation_table, 'template')
@@ -403,19 +246,23 @@ def generate_card(card):
     translation_table = create_translation_table(card, translation_table, 'card')
     card['template_info'] = replace_data(card['template_info'], translation_table)
     with Image.new("RGBA", tuple(card['config_info']['image_size_px']),(0,0,0,0)) as card_image:
-        for card_type, card_data in card['template_info']['data'].items():
-            for attribute_label, card_attribute in card_data.items():
-                show_if = get_attr_if_present(card_attribute,'show_if', '')
-                show_equals = get_attr_if_present(card_attribute,'show_equal', show_if)
-                show_not_equal = get_attr_if_present(card_attribute,'show_not_equal', None)
-                if show_if != show_equals or show_if == show_not_equal:
-                    continue
-                attribute_type = get_attr_if_present(card_attribute,'type', '', f'Template: {card_type}: {attribute_label}')
-                if attribute_type == 'image':
-                    composite_images(card_image, card_attribute)
-                if attribute_type == 'text':
-                    badges = get_attr_if_present(card_attribute,'text_to_image', {})
-                    text_by_style(card_image, get_attr_if_present(card_attribute,'content', 'ERR', f'Template: {card_type}: {attribute_label}'), card_attribute, badges)
+        for attribute_label, card_attribute in card['template_info']['data'][card['card_type']].items():
+            show_if = get_attr_if_present(card_attribute,'show_if', [])
+            show_equal = get_attr_if_present(card_attribute,'show_equal', [])
+            show_not_equal = get_attr_if_present(card_attribute,'show_not_equal', [])
+            is_continue = False
+            for idx in range(len(show_if)):
+                if idx < len(show_not_equal) and show_if[idx] == show_not_equal[idx]:
+                    is_continue = True
+                if idx < len(show_equal) and show_if[idx] != show_equal[idx]:
+                    is_continue = True
+            if is_continue: continue
+            attribute_type = get_attr_if_present(card_attribute,'type', '', f'Template: {card["card_type"]}: {attribute_label}')
+            if attribute_type == 'image':
+                composite_images(card_image, card_attribute)
+            if attribute_type == 'text':
+                badges = get_attr_if_present(card_attribute,'text_to_image', {})
+                text_by_style(card_image, get_attr_if_present(card_attribute,'content', 'ERR', f'Template: {card["card_type"]}: {attribute_label}'), card_attribute, badges)
     return card_image
 
 generate_card(card).save('output/temp.png')
