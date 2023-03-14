@@ -328,10 +328,10 @@ def create_cards(csvPath, templatePath):
         for row in csv_reader:
             card = {}
             config_path = './config.json'
-            f = open(templatePath + '/template_info.json')
+            f = open(templatePath + '/template_info.json', encoding='utf-8')
             template_info = json.load(f)
             f.close()
-            f = open(config_path)
+            f = open(config_path, encoding='utf-8')
             config_info = json.load(f)
             f.close()
 
