@@ -161,7 +161,7 @@ attackImgButton.pack()
 fetchAttackImgButton = Button(text = "Fetch Selected Attack Image", command=lambda: (fetchImgUsed(options.index(cb.get()))))
 fetchAttackImgButton.pack()
 
-setAllAttackImgButton = Button(text = "Use selected Image for all strikes", command=lambda: (setImgForAllStrikes()))
+setAllAttackImgButton = Button(text = "Select an Image to use for all attacks", command=lambda: (setImgForAllStrikes()))
 setAllAttackImgButton.pack()
 
 
