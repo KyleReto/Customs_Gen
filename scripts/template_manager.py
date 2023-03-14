@@ -218,7 +218,11 @@ def replace_data(obj, translation_table):
     if type(obj) == str:
         try:
             # Load as JSON if the resulting object is json,
-            return json.loads(obj.format(**translation_table).replace('\'', '\"'))
+            try:
+                return json.loads(obj.format(**translation_table).replace('\'', '\"'))
+            except KeyError as err:
+                err.add_note(f'The template asked for variable {err}, but no matching definition was found in that location.')
+                raise
         except json.decoder.JSONDecodeError:
             # Load as string otherwise
             return re.sub(r'[\"\']', '', obj.format(**translation_table))
@@ -239,6 +243,8 @@ def create_translation_table(obj, table, key_path):
         create_translation_table(value, table, key_path + ',' + key)
     return table
 
+
+# TODO: Add support for default card types, in case of missing types
 def generate_card(card):
     translation_table = {}
     translation_table = create_translation_table(card['template_info'], translation_table, 'template')
@@ -246,23 +252,28 @@ def generate_card(card):
     translation_table = create_translation_table(card, translation_table, 'card')
     card['template_info'] = replace_data(card['template_info'], translation_table)
     with Image.new("RGBA", tuple(card['config_info']['image_size_px']),(0,0,0,0)) as card_image:
-        for attribute_label, card_attribute in card['template_info']['data'][card['card_type']].items():
-            show_if = get_attr_if_present(card_attribute,'show_if', [])
-            show_equal = get_attr_if_present(card_attribute,'show_equal', [])
-            show_not_equal = get_attr_if_present(card_attribute,'show_not_equal', [])
-            is_continue = False
-            for idx in range(len(show_if)):
-                if idx < len(show_not_equal) and show_if[idx] == show_not_equal[idx]:
-                    is_continue = True
-                if idx < len(show_equal) and show_if[idx] != show_equal[idx]:
-                    is_continue = True
-            if is_continue: continue
-            attribute_type = get_attr_if_present(card_attribute,'type', '', f'Template: {card["card_type"]}: {attribute_label}')
-            if attribute_type == 'image':
-                composite_images(card_image, card_attribute)
-            if attribute_type == 'text':
-                badges = get_attr_if_present(card_attribute,'text_to_image', {})
-                text_by_style(card_image, get_attr_if_present(card_attribute,'content', 'ERR', f'Template: {card["card_type"]}: {attribute_label}'), card_attribute, badges)
+        try:
+            for attribute_label, card_attribute in card['template_info']['data'][card['card_type'].lower()].items():
+                show_if = get_attr_if_present(card_attribute,'show_if', [])
+                show_equal = get_attr_if_present(card_attribute,'show_equal', [])
+                show_not_equal = get_attr_if_present(card_attribute,'show_not_equal', [])
+                is_continue = False
+                for idx in range(len(show_if)):
+                    if idx < len(show_not_equal) and show_if[idx] == show_not_equal[idx]:
+                        is_continue = True
+                    if idx < len(show_equal) and show_if[idx] != show_equal[idx]:
+                        is_continue = True
+                if is_continue: continue
+                attribute_type = get_attr_if_present(card_attribute,'type', '', f'Template: {card["card_type"].lower()}: {attribute_label}')
+                if attribute_type == 'image':
+                    composite_images(card_image, card_attribute)
+                if attribute_type == 'text':
+                    badges = get_attr_if_present(card_attribute,'text_to_image', {})
+                    text_by_style(card_image, get_attr_if_present(card_attribute,'content', 'ERR', f'Template: {card["card_type"].lower()}: {attribute_label}'), card_attribute, badges)
+        except KeyError as err:
+                err.add_note(f"""Sorry, this template doesn't recognize card type {err}.\nPlease ensure that the card type is spelled correctly in the template.\nIf it is, please choose a different template.\nFor template designers: Make sure that the card type in template_info.json is in lowercase.""")
+                raise
     return card_image
 
-generate_card(card).save('output/temp.png')
+card['card_type'] = "tasdd"
+generate_card(card).save('output/ultra.png')

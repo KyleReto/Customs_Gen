@@ -2,7 +2,7 @@
     "parser_version":1.0,
     "creator":"Tirankin",
     "data":{
-        "Character":{
+        "character":{
             "character_background":{
                 "type":"image",
                 "path":"templates/street_fighter/images/character_background.png"
@@ -73,7 +73,7 @@
                 "outline":[2,"#000000"]
             }
         },
-        "Exceed":{
+        "exceed":{
             "exceed_background":{
                 "type":"image",
                 "path":"templates/street_fighter/images/exceed_background.png"
@@ -146,7 +146,7 @@
                 "outline":[2,"#000000"]
             }
         },
-        "Special":{
+        "special":{
             "background":{
                 "type":"image",
                 "path":"templates/street_fighter/images/character_background.png"
@@ -344,7 +344,7 @@
                 "outline":[2,"#000000"]
             }
         },
-        "Ultra":{
+        "ultra":{
             "background":{
                 "type":"image",
                 "path":"templates/street_fighter/images/character_background.png"
