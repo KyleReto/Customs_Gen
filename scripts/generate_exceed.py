@@ -101,12 +101,14 @@ def open_py_file():
 
     updateJsonFile()
 
+
+    progress.set('Loading. Window will close automatically once complete.\nCheck the console for progress')
+    window.update_idletasks()
+    create_cards(csvPath.get(), templatePath.get())
+    print('Finished')
+    window.destroy()
     try:
-        progress.set('Loading. Window will close automatically once complete.\nCheck the console for progress')
-        window.update_idletasks()
-        create_cards(csvPath.get(), templatePath.get())
-        print('Finished')
-        window.destroy()
+       print("k")
     except Exception as err:
         progress.set('Ran into a fatal issue. \nEnsure you selected a csv file\nand that all strikes point to a picture file')
         print(err)
