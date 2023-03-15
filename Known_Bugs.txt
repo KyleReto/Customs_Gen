@@ -1,0 +1,9 @@
+I feel like this is a good place for us to communicate about bugs if they occur
+
+
+For now, in my automator, I am creating a revert box on exceed pictures.
+What determines if an exceed revert box exists?
+
+Also, I noticed that special generation now uses the character picture selected,
+even if there is a different art for specials chosen. Can you verify that the template manager
+is still drawing special/ultra art from the json?
