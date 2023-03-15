@@ -1,6 +1,6 @@
 from tkinter import *
 from tkinter import filedialog
-from template_manager import create_cards
+from automator import create_cards
 from tkinter.ttk import Combobox
 import json
 
@@ -107,8 +107,8 @@ def openOutputFolder():
     outputPath.set(folderPath) 
     window.update_idletasks()
 
-#Calls the manager script
-def open_py_file():
+
+def generate_all_cards():
 
     updateJsonFile()
 
@@ -195,7 +195,7 @@ outputButton.pack()
 Loading = Label(window, textvariable=progress)
 Loading.pack()
 
-generate = Button(text = "Generate Images", command=open_py_file)
+generate = Button(text = "Generate Images", command=generate_all_cards)
 generate.pack()
 
 
