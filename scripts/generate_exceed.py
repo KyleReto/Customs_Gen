@@ -73,7 +73,7 @@ def fetchImgUsed(picNum):
 
 def setImgForAllStrikes():
     filepath = openPicFile()
-    for i in range(9):
+    for i in range(10):
         data["images"]["card_art"][i]["path"] = filepath
     attackImgPath.set("Set all attack Images to " + filepath)
     window.update_idletasks()
