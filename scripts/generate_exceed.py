@@ -22,7 +22,7 @@ templatePath = StringVar()
 templatePath.set('Please select the template folder')
 
 outputPath = StringVar()
-outputPath.set('output/')
+outputPath.set('output')
 
 charImgPath = StringVar()
 charImgPath.set('Please select the character image')
