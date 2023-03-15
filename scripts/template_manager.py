@@ -314,7 +314,12 @@ def format_common_text(text):
     text = format_color_words(text)
     return text
 
-def create_cards(csvPath, templatePath):
+def create_cards(csvPath, templatePath, outputPath):
+
+    #TODO allow pointing to Normals Deck
+    jsonFile = open("./normals/Seventh_Cross/Normals Deck.json", "r") # Open the JSON file for reading
+    ttsData = json.load(jsonFile) # Read the JSON into the buffer
+    jsonFile.close() # Close the JSON file
 
     csv_path = csvPath
     with open(csv_path) as csv_file:
@@ -364,21 +369,23 @@ def create_cards(csvPath, templatePath):
             
             if row[1] == 'Special':
                 special_count = special_count + 1
-                generate_card(card).save('output/' + row[0] + '.png')
+                generate_card(card).save(outputPath + '/' + row[0] + '.png')
                 print("Generated " + row[0])
             elif row[1] == 'Ultra':
                 ultra_count = ultra_count + 1
-                generate_card(card).save('output/' + row[0] + '.png')
+                generate_card(card).save(outputPath + '/' + row[0] + '.png')
                 print("Generated " + row[0])
             elif row[1] == 'Character':
                 char_name = row[0]
-                generate_card(card).save('output/' + row[0] + '.png')
+                generate_card(card).save(outputPath + '/' + row[0] + '.png')
                 print("Generated " + row[0])
             elif row[1] == 'Exceed':
                 card["card_name"] = char_name
-                generate_card(card).save('output/' + char_name + '_Exceed.png')
+                generate_card(card).save(outputPath + '/' + char_name + '_Exceed.png')
                 print("Generated " + row[0])
             
+
+
             # End front code
 
             

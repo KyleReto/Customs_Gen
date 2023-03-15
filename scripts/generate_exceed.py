@@ -21,6 +21,9 @@ csvPath.set('Please select a csv file')
 templatePath = StringVar()
 templatePath.set('Please select the template folder')
 
+outputPath = StringVar()
+outputPath.set('output/')
+
 charImgPath = StringVar()
 charImgPath.set('Please select the character image')
 
@@ -96,6 +99,14 @@ def openTemplateFolder():
     templatePath.set(folderPath) 
     window.update_idletasks()
 
+def openOutputFolder():
+    folderPath = filedialog.askdirectory(initialdir=".\\output",
+                                         title="Exceed Card Generator")
+    while parentFolder in folderPath:
+        folderPath = folderPath.split(parentFolder,1)[1]
+    outputPath.set(folderPath) 
+    window.update_idletasks()
+
 #Calls the manager script
 def open_py_file():
 
@@ -104,7 +115,7 @@ def open_py_file():
     #TODO: On release, put this in try block to notify user. It is easier to track error logs like this for now
     progress.set('Loading. Window will close automatically once complete.\nCheck the console for progress')
     window.update_idletasks()
-    create_cards(csvPath.get(), templatePath.get())
+    create_cards(csvPath.get(), templatePath.get(), outputPath.get())
     print('Finished')
     window.destroy()
 
@@ -171,6 +182,14 @@ currentTemplatePath.pack()
 
 templateButton = Button(text = "Select template folder", command=openTemplateFolder)
 templateButton.pack()
+
+currentOutputPath = Label(window, textvariable=outputPath)
+currentOutputPath.pack()
+
+outputButton = Button(text = "Change output folder", command=openOutputFolder)
+outputButton.pack()
+
+
 
 
 Loading = Label(window, textvariable=progress)
