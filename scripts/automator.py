@@ -11,14 +11,14 @@ deckNum = 1
 # Since we are using individual images, we need a custom deck
 # for each card generated. This is only a reference; we will still
 # end with just a single deck object
-def tts_add_custom_deck(ttsData, imgPath):
+def tts_add_custom_deck(ttsData, imgPath, backPath = "https://i.imgur.com/igYZhPh.png"):
     # each custom deck requires its own ID
     global deckNum
     deckNum = deckNum + 1
 
     customDeck = {
           "FaceURL": imgPath,
-          "BackURL": "https://i.imgur.com/igYZhPh.png",
+          "BackURL": backPath,
           "NumWidth": 1,
           "NumHeight": 1,
           "BackIsHidden": True,
@@ -28,6 +28,7 @@ def tts_add_custom_deck(ttsData, imgPath):
 
     ttsData["ObjectStates"][0]["CustomDeck"][deckNum] = customDeck
     return deckNum
+
 
 
 def tts_add_deckID(ttsData, deckNum):
@@ -93,6 +94,60 @@ def tts_add_contained_card(ttsData, deckNum, charName, card):
     contained_card["CustomDeck"][deckNum] = customDeck
     ttsData["ObjectStates"][0]["ContainedObjects"].append(contained_card)
 
+def tts_add_contained_character(ttsData, deckNum, charName):
+    #Note: I am not sure what many of these do. Some of these values
+    # are discarded since card is used in deck as well
+    contained_card = {
+          "Name": "CardCustom",
+          "Transform": {
+            "posX": 0,
+            "posY": 0,
+            "posZ": 0,
+            "rotX": 0,
+            "rotY": 0,
+            "rotZ": 0,
+            "scaleX": 1.25,
+            "scaleY": 1.0,
+            "scaleZ": 1.25
+          },
+          "Nickname": "Block (N)",
+          "Description": charName,
+          "GMNotes": "",
+          "Memo": "15",
+          "ColorDiffuse": {
+            "r": 0.58431375,
+            "g": 0.0,
+            "b": 0.7019608
+          },
+          "LayoutGroupSortIndex": 0,
+          "Value": 0,
+          "Locked": False,
+          "Grid": True,
+          "Snap": True,
+          "IgnoreFoW": False,
+          "MeasureMovement": False,
+          "DragSelectable": True,
+          "Autoraise": True,
+          "Sticky": True,
+          "Tooltip": False,
+          "GridProjection": False,
+          "HideWhenFaceDown": True,
+          "Hands": True,
+          "CardID": 107,
+          "SidewaysCard": False,
+          "CustomDeck": {
+          },
+          "LuaScript": "",
+          "LuaScriptState": "",
+          "XmlUI": ""
+        }
+    nickname = charName + " (C)"
+    contained_card["Nickname"] = nickname
+    
+    customDeck = ttsData["ObjectStates"][0]["CustomDeck"][deckNum]
+    contained_card["CustomDeck"][deckNum] = customDeck
+    ttsData["ObjectStates"][0]["ContainedObjects"].append(contained_card)
+
 def add_strike_to_tts(ttsData, charName, card, imgPath):
 
     #Add Custom Decks
@@ -109,6 +164,11 @@ def add_strike_to_tts(ttsData, charName, card, imgPath):
     return 0
 
 
+def tts_add_character(ttsData, charName, charImgPath, exceedImgPath):
+    deckID = tts_add_custom_deck(ttsData, charImgPath, exceedImgPath)
+    tts_add_deckID(ttsData, deckID)
+    tts_add_contained_character(ttsData, deckID, charName)
+
 def generate_tts_json(ttsData, charName, outputPath):
     jsonFile = open(outputPath + '/' + charName + 'Deck.json', "w+")
     jsonFile.write(json.dumps(ttsData))
@@ -121,11 +181,14 @@ def create_cards(csvPath, templatePath, outputPath):
     ttsData = json.load(jsonFile) # Read the JSON into the buffer
     jsonFile.close() # Close the JSON file
 
+    char_name = "Character"
+    charImgPath = ""
+    exceedImgPath = ""
     csv_path = csvPath
     with open(csv_path) as csv_file:
         csv_reader = csv.reader(csv_file, delimiter=',')
 
-        char_name = "Character"
+        
 
 
         for row in csv_reader:
@@ -175,15 +238,19 @@ def create_cards(csvPath, templatePath, outputPath):
             elif row[1] == 'Character':
                 char_name = row[0]
                 generate_card(card).save(savePath)
+                charImgPath = savePath
                 print("Generated " + row[0])
             elif row[1] == 'Exceed':
                 card["card_name"] = char_name
                 savePath = outputPath + '/' + char_name + '_Exceed.png'
                 generate_card(card).save(savePath)
+                exceedImgPath = savePath
                 print("Generated " + row[0])
             
 
 
             # End front code
+    tts_add_character(ttsData, char_name, charImgPath, exceedImgPath)
     generate_tts_json(ttsData, char_name, outputPath) 
+   
     return 0
