@@ -4,6 +4,10 @@ from template_manager import generate_card
 from template_manager import format_common_text
 
 
+#Code by Michael Bowling/Alkaroth 
+##This script reads an imported csv file and continuously calls the image generator with the correct parameters
+#For now, this script is also in charge of generating the TTS Json.
+
 
 deckNum = 1
 
