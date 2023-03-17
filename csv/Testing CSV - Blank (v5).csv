@@ -1,0 +1,15 @@
+CardName,CardType,Owner,Copies,TextBox,Cost,Range,Power,Speed,Armor,Guard,SecondaryCost,SecondaryName,SecondarySubtype,SecondaryType,SecondaryTextBox,Frame,CharacterIcon,Art
+Test,Character,,1,"When you take the strike action, you may strike",3,,,,,,,,,,,,,
+Exceed,Exceed,,1,"When you initiate an attack, your attack has +1 Power, +1 Speed, +0~+1 Range, +1 Armor, and +`Guard",,,,,,,,,,,,,,
+Unique,Unique,,1,,,,,,,,,,,,,,,
+First Ultra,Ultra,,2,"Before, Range3+: Power bonuses are doubled.",3,1~3,4,7,1,3,,Big Boost,Continuous,Force Boost,"+1 Power, +1 Speed, +1 Armor, +1 Guard
+",,,
+Second Ultra,Ultra,,2,Cleanup: Sustain all boosts in play,4,"1,3",5,6,,,1,Flex,Instant,Force Boost,"Draw a card, then strike",,,
+Third Ultra,Ultra,,2,,1,"2,6,7",2,5,,,1,The Discard One,Continuous,Force Boost,"Now: Draw a card.
+Cleanup: Discard a card.",,,
+Force Special,Special,,2,,1,2~4,2,6,4,5,1,Flex,Instant,Force Boost,"Draw a card, then strike",,,
+Triple Special,Special,,3,,,3,3,1,4,,1,The Discard One,Continuous,Force Boost,"Now: Draw a card.
+Cleanup: Discard a card.",,,
+Single Special,Special,,1,,,4,3,1,,4,1,Flex,Instant,Force Boost,"Draw a card, then strike",,,
+Final Special,Special,,2,,,1,3,2,4,1,,Big Boost,Continuous,Force Boost,"+1 Power, +1 Speed, +1 Armor, +1 Guard
+",,,

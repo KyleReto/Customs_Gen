@@ -299,6 +299,8 @@ def format_color_words(text):
 def format_bold_words(text):
     for word in bold_words:
         text = text.replace(word, '<bold>' + word + '</bold>')
+    text = re.sub('([A-Za-z0-9,;\+\'\\s]*)' + ':', '<bold> \\1: </bold>', text)
+    text = re.sub('[\\n\"]' + '([A-Za-z0-9,;\+\'\\s]*)' + ':', '<bold> \\1 </bold>', text)
     return text
 
 def capitalize_important_words(text):

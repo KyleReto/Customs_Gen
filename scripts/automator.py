@@ -222,7 +222,7 @@ def create_cards(csvPath, templatePath, outputPath):
 
             card["secondary_type"] = row[14]
             card["secondary_subtype"] = row[13]
-            card["range"] = row[6]
+            card["range"] = row[6].replace("~", "-")
             card["power"] = row[7]
             card["speed"] = row[8]
             card["armor"] = row[9]
