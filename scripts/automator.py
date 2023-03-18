@@ -174,7 +174,10 @@ def tts_add_character(ttsData, charName, charImgPath, exceedImgPath):
     tts_add_contained_character(ttsData, deckID, charName)
 
 def generate_tts_json(ttsData, charName, outputPath):
-    jsonFile = open(outputPath + '/' + charName + 'Deck.json', "w+")
+    jsonSavePath = outputPath + '/' + charName + 'Deck.json'
+    #Apparently we need to check for new line characters here
+    jsonSavePath = jsonSavePath.replace("\n", " ")
+    jsonFile = open(jsonSavePath, "w+")
     jsonFile.write(json.dumps(ttsData))
     jsonFile.close()
 
@@ -225,14 +228,24 @@ def create_cards(csvPath, templatePath, outputPath):
             card["range"] = row[6].replace("~", "-")
             card["power"] = row[7]
             card["speed"] = row[8]
+
             card["armor"] = row[9]
             card["guard"] = row[10]
+
+            if card["armor"] == " ":
+                card["armor"] = ""
+            if card["guard"] == " ":
+                card["guard"] = ""
+
             card["secondary_name"] = row[12]
             
             card["template_info"] = template_info
             card["config_info"] = config_info
             
             savePath = outputPath + '/' + row[0] + '.png'
+            #Apparently we need to check for new line characters here
+            savePath = savePath.replace("\n", " ")
+
             if row[1] == 'Special' or row[1] == 'Ultra':
                 
                 generate_card(card).save(savePath)
@@ -247,6 +260,8 @@ def create_cards(csvPath, templatePath, outputPath):
             elif row[1] == 'Exceed':
                 card["card_name"] = char_name
                 savePath = outputPath + '/' + char_name + '_Exceed.png'
+                #Apparently we need to check for new line characters here
+                savePath = savePath.replace("\n", " ")
                 generate_card(card).save(savePath)
                 exceedImgPath = savePath
                 print("Generated " + row[0])
