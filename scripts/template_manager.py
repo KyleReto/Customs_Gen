@@ -293,14 +293,14 @@ def generate_card(card):
 
 def format_color_words(text):
     for key in stat_words:
-        text = re.sub('\+([0-9]*) ' + key, '<bold> <' + stat_words[key] + '><@3#000000>' + "+\\1 " + key + '</@></#></bold>', text)
+        text = re.sub('([\+\-])([0-9]*) ' + key, '<bold><' + stat_words[key] + '><@3#000000>' + "\\1\\2 " + key + '</@></#></bold>', text)
     return text
 
 def format_bold_words(text):
     for word in bold_words:
         text = text.replace(word, '<bold>' + word + '</bold>')
-    text = re.sub('([A-Za-z0-9,;\+\'\\s]*)' + ':', '<bold> \\1: </bold>', text)
-    text = re.sub('[\\n\"]' + '([A-Za-z0-9,;\+\'\\s]*)' + ':', '<bold> \\1 </bold>', text)
+    text = re.sub('([A-Za-z0-9,;\+\'\\s]*)' + ':', '<bold>\\1:</bold>', text)
+    text = re.sub('[\\n\"]' + '([A-Za-z0-9,;\+\'\\s]*)' + ':', '<bold>\\1</bold>', text)
     return text
 
 def capitalize_important_words(text):
@@ -309,9 +309,14 @@ def capitalize_important_words(text):
         text = text.replace(uncapped, word)
     return text
 
+def createNewLines(text):
+    text = text.replace(". ", ".\n")
+    text = text.replace(" \"", "\n\"")
+    return text
 
 def format_common_text(text):
     text = capitalize_important_words(text)
     text = format_bold_words(text)
     text = format_color_words(text)
+    text = createNewLines(text)
     return text
