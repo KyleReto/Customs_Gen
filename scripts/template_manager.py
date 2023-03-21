@@ -259,7 +259,12 @@ def create_translation_table(obj, table, key_path):
     return table
 
 
+# TODO: Pull Cobalt's code
+# TODO: Automatically insert newlines as necessary - insert potential newlines with priorities and replace those with \n or nothing as necessary. As a fallback, scale text.
+# TODO: Update SF template to pull card art from the card obj, rather than the config
 # TODO: Add support for default card types, in case of missing types
+# TODO: Readjust SF textboxes so that all text is readable even if the box if full.
+# TODO: Fix SF Character box to present newlines correctly
 def generate_card(card):
     translation_table = {}
     translation_table = create_translation_table(card['template_info'], translation_table, 'template')
@@ -317,7 +322,7 @@ def format_common_text(text):
 def create_cards(csvPath, templatePath):
 
     csv_path = csvPath
-    with open(csv_path) as csv_file:
+    with open(csv_path, encoding='utf-8') as csv_file:
         csv_reader = csv.reader(csv_file, delimiter=',')
         line_count = 0
         special_count = 0
@@ -355,8 +360,8 @@ def create_cards(csvPath, templatePath):
             card["range"] = row[6]
             card["power"] = row[7]
             card["speed"] = row[8]
-            card["armor"] = row[9]
-            card["guard"] = row[10]
+            card["armor"] = row[9].replace(' ', '')
+            card["guard"] = row[10].replace(' ', '')
             card["secondary_name"] = row[12]
             
             card["template_info"] = template_info
@@ -364,19 +369,19 @@ def create_cards(csvPath, templatePath):
             
             if row[1] == 'Special':
                 special_count = special_count + 1
-                generate_card(card).save('output/' + row[0] + '.png')
+                generate_card(card).save('output/' + row[0].replace('\n','') + '.png')
                 print("Generated " + row[0])
             elif row[1] == 'Ultra':
                 ultra_count = ultra_count + 1
-                generate_card(card).save('output/' + row[0] + '.png')
+                generate_card(card).save('output/' + row[0].replace('\n','') + '.png')
                 print("Generated " + row[0])
             elif row[1] == 'Character':
                 char_name = row[0]
-                generate_card(card).save('output/' + row[0] + '.png')
+                generate_card(card).save('output/' + row[0].replace('\n','') + '.png')
                 print("Generated " + row[0])
             elif row[1] == 'Exceed':
                 card["card_name"] = char_name
-                generate_card(card).save('output/' + char_name + '_Exceed.png')
+                generate_card(card).save('output/' + char_name.replace('\n','') + '_Exceed.png')
                 print("Generated " + row[0])
             
             # End front code
