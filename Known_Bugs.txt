@@ -11,10 +11,6 @@ Also, I noticed that special generation now uses the character picture selected,
  is still drawing special/ultra art from the json?
     Should be fixed now, though the solution is pretty messy.
 
-For whatever reason, the template manager is being passed literal "\n" in strings instead of actual new line characters.
- When the text leaves format_common_text(), the characters are still proper new lines, but by the time it gets to parse_markdown() it's been converted to "\n".
- The "\" character goes away because that's intended functionality of the parse_markdown() function, leaving only the "n".
-
 
 
 

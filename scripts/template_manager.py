@@ -234,14 +234,13 @@ def replace_data(obj, translation_table):
     if type(obj) == str:
         try:
             # Load as JSON if the resulting object is json,
-            try:
-                return json.loads(obj.format(**translation_table).replace('\'', '\"'))
-            except KeyError as err:
-                err.add_note(f'The template asked for variable {err}, but no matching definition was found in that location.')
-                raise
-        except json.decoder.JSONDecodeError:
+            return json.loads(obj.format(**translation_table))
+        except KeyError as err:
+            err.add_note(f'The template asked for variable {err}, but no matching definition was found in that location.')
+            raise
+        except json.decoder.JSONDecodeError as err:
             # Load as string otherwise
-            return re.sub(r'[\"\']', '', obj.format(**translation_table))
+            return re.sub('[\"\']', '', obj.format(**translation_table))
     elif type(obj) == list:
         for idx, value in enumerate(obj):
             obj[idx] = replace_data(value, translation_table)
@@ -270,6 +269,7 @@ def generate_card(card):
     translation_table = create_translation_table(card['config_info'], translation_table, 'config')
     translation_table = create_translation_table(card, translation_table, 'card')
     card['template_info'] = replace_data(card['template_info'], translation_table)
+    
     with Image.new("RGBA", tuple(card['config_info']['image_size_px']),(0,0,0,0)) as card_image:
         try:
             for attribute_label, card_attribute in card['template_info']['data'][card['card_type'].lower()].items():
