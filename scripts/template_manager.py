@@ -260,7 +260,6 @@ def create_translation_table(obj, table, key_path):
     return table
 
 # TODO: Automatically insert newlines as necessary - insert potential newlines with priorities and replace those with \n or nothing as necessary. As a fallback, scale text.
-# TODO: Update SF template to pull card art from the card obj, rather than the config
 # TODO: Add support for default card types, in case of missing types
 # TODO: Readjust SF textboxes so that all text is readable even if the box if full.
 # TODO: Fix SF Character box to present newlines correctly
