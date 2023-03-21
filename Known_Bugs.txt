@@ -2,8 +2,35 @@ I feel like this is a good place for us to communicate about bugs if they occur
 
 
 For now, in my automator, I am creating a revert box on exceed pictures.
-What determines if an exceed revert box exists?
+ What determines if an exceed revert box exists?
+    An exceed revert box should be displayed if the exceed side card object has a truthy value for its cost, 
+     which should be how the SF template handles it (but it may be bugged, I haven't thoroughly tested it)
 
 Also, I noticed that special generation now uses the character picture selected,
-even if there is a different art for specials chosen. Can you verify that the template manager
-is still drawing special/ultra art from the json?
+ even if there is a different art for specials chosen. Can you verify that the template manager
+ is still drawing special/ultra art from the json?
+    Should be fixed now, though the solution is pretty messy.
+
+For whatever reason, the template manager is being passed literal "\n" in strings instead of actual new line characters.
+ When the text leaves format_common_text(), the characters are still proper new lines, but by the time it gets to parse_markdown() it's been converted to "\n".
+ The "\" character goes away because that's intended functionality of the parse_markdown() function, leaving only the "n".
+
+
+
+
+
+Not so much "bugs", but things that should probably be changed in future:
+
+Some elements of the program have card types ("Special", "Ultra", etc) hardcoded, 
+ but each template should be able to define any card type it wants,
+ and the rest of the program should adapt accordingly.
+
+Currently, data is pulled from the config file according to various hardcoded keys.
+ I'd like the templateinfo file to define these keys, rather than being hardcoded,
+ and have the GUI adapt to allow the end user to define each of the required elements.
+ This would be pretty tricky though, probably more of a "if we have time" sort of thing.
+
+Related to the above, card art is pulled by specific keys (one image for "character_image",
+ one for "exceed_image", etc). We should probably rework the structure of config.json to allow
+ the user to define one piece of card art for each card in the csv. For example, Petersonian's
+ Amaterasu custom has 3 character cards and 3 exceed cards.

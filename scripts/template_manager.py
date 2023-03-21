@@ -112,7 +112,8 @@ def composite_images(canvas, addition_dict):
     src_offsets = get_attr_if_present(addition_dict, 'source_offsets', [0,0])
     try:
         with Image.open(addition_dict['path']) as addition_image:
-            canvas.alpha_composite(addition_image, tuple([int(offset) for offset in dest_offsets]), tuple([int(offset) for offset in src_offsets]))
+            # Workaround to handle non-transparent images .convert('RGBA')
+            canvas.alpha_composite(addition_image.convert('RGBA'), tuple([int(offset) for offset in dest_offsets]), tuple([int(offset) for offset in src_offsets]))
     except FileNotFoundError:
         print(f"Couldn't find a file at path \"{addition_dict['path']}.\" "\
         "If an image for this object exists in this template, "\
@@ -258,13 +259,12 @@ def create_translation_table(obj, table, key_path):
         create_translation_table(value, table, key_path + ',' + key)
     return table
 
-
-# TODO: Pull Cobalt's code
 # TODO: Automatically insert newlines as necessary - insert potential newlines with priorities and replace those with \n or nothing as necessary. As a fallback, scale text.
 # TODO: Update SF template to pull card art from the card obj, rather than the config
 # TODO: Add support for default card types, in case of missing types
 # TODO: Readjust SF textboxes so that all text is readable even if the box if full.
 # TODO: Fix SF Character box to present newlines correctly
+# TODO: Make this function less ugly
 def generate_card(card):
     translation_table = {}
     translation_table = create_translation_table(card['template_info'], translation_table, 'template')

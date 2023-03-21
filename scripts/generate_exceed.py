@@ -62,6 +62,7 @@ def openPicFile():
                                           title="Exceed Card Generator",
                                           filetypes=(("png", "*.png"),
                                                      ("jpg", "*.jpg"),
+                                                     ("jpeg", "*.jpeg"),
                                           ("all files", "*.*")))
     while parentFolder in filepath:
         filepath = filepath.split(parentFolder,1)[1]
@@ -75,12 +76,14 @@ def setImgForAllStrikes():
     filepath = openPicFile()
     for i in range(10):
         data["images"]["card_art"][i]["path"] = filepath
+        data["images"]["card_art"][i]["type"] = 'image'
     attackImgPath.set("Set all attack Images to " + filepath)
     window.update_idletasks()
 
 def setImgForStrike(picNum):
     filepath = openPicFile()
     data["images"]["card_art"][picNum]["path"] = filepath
+    data["images"]["card_art"][picNum]["type"] = 'image'
     attackImgPath.set("Set attack Image to " + filepath)
     window.update_idletasks()
 

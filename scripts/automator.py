@@ -196,8 +196,8 @@ def create_cards(csvPath, templatePath, outputPath):
         csv_reader = csv.reader(csv_file, delimiter=',')
 
         
-
-
+        # used for hacky workaround on config structure
+        tmp_idx = 0
         for row in csv_reader:
             card = {}
             config_path = './config.json'
@@ -245,9 +245,11 @@ def create_cards(csvPath, templatePath, outputPath):
             savePath = outputPath + '/' + row[0] + '.png'
             #Apparently we need to check for new line characters here
             savePath = savePath.replace("\n", " ")
+            # hacky workaround on config structure
+            card["config_info"]['images']['card_art'] = card["config_info"]['images']['card_art'][tmp_idx]
 
             if row[1] == 'Special' or row[1] == 'Ultra':
-                
+                tmp_idx += 1
                 generate_card(card).save(savePath)
                 add_strike_to_tts(ttsData, char_name, card, savePath)
                 print("Generated " + row[0])

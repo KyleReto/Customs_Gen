@@ -3,7 +3,7 @@ import json
 import unittest.mock as mock
 from template_manager import generate_character, generate_exceed, generate_special, generate_ultra
 
-# Code provided by Cobalt
+# TODO: I think this file is unused? We could delete it if so.
 def create_specials():
 
     csv_path = './assets/test.csv'

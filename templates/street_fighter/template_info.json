@@ -151,7 +151,7 @@
                 "type":"image",
                 "path":"templates/street_fighter/images/character_background.png"
             },
-            "card_art":"{config,images,character_image}",
+            "card_art":"{config,images,card_art}",
             "frame":{
                 "type":"image",
                 "path":"templates/street_fighter/images/special_frame.png"
@@ -209,7 +209,7 @@
                 "templates/street_fighter/fonts/FiraSansExtraCondensed-Bold.ttf",
                 "templates/street_fighter/fonts/FiraSansExtraCondensed-Italic.ttf",
                 "templates/street_fighter/fonts/FiraSansExtraCondensed-BoldItalic.ttf"],
-                "bounding_box":[0,615,750,790],
+                "bounding_box":[50,615,700,790],
                 "default_font_size":33,
                 "default_line_height":40
             },
@@ -226,7 +226,7 @@
                 "templates/street_fighter/fonts/FiraSansExtraCondensed-Bold.ttf",
                 "templates/street_fighter/fonts/FiraSansExtraCondensed-Italic.ttf",
                 "templates/street_fighter/fonts/FiraSansExtraCondensed-BoldItalic.ttf"],
-                "bounding_box":[80,850,720,1000],
+                "bounding_box":[100,850,700,1000],
                 "default_font_size":33,
                 "default_line_height":40
             },
@@ -349,7 +349,7 @@
                 "type":"image",
                 "path":"templates/street_fighter/images/character_background.png"
             },
-            "card_art":"{config,images,character_image}",
+            "card_art":"{config,images,card_art}",
             "frame":{
                 "type":"image",
                 "path":"templates/street_fighter/images/ultra_frame.png"
@@ -407,7 +407,7 @@
                 "templates/street_fighter/fonts/FiraSansExtraCondensed-Bold.ttf",
                 "templates/street_fighter/fonts/FiraSansExtraCondensed-Italic.ttf",
                 "templates/street_fighter/fonts/FiraSansExtraCondensed-BoldItalic.ttf"],
-                "bounding_box":[0,615,750,790],
+                "bounding_box":[50,615,700,790],
                 "default_font_size":33,
                 "default_line_height":40
             },
@@ -424,7 +424,7 @@
                 "templates/street_fighter/fonts/FiraSansExtraCondensed-Bold.ttf",
                 "templates/street_fighter/fonts/FiraSansExtraCondensed-Italic.ttf",
                 "templates/street_fighter/fonts/FiraSansExtraCondensed-BoldItalic.ttf"],
-                "bounding_box":[80,850,720,1000],
+                "bounding_box":[100,850,700,1000],
                 "default_font_size":33,
                 "default_line_height":40
             },
