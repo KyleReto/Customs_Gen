@@ -1,0 +1,49 @@
+CardName,CardType,Owner,Copies,TextBox,Cost,Range,Power,Speed,Armor,Guard,SecondaryCost,SecondaryName,SecondarySubtype,SecondaryType,SecondaryTextBox,Notes,Frame,CharacterIcon,Art
+"Amaterasu
+(Reflector)",Character,Amaterasu,1,"(Begin with the Reflector equipped.)
+When you initiate your attacks have,
+""Range 1, +1 Speed
+Critical, Hit: Gain Advantage.""
+~
+Cleanup: If you hit, change your weapon.",4,,,,,,,,,,,,,,
+"Amaterasu Exceed
+(Reflector)",Exceed,Amaterasu,1,"When you initate, your attacks have,
+""+1 Speed and Hit: Gain Advantage.""
+~
+Overdrive: Draw 1, you may change your weapon.",,,,,,,,,,,,,,,
+"Amaterasu
+(Glaive)",Character,Amaterasu,1,"When you initiate, your attacks have,
+""Critical, -1 Speed and +2 Power.""
+~
+Cleanup: If you hit, change your weapon.",4,,,,,,,,,,,Does this need an innate that isn't Critical?,,,
+"Amaterasu Exceed
+(Glaive)",Exceed,Amaterasu,1,"When you initate your attacks have,
+""+2 Power and Hit: If your opponent is stunned, gain Advantage.""
+~
+Overdrive: Draw 1, you may change your weapon.",,,,,,,,,,,,,,,
+"Amaterasu
+(Rosary)",Character,Amaterasu,1,"When you initiate your attacks have,
++0-1 Range, -1 Speed""
+""Critical, +1-1 Range.""
+~
+Cleanup: If you hit, change your weapon.",4,,,,,,,,,,,Is this too free?,,,
+"Amaterasu Exceed
+(Rosary)",Exceed,Amaterasu,1,"When you initate your attacks have,
+""+0-2 Range and Hit: Gain Advantage.""
+~
+Overdrive: Draw 1, you may change your weapon.",,,,,,,,,,,,Should this have -1 Power?,,,
+Elemental Brushes,Ultra,Amaterasu,2,"Hit: Gain Advantage
+After: Move up to 2.",3,2~3,6,6, , ,2,String of Beads,Continuous,Force Boost,"+2 Power and +1 Speed
+Now: Strike",Combo-Finisher,,,
+Divine Instruments,Ultra,Amaterasu,2,+3 Speed if your opponent initiated this Strike.,4,1,8,5, , ,0,Golden Ink Pot,Instant,Force Boost,"Draw 3, then Strike.",Metered Reversal,,,
+Head Charge,Special,Amaterasu,2,"Before: Advance 2. If you Advanced past the opponent, their attacks do not hit you.",,1~2,3,5, , ,0,Vine Dash,Continuous,Force Boost,"Now: Close up to 3. You may spend 1 Force to Strike with, ""Before: Advance 2""",Assault with Mid-speed Dodge,,,
+Thunder Edge,Special,Amaterasu,2,"Before: Close 1
+Hit: You may spend 1 Gauge for +2 Power.",,1,3,5, , ,0,Power Slash,Continuous,Force Boost,Ignore Armor. Now: Strike. Hit: Add this boost to your gauge.,Mid-Speed that overpowers Guard,,,
+Glaive Stab,Special,Amaterasu,2,"Hit: Draw 1
+After: If the opponent is stunned, they discard a card at random.",,2~3,4,5, , ,0,Issun's Advice,Instant,Force Boost,"Add the top of your discard pile to Gauge.
+You may change your weapon.",,,,
+Spirit Storm,Special,Amaterasu,2,"Hit: Add the top card of your discard to Gauge.
+After, Range 4+: Close 2.",,2~4,3,5, , ,0,Cherry Bomb,Continuous,Force Boost,"+1 Power.
+Hit: Gain Advantage and add this card to your Gauge.",,,,
+Divine Retribution,Special,Amaterasu,2,"Attacks at Range 4+ don't hit you.
+Hit: If you were hit, Pull up to 2 and +4 Power.",,1,0,1,2,4,1,Golden Fury,Instant,Force Boost,"Your opponent must discard a card at random, then you Strike.",,,,

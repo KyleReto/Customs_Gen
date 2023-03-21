@@ -298,12 +298,14 @@ def generate_card(card):
 
 def format_color_words(text):
     for key in stat_words:
-        text = re.sub('\+([0-9]*) ' + key, '<bold> <' + stat_words[key] + '><@3#000000>' + "+\\1 " + key + '</@></#></bold>', text)
+        text = re.sub('([\+\-])([0-9]*) ' + key, '<bold><' + stat_words[key] + '><@3#000000>' + "\\1\\2 " + key + '</@></#></bold>', text)
     return text
 
 def format_bold_words(text):
     for word in bold_words:
         text = text.replace(word, '<bold>' + word + '</bold>')
+    text = re.sub('([A-Za-z0-9,;\+\'\\s]*)' + ':', '<bold>\\1:</bold>', text)
+    text = re.sub('[\\n\"]' + '([A-Za-z0-9,;\+\'\\s]*)' + ':', '<bold>\\1</bold>', text)
     return text
 
 def capitalize_important_words(text):
@@ -312,83 +314,14 @@ def capitalize_important_words(text):
         text = text.replace(uncapped, word)
     return text
 
+def createNewLines(text):
+    text = text.replace(". ", ".\n")
+    text = text.replace(" \"", "\n\"")
+    return text
 
 def format_common_text(text):
     text = capitalize_important_words(text)
     text = format_bold_words(text)
     text = format_color_words(text)
+    text = createNewLines(text)
     return text
-
-def create_cards(csvPath, templatePath):
-
-    csv_path = csvPath
-    with open(csv_path, encoding='utf-8') as csv_file:
-        csv_reader = csv.reader(csv_file, delimiter=',')
-        line_count = 0
-        special_count = 0
-        ultra_count = 0
-        char_name = "Character"
-
-
-        for row in csv_reader:
-            card = {}
-            config_path = './config.json'
-            f = open(templatePath + '/template_info.json', encoding='utf-8')
-            template_info = json.load(f)
-            f.close()
-            f = open(config_path, encoding='utf-8')
-            config_info = json.load(f)
-            f.close()
-
-            card["card_name"] = row[0]
-            card["card_type"] = row[1]
-            card["owner"] = row[2]
-            card["copies"] = row[3]
-            
-            
-            card["text_box"] = format_common_text(row[4])
-
-            
-            card["secondary_text_box"] = format_common_text(row[15])
-            card["cost"] = row[5]
-            card["secondary_cost"] = row[11]
-            if card["secondary_cost"] == '':
-                card["secondary_cost"] = '0'
-
-            card["secondary_type"] = row[14]
-            card["secondary_subtype"] = row[13]
-            card["range"] = row[6]
-            card["power"] = row[7]
-            card["speed"] = row[8]
-            card["armor"] = row[9].replace(' ', '')
-            card["guard"] = row[10].replace(' ', '')
-            card["secondary_name"] = row[12]
-            
-            card["template_info"] = template_info
-            card["config_info"] = config_info
-            
-            if row[1] == 'Special':
-                special_count = special_count + 1
-                generate_card(card).save('output/' + row[0].replace('\n','') + '.png')
-                print("Generated " + row[0])
-            elif row[1] == 'Ultra':
-                ultra_count = ultra_count + 1
-                generate_card(card).save('output/' + row[0].replace('\n','') + '.png')
-                print("Generated " + row[0])
-            elif row[1] == 'Character':
-                char_name = row[0]
-                generate_card(card).save('output/' + row[0].replace('\n','') + '.png')
-                print("Generated " + row[0])
-            elif row[1] == 'Exceed':
-                card["card_name"] = char_name
-                generate_card(card).save('output/' + char_name.replace('\n','') + '_Exceed.png')
-                print("Generated " + row[0])
-            
-            # End front code
-
-            
-
-
-
-    
-    return 0
