@@ -80,6 +80,8 @@ def create_cards(csvPath, templatePath, outputPath):
             
             card["secondary_text_box"] = format_common_text(row[15])
             card["cost"] = row[5]
+            if card["cost"] == ' ':
+                card["cost"] = ''
             card["secondary_cost"] = row[11]
             if card["secondary_cost"] == '':
                 card["secondary_cost"] = '0'

@@ -18,39 +18,39 @@ stat_words = {
 
 
 # Development code
-template_path = './templates/street_fighter/'
-config_path = './config.json'
-f = open(template_path + 'template_info.json', encoding='utf-8')
-template_info = json.load(f)
-f.close()
-f = open(config_path, encoding='utf-8')
-config_info = json.load(f)
-f.close()
+# template_path = './templates/street_fighter/'
+# config_path = './config.json'
+# f = open(template_path + 'template_info.json', encoding='utf-8')
+# template_info = json.load(f)
+# f.close()
+# f = open(config_path, encoding='utf-8')
+# config_info = json.load(f)
+# f.close()
 
-card = {}
-card['card_name'] = "ULTRA NAME"
-card['card_type'] = "Ultra"
-card['owner'] = 'Character Name'
-card['copies'] = 1
-card['text_box'] = """Exceed Text
-<bold>Bold text:</bold>  -- Normal Text <italic>(Italic Text)</italic>
-<bold><@2#000000><#00abea>+0~1 Range</#></@>, <@2#000000><#00abea>+2-3 Range</#></@>, <@2#000000><#f54137>+1 Power</#></@>,
- <@2#000000><#fff5a5>-1 Speed</#></@>, <@2#000000><#ae96c3>+2 Armor</#></@>, <@2#000000><#39ab55>-4 Guard</#></@></bold>"""
-card['secondary_text_box'] = '''Boost 1 Text
-<bold>Bold text:</bold> Normal Text <italic>(Italic Text)</italic>
-This boost costs 1 Force.'''
-card['cost'] = '1'
-card['secondary_cost'] = '1'
-card['secondary_type'] = 'Force Boost'
-card['secondary_subtype'] = 'Instant'
-card['range'] = '4-5'
-card['power'] = '3'
-card['speed'] = '4'
-card['armor'] = '5'
-card['guard'] = '6'
-card['secondary_name'] = 'ANGER CHARGE'
-card['template_info'] = template_info
-card['config_info'] = config_info
+# card = {}
+# card['card_name'] = "ULTRA NAME"
+# card['card_type'] = "Ultra"
+# card['owner'] = 'Character Name'
+# card['copies'] = 1
+# card['text_box'] = """Exceed Text
+# <bold>Bold text:</bold>  -- Normal Text <italic>(Italic Text)</italic>
+# <bold><@2#000000><#00abea>+0~1 Range</#></@>, <@2#000000><#00abea>+2-3 Range</#></@>, <@2#000000><#f54137>+1 Power</#></@>,
+#  <@2#000000><#fff5a5>-1 Speed</#></@>, <@2#000000><#ae96c3>+2 Armor</#></@>, <@2#000000><#39ab55>-4 Guard</#></@></bold>"""
+# card['secondary_text_box'] = '''Boost 1 Text
+# <bold>Bold text:</bold> Normal Text <italic>(Italic Text)</italic>
+# This boost costs 1 Force.'''
+# card['cost'] = '1'
+# card['secondary_cost'] = '1'
+# card['secondary_type'] = 'Force Boost'
+# card['secondary_subtype'] = 'Instant'
+# card['range'] = '4-5'
+# card['power'] = '3'
+# card['speed'] = '4'
+# card['armor'] = '5'
+# card['guard'] = '6'
+# card['secondary_name'] = 'ANGER CHARGE'
+# card['template_info'] = template_info
+# card['config_info'] = config_info
 # End development code
 
 default_img = {"path":"assets/default_image.png",
@@ -58,7 +58,7 @@ default_img = {"path":"assets/default_image.png",
         "source_offsets":[0,0]}
 default_text = {
         "fonts":["assets/Minion Pro Regular.ttf"],
-        "bounding_box":[0,0]+card['config_info']['image_size_px']
+        "bounding_box":[0,0]#+card['config_info']['image_size_px']
     }
 
 # Open and closes tags as needed using lists to manage their states
@@ -277,6 +277,11 @@ def generate_card(card):
                 show_equal = get_attr_if_present(card_attribute,'show_equal', [])
                 show_not_equal = get_attr_if_present(card_attribute,'show_not_equal', [])
                 is_continue = False
+                if (len(show_if) == 0 and show_if != []):
+                    if show_if == show_not_equal:
+                        is_continue = True
+                    if show_if != show_equal:
+                        is_continue = True   
                 for idx in range(len(show_if)):
                     if idx < len(show_not_equal) and show_if[idx] == show_not_equal[idx]:
                         is_continue = True
