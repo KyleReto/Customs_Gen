@@ -33,6 +33,7 @@ def upload_img(path):
 
 
     im.exchange_pin(pin)
+    ROOT.destroy()
 
     
     uploaded_image = im.upload_image(path, title="Uploaded with PyImgur")
@@ -65,9 +66,13 @@ def upload_images(pathArray, charName):
     # the input dialog
     pin = simpledialog.askstring(title="PIN",
                                     prompt="Enter the PIN string:")
+    
+
 
 
     im.exchange_pin(pin)
+
+    ROOT.destroy()
 
     albumTitle = "Exceed Auto generator, character " + charName + ", Date/Time: " + datetime.datetime.now().strftime("%m/%d/%Y, %H:%M:%S")
     newAlbum = pyimgur.Imgur.create_album(self=im, title=albumTitle)
