@@ -3,6 +3,8 @@ import configparser
 import webbrowser
 import os
 import datetime
+import tkinter as tk
+from tkinter import simpledialog
 
 
 def upload_img(path):
@@ -20,8 +22,16 @@ def upload_img(path):
     im = pyimgur.Imgur(client_id=client_id, client_secret=client_secret)
     auth_url = im.authorization_url('pin')
     webbrowser.open(auth_url)
-    pin = input("What is the pin? ") # Python 3x
-    #pin = raw_input("What is the pin? ") # Python 2x
+
+
+    ROOT = tk.Tk()
+
+    ROOT.withdraw()
+    # the input dialog
+    pin = simpledialog.askstring(title="PIN",
+                                    prompt="Enter the PIN string:")
+
+
     im.exchange_pin(pin)
 
     
@@ -31,8 +41,6 @@ def upload_img(path):
     #print(uploaded_image.size)
     #print(uploaded_image.type)
     return uploaded_image.link
-
-
 
 
 
@@ -51,8 +59,14 @@ def upload_images(pathArray, charName):
     im = pyimgur.Imgur(client_id=client_id, client_secret=client_secret)
     auth_url = im.authorization_url('pin')
     webbrowser.open(auth_url)
-    pin = input("What is the pin? ") # Python 3x
-    #pin = raw_input("What is the pin? ") # Python 2x
+    ROOT = tk.Tk()
+
+    ROOT.withdraw()
+    # the input dialog
+    pin = simpledialog.askstring(title="PIN",
+                                    prompt="Enter the PIN string:")
+
+
     im.exchange_pin(pin)
 
     albumTitle = "Exceed Auto generator, character " + charName + ", Date/Time: " + datetime.datetime.now().strftime("%m/%d/%Y, %H:%M:%S")
@@ -63,5 +77,6 @@ def upload_images(pathArray, charName):
         returnArray.append(uploaded_image.link)
 
     return returnArray
+
 
 
