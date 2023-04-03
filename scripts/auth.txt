@@ -1,0 +1,4 @@
+[credentials]
+client_id=4f975f9d2ef7e8b
+client_secret=0c801761318f6b2ab9992359326ef887d0de462c
+refresh_token=

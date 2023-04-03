@@ -2,6 +2,9 @@ import json
 import csv
 from template_manager import generate_card
 from template_manager import format_common_text
+from PIL import Image, ImageOps
+from imgur_upload import *
+from TTSGenerator import *
 
 
 #Code by Michael Bowling/Alkaroth 
@@ -9,177 +12,32 @@ from template_manager import format_common_text
 #For now, this script is also in charge of generating the TTS Json.
 
 
-deckNum = 1
-
-# Each custom deck holds a grid image of custom cards
-# Since we are using individual images, we need a custom deck
-# for each card generated. This is only a reference; we will still
-# end with just a single deck object
-def tts_add_custom_deck(ttsData, imgPath, backPath = "https://i.imgur.com/igYZhPh.png"):
-    # each custom deck requires its own ID
-    global deckNum
-    deckNum = deckNum + 1
-
-    customDeck = {
-          "FaceURL": imgPath,
-          "BackURL": backPath,
-          "NumWidth": 1,
-          "NumHeight": 1,
-          "BackIsHidden": True,
-          "UniqueBack": False,
-          "Type": 0
-        }
-
-    ttsData["ObjectStates"][0]["CustomDeck"][deckNum] = customDeck
-    return deckNum
 
 
-
-def tts_add_deckID(ttsData, deckNum):
-    #For reference on why we multiply by 100, read this article
-    #https://clementespeute.com/blog/tabletop-simulator-deck-format/
-    ttsData["ObjectStates"][0]["DeckIDs"].append(deckNum*100)
-
-def tts_add_contained_card(ttsData, deckNum, charName, card):
-    #Note: I am not sure what many of these do. Some of these values
-    # are discarded since card is used in deck as well
-    contained_card = {
-          "Name": "CardCustom",
-          "Transform": {
-            "posX": 0,
-            "posY": 0,
-            "posZ": 0,
-            "rotX": 0,
-            "rotY": 0,
-            "rotZ": 0,
-            "scaleX": 1.25,
-            "scaleY": 1.0,
-            "scaleZ": 1.25
-          },
-          "Nickname": "Block (N)",
-          "Description": charName,
-          "GMNotes": "",
-          "Memo": "15",
-          "ColorDiffuse": {
-            "r": 0.58431375,
-            "g": 0.0,
-            "b": 0.7019608
-          },
-          "LayoutGroupSortIndex": 0,
-          "Value": 0,
-          "Locked": False,
-          "Grid": True,
-          "Snap": True,
-          "IgnoreFoW": False,
-          "MeasureMovement": False,
-          "DragSelectable": True,
-          "Autoraise": True,
-          "Sticky": True,
-          "Tooltip": False,
-          "GridProjection": False,
-          "HideWhenFaceDown": True,
-          "Hands": True,
-          "CardID": 107,
-          "SidewaysCard": False,
-          "CustomDeck": {
-          },
-          "LuaScript": "",
-          "LuaScriptState": "",
-          "XmlUI": ""
-        }
-    nickname = card["card_name"]
-    if card["card_type"] == "Special":
-        nickname += " (S)"
-    elif card["card_type"] == "Ultra":
-        nickname += " (U)"
-    contained_card["Nickname"] = nickname
+def concat_images(image_paths, size, shape=None):
+    # Open images and resize them
+    width, height = size
+    images = map(Image.open, image_paths)
+    images = [ImageOps.fit(image, size, Image.ANTIALIAS) 
+              for image in images]
     
-    customDeck = ttsData["ObjectStates"][0]["CustomDeck"][deckNum]
-    contained_card["CustomDeck"][deckNum] = customDeck
-    ttsData["ObjectStates"][0]["ContainedObjects"].append(contained_card)
-
-def tts_add_contained_character(ttsData, deckNum, charName):
-    #Note: I am not sure what many of these do. Some of these values
-    # are discarded since card is used in deck as well
-    contained_card = {
-          "Name": "CardCustom",
-          "Transform": {
-            "posX": 0,
-            "posY": 0,
-            "posZ": 0,
-            "rotX": 0,
-            "rotY": 0,
-            "rotZ": 0,
-            "scaleX": 1.25,
-            "scaleY": 1.0,
-            "scaleZ": 1.25
-          },
-          "Nickname": "Block (N)",
-          "Description": charName,
-          "GMNotes": "",
-          "Memo": "15",
-          "ColorDiffuse": {
-            "r": 0.58431375,
-            "g": 0.0,
-            "b": 0.7019608
-          },
-          "LayoutGroupSortIndex": 0,
-          "Value": 0,
-          "Locked": False,
-          "Grid": True,
-          "Snap": True,
-          "IgnoreFoW": False,
-          "MeasureMovement": False,
-          "DragSelectable": True,
-          "Autoraise": True,
-          "Sticky": True,
-          "Tooltip": False,
-          "GridProjection": False,
-          "HideWhenFaceDown": True,
-          "Hands": True,
-          "CardID": 107,
-          "SidewaysCard": False,
-          "CustomDeck": {
-          },
-          "LuaScript": "",
-          "LuaScriptState": "",
-          "XmlUI": ""
-        }
-    nickname = charName + " (C)"
-    contained_card["Nickname"] = nickname
+    # Create canvas for the final image with total size
+    shape = shape if shape else (1, len(images))
+    image_size = (width * shape[1], height * shape[0])
+    image = Image.new('RGB', image_size)
     
-    customDeck = ttsData["ObjectStates"][0]["CustomDeck"][deckNum]
-    contained_card["CustomDeck"][deckNum] = customDeck
-    ttsData["ObjectStates"][0]["ContainedObjects"].append(contained_card)
-
-def add_strike_to_tts(ttsData, charName, card, imgPath):
-
-    #Add Custom Decks
-    deckID = tts_add_custom_deck(ttsData, imgPath)
+    # Paste images into final image
+    for row in range(shape[0]):
+        for col in range(shape[1]):
+            offset = width * col, height * row
+            idx = row * shape[1] + col
+            try:
+                image.paste(images[idx], offset)
+            except:
+                pass
     
-    for i in range(int(card["copies"])):
-        #Add DeckID
-        tts_add_deckID(ttsData, deckID)
+    return image
 
-        #Add Contained Objects
-        tts_add_contained_card(ttsData, deckID, charName, card)
-
-
-    return 0
-
-
-def tts_add_character(ttsData, charName, charImgPath, exceedImgPath):
-    deckID = tts_add_custom_deck(ttsData, charImgPath, exceedImgPath)
-    tts_add_deckID(ttsData, deckID)
-    tts_add_contained_character(ttsData, deckID, charName)
-
-def generate_tts_json(ttsData, charName, outputPath):
-    jsonSavePath = outputPath + '/' + charName + 'Deck.json'
-    #Apparently we need to check for new line characters here
-    jsonSavePath = jsonSavePath.replace("\n", " ")
-    jsonFile = open(jsonSavePath, "w+")
-    jsonFile.write(json.dumps(ttsData))
-    jsonFile.close()
 
 def create_cards(csvPath, templatePath, outputPath):
 
@@ -192,6 +50,9 @@ def create_cards(csvPath, templatePath, outputPath):
     charImgPath = ""
     exceedImgPath = ""
     csv_path = csvPath
+    StrikeImages = []
+    local = False
+    cardList = []
     with open(csv_path) as csv_file:
         csv_reader = csv.reader(csv_file, delimiter=',')
 
@@ -251,14 +112,21 @@ def create_cards(csvPath, templatePath, outputPath):
             if row[1] == 'Special' or row[1] == 'Ultra':
                 tmp_idx += 1
                 generate_card(card).save(savePath)
-                add_strike_to_tts(ttsData, char_name, card, savePath)
+                StrikeImages.append(savePath)
+
+                if (local):
+                    AddStrikeToLocalTts(ttsData, char_name, card, savePath)
+                cardList.append(card)
                 print("Generated " + row[0])
+
 
             elif row[1] == 'Character':
                 char_name = row[0]
                 generate_card(card).save(savePath)
                 charImgPath = savePath
                 print("Generated " + row[0])
+
+
             elif row[1] == 'Exceed':
                 card["card_name"] = char_name
                 savePath = outputPath + '/' + char_name + '_Exceed.png'
@@ -269,9 +137,23 @@ def create_cards(csvPath, templatePath, outputPath):
                 print("Generated " + row[0])
             
 
+    
+    if (local):
+        TtsAddCharacterLocal(ttsData, char_name, charImgPath, exceedImgPath)
+        generate_tts_json(ttsData, char_name, outputPath) 
+    else: #We are uploading to Imgur and using the link for the TTS
+        gridCards = concat_images(StrikeImages, (750, 1024), (2,4))
+        gridSavePath = outputPath + '/' + char_name + 'Grid.jpg'
+        gridCards.save(gridSavePath, 'JPEG')
 
-            # End front code
-    tts_add_character(ttsData, char_name, charImgPath, exceedImgPath)
-    generate_tts_json(ttsData, char_name, outputPath) 
+        ImagesToUpload = [gridSavePath, charImgPath, exceedImgPath]
+        UploadedLinks = upload_images(ImagesToUpload, char_name)
+
+        decklink = UploadedLinks[0]
+        charLink = UploadedLinks[1]
+        exceedLink = UploadedLinks[2]
+
+        TtsSyncToUpload(ttsData, char_name, decklink, cardList, charLink, exceedLink)
+        generate_tts_json(ttsData, char_name, outputPath) 
    
     return 0
