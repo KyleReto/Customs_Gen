@@ -130,76 +130,112 @@ def generate_all_cards():
     #    print(err)
     #    window.update_idletasks()
 
+column1Horz = 100
+column2Horz = 400
+column1height = 35
+buttonbuffer = 40
+labelbuffer = 25
+column2height = 35
+generatebuffer = 200
+labelWidth = 45
 
-currentCSVPath = Label(window, textvariable=csvPath)
-currentCSVPath.pack()
+currentCSVPath = Label(window, textvariable=csvPath, width=labelWidth, anchor="sw")
+currentCSVPath.place(x=column1Horz, y=column1height)
 
-window.minsize(width=400, height=400)
+column1height = column1height + labelbuffer
+
+window.minsize(width=800, height=500)
 csvButton = Button(text = "Select csv", command=openCSVFile)
-csvButton.pack()
+csvButton.place(x=column1Horz, y=column1height)
 
+column1height = column1height + buttonbuffer
 
-currentCharImgPath = Label(window, textvariable=charImgPath)
-currentCharImgPath.pack()
+currentCharImgPath = Label(window, textvariable=charImgPath, width=labelWidth, anchor="sw")
+currentCharImgPath.place(x=column1Horz, y=column1height)
+
+column1height = column1height + labelbuffer
 
 charImgButton = Button(text = "Select character image", command=lambda: (setCharImage(charImgPath, "character_image")))
-charImgButton.pack()
+charImgButton.place(x=column1Horz, y=column1height)
 
+column1height = column1height + buttonbuffer
 
-currentexceedImgPath = Label(window, textvariable=exceedImgPath)
-currentexceedImgPath.pack()
+currentexceedImgPath = Label(window, textvariable=exceedImgPath, width=labelWidth, anchor="sw")
+currentexceedImgPath.place(x=column1Horz, y=column1height)
+
+column1height = column1height + labelbuffer
 
 
 exceedImgButton = Button(text = "Select exceed image", command=lambda: (setCharImage(exceedImgPath, "exceed_image")))
-exceedImgButton.pack()
+exceedImgButton.place(x=column1Horz, y=column1height)
 
-currentlogoImgPath = Label(window, textvariable=logoImgPath)
-currentlogoImgPath.pack()
+column1height = column1height + buttonbuffer
+
+currentlogoImgPath = Label(window, textvariable=logoImgPath, width=labelWidth, anchor="sw")
+currentlogoImgPath.place(x=column1Horz, y=column1height)
+
+column1height = column1height + labelbuffer
 
 
 logoImgButton = Button(text = "Select logo image", command=lambda: (setCharImage(logoImgPath, "character_logo")))
-logoImgButton.pack()
+logoImgButton.place(x=column1Horz, y=column1height)
 
+column1height = column1height + buttonbuffer
 
-currentAttackImgPath = Label(window, textvariable=attackImgPath)
-currentAttackImgPath.pack()
+currentAttackImgPath = Label(window, textvariable=attackImgPath, width=labelWidth, anchor="sw")
+currentAttackImgPath.place(x=column2Horz, y=column2height)
+
+column2height = column2height + labelbuffer
 
 options=("Strike 1", "Strike 2", "Strike 3", "Strike 4", "Strike 5", "Strike 6", "Strike 7", "Strike 8", "Strike 9", "Strike 10")
 cb=Combobox(window, values=options)
-cb.pack()
+cb.place(x=column2Horz, y=column2height)
 
+column2height = column2height + buttonbuffer
 
 attackImgButton = Button(text = "Set Selected Attack Image", command=lambda: (setImgForStrike(options.index(cb.get()))))
-attackImgButton.pack()
+attackImgButton.place(x=column2Horz, y=column2height)
+
+column2height = column2height + buttonbuffer
 
 fetchAttackImgButton = Button(text = "Fetch Selected Attack Image", command=lambda: (fetchImgUsed(options.index(cb.get()))))
-fetchAttackImgButton.pack()
+fetchAttackImgButton.place(x=column2Horz, y=column2height)
+
+column2height = column2height + buttonbuffer
 
 setAllAttackImgButton = Button(text = "Select an Image to use for all attacks", command=lambda: (setImgForAllStrikes()))
-setAllAttackImgButton.pack()
+setAllAttackImgButton.place(x=column2Horz, y=column2height)
 
+column2height = column2height + generatebuffer
 
+currentTemplatePath = Label(window, textvariable=templatePath, width=labelWidth, anchor="sw")
+currentTemplatePath.place(x=column1Horz, y=column1height)
 
-currentTemplatePath = Label(window, textvariable=templatePath)
-currentTemplatePath.pack()
+column1height = column1height + labelbuffer
 
 templateButton = Button(text = "Select template folder", command=openTemplateFolder)
-templateButton.pack()
+templateButton.place(x=column1Horz, y=column1height)
 
-currentOutputPath = Label(window, textvariable=outputPath)
-currentOutputPath.pack()
+column1height = column1height + buttonbuffer
+
+currentOutputPath = Label(window, textvariable=outputPath, width=labelWidth, anchor="sw")
+currentOutputPath.place(x=column1Horz, y=column1height)
+
+column1height = column1height + labelbuffer
 
 outputButton = Button(text = "Change output folder", command=openOutputFolder)
-outputButton.pack()
+outputButton.place(x=column1Horz, y=column1height)
 
 
 
 
-Loading = Label(window, textvariable=progress)
-Loading.pack()
+Loading = Label(window, textvariable=progress, width=labelWidth, anchor="sw")
+Loading.place(x=column2Horz, y=column2height)
+
+column2height = column2height + labelbuffer
 
 generate = Button(text = "Generate Images", command=generate_all_cards)
-generate.pack()
+generate.place(x=column2Horz, y=column2height)
 
 
 
