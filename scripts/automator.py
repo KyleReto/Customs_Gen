@@ -5,6 +5,9 @@ from template_manager import format_common_text
 from PIL import Image, ImageOps
 from imgur_upload import *
 from TTSGenerator import *
+import tkinter as tk
+from tkinter import Canvas, PhotoImage, Label
+from PIL import Image, ImageTk
 
 
 #Code by Michael Bowling/Alkaroth 
@@ -51,7 +54,14 @@ def create_cards(csvPath, templatePath, outputPath):
     exceedImgPath = ""
     csv_path = csvPath
     StrikeImages = []
-    local = False
+
+
+
+    local = True
+    test = False
+
+
+
     cardList = []
     with open(csv_path) as csv_file:
         csv_reader = csv.reader(csv_file, delimiter=',')
@@ -138,9 +148,21 @@ def create_cards(csvPath, templatePath, outputPath):
                 exceedImgPath = savePath
                 print("Generated " + row[0])
             
-
     
-    if (local):
+    
+    if (test):
+        grid = concat_images(StrikeImages, (750, 1024), (2,4))
+        img= grid.resize((1500,1024), Image.ANTIALIAS)
+        pic = ImageTk.PhotoImage(img)
+        
+        root = tk.Toplevel()
+        root.geometry("1500x1024")
+        root.title("Image on backGround")
+        root.resizable(True, True)
+        display = Label(root, image=pic)
+        display.pack()
+        root.mainloop()
+    elif(local):
         TtsAddCharacterLocal(ttsData, char_name, charImgPath, exceedImgPath)
         generate_tts_json(ttsData, char_name, outputPath) 
     else: #We are uploading to Imgur and using the link for the TTS

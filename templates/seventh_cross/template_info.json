@@ -29,11 +29,10 @@
                 "content":"{card,cost}",
                 "show_if":"{card,cost}",
                 "show_not_equal":"",
-                "fonts":["templates/street_fighter/fonts/WCManoNegraBoldBta.otf"],
+                "fonts":["templates/seventh_cross/fonts/MKX Title.ttf"],
                 "bounding_box":[660,830,710,910],
                 "default_font_size":64,
-                "default_line_height":64,
-                "outline":[3,"#FFFFFF"]
+                "default_line_height":64
             },
             "character_effect":{
                 "type":"text",
@@ -44,10 +43,10 @@
                         "dest_offsets":[-5,0]
                     }
                 },
-                "fonts":["templates/street_fighter/fonts/FiraSansExtraCondensed-Regular.ttf",
-                "templates/street_fighter/fonts/FiraSansExtraCondensed-Bold.ttf",
-                "templates/street_fighter/fonts/FiraSansExtraCondensed-Italic.ttf",
-                "templates/street_fighter/fonts/FiraSansExtraCondensed-BoldItalic.ttf"],
+                "fonts":["templates/seventh_cross/fonts/AlegreyaSans-Bold.otf",
+                "templates/seventh_cross/fonts/AlegreyaSans-Black.otf",
+                "templates/seventh_cross/fonts/AlegreyaSans-Italic.otf",
+                "templates/seventh_cross/fonts/AlegreyaSans-BoldItalic.otf"],
                 "bounding_box":[100,750,650,970],
                 "default_font_size":33,
                 "default_line_height":40
@@ -55,17 +54,16 @@
             "character_name":{
                 "type":"text",
                 "content":"{card,card_name}",
-                "fonts":["templates/street_fighter/fonts/WCManoNegraBoldBta.otf"],
-                "bounding_box":[20,660,400,751],
-                "default_font_size":88,
-                "default_line_height":88,
-                "align": "left",
-                "outline":[5,"#FFFFFF"]
+                "fonts":["templates/seventh_cross/fonts/SHAXIZOR.TTF"],
+                "bounding_box":[310,712,410,805],
+                "default_font_size":54,
+                "default_line_height":54,
+                "text_color":"#000000"
             },
             "watermark":{
                 "type":"text",
                 "content":"FAN CARD NOT OFFICIAL. Exceed © Level 99 Games. Template by {template,creator}. Card by {config,creator}'. All assets copyright their respective owners.",
-                "fonts":["templates/street_fighter/fonts/FiraSansExtraCondensed-Bold.ttf"],
+                "fonts":["templates/seventh_cross/fonts/AlegreyaSans-Black.otf"],
                 "bounding_box":[0,1000,750,1024],
                 "default_font_size":14,
                 "default_line_height":14,
@@ -100,11 +98,10 @@
                 "content":"{card,cost}",
                 "show_if":"{card,cost}",
                 "show_not_equal":"",
-                "fonts":["templates/street_fighter/fonts/WCManoNegraBoldBta.otf"],
+                "fonts":["templates/seventh_cross/fonts/MKX Title.ttf"],
                 "bounding_box":[660,830,710,910],
                 "default_font_size":64,
-                "default_line_height":64,
-                "outline":[3,"#FFFFFF"]
+                "default_line_height":64
             },
             "character_effect":{
                 "type":"text",
@@ -115,10 +112,10 @@
                         "dest_offsets":[-5,0]
                     }
                 },
-                "fonts":["templates/street_fighter/fonts/FiraSansExtraCondensed-Regular.ttf",
-                "templates/street_fighter/fonts/FiraSansExtraCondensed-Bold.ttf",
-                "templates/street_fighter/fonts/FiraSansExtraCondensed-Italic.ttf",
-                "templates/street_fighter/fonts/FiraSansExtraCondensed-BoldItalic.ttf"],
+                "fonts":["templates/seventh_cross/fonts/AlegreyaSans-Bold.otf",
+                "templates/seventh_cross/fonts/AlegreyaSans-Black.otf",
+                "templates/seventh_cross/fonts/AlegreyaSans-Italic.otf",
+                "templates/seventh_cross/fonts/AlegreyaSans-BoldItalic.otf"],
                 "bounding_box":[100,750,650,970],
                 "default_font_size":33,
                 "default_line_height":40,
@@ -127,18 +124,16 @@
             "character_name":{
                 "type":"text",
                 "content":"{card,card_name}",
-                "fonts":["templates/street_fighter/fonts/WCManoNegraBoldBta.otf"],
-                "bounding_box":[20,660,400,751],
-                "default_font_size":88,
-                "default_line_height":88,
-                "text_color":"#FFFFFF",
-                "align": "left",
-                "outline":[5,"#000000"]
+                "fonts":["templates/seventh_cross/fonts/SHAXIZOR.TTF"],
+                "bounding_box":[310,712,410,805],
+                "default_font_size":54,
+                "default_line_height":54,
+                "text_color":"#000000"
             },
             "watermark":{
                 "type":"text",
                 "content":"FAN CARD NOT OFFICIAL. Exceed © Level 99 Games. Template by {template,creator}. Card by {config,creator}'. All assets copyright their respective owners.",
-                "fonts":["templates/street_fighter/fonts/FiraSansExtraCondensed-Bold.ttf"],
+                "fonts":["templates/seventh_cross/fonts/AlegreyaSans-Black.otf"],
                 "bounding_box":[0,1000,750,1024],
                 "default_font_size":13,
                 "default_line_height":14,
@@ -179,10 +174,9 @@
                 "show_if":["{card,secondary_cost}"],
                 "show_not_equal":[""],
                 "content":"{card,secondary_cost}",
-                "fonts":["templates/street_fighter/fonts/WCManoNegraBoldBta.otf"],
-                "bounding_box":[5,870,125,975],
-                "default_font_size":68,
-                "outline":[3,"#FFFFFF"]
+                "fonts":["templates/seventh_cross/fonts/MKX Title.ttf"],
+                "bounding_box":[5,885,125,990],
+                "default_font_size":68
             },
             "transformation_symbol":{
                 "type":"image",
@@ -205,11 +199,11 @@
                         "dest_offsets":[-5,0]
                     }
                 },
-                "fonts":["templates/street_fighter/fonts/FiraSansExtraCondensed-Regular.ttf",
-                "templates/street_fighter/fonts/FiraSansExtraCondensed-Bold.ttf",
-                "templates/street_fighter/fonts/FiraSansExtraCondensed-Italic.ttf",
-                "templates/street_fighter/fonts/FiraSansExtraCondensed-BoldItalic.ttf"],
-                "bounding_box":[50,615,700,790],
+                "fonts":["templates/seventh_cross/fonts/AlegreyaSans-Bold.otf",
+                "templates/seventh_cross/fonts/AlegreyaSans-Black.otf",
+                "templates/seventh_cross/fonts/AlegreyaSans-Italic.otf",
+                "templates/seventh_cross/fonts/AlegreyaSans-BoldItalic.otf"],
+                "bounding_box":[100,665,650,780],
                 "default_font_size":33,
                 "default_line_height":40
             },
@@ -222,63 +216,61 @@
                         "dest_offsets":[-5,0]
                     }
                 },
-                "fonts":["templates/street_fighter/fonts/FiraSansExtraCondensed-Regular.ttf",
-                "templates/street_fighter/fonts/FiraSansExtraCondensed-Bold.ttf",
-                "templates/street_fighter/fonts/FiraSansExtraCondensed-Italic.ttf",
-                "templates/street_fighter/fonts/FiraSansExtraCondensed-BoldItalic.ttf"],
-                "bounding_box":[100,850,700,1000],
+                "fonts":["templates/seventh_cross/fonts/AlegreyaSans-Bold.otf",
+                "templates/seventh_cross/fonts/AlegreyaSans-Black.otf",
+                "templates/seventh_cross/fonts/AlegreyaSans-Italic.otf",
+                "templates/seventh_cross/fonts/AlegreyaSans-BoldItalic.otf"],
+                "bounding_box":[150,850,650,1000],
                 "default_font_size":33,
                 "default_line_height":40
             },
             "card_name":{
                 "type":"text",
                 "content":"{card,card_name}",
-                "fonts":["templates/street_fighter/fonts/WCManoNegraBoldBta.otf"],
-                "bounding_box":[95,10,630,90],
-                "default_font_size":64,
-                "default_line_height":64,
-                "text_color":"#FFFFFF",
+                "fonts":["templates/seventh_cross/fonts/SHAXIZOR.TTF"],
+                "bounding_box":[95,15,630,95],
+                "default_font_size":56,
+                "default_line_height":56,
+                "text_color":"#000000",
                 "align": "left"
             },
             "secondary_title":{
                 "type":"text",
                 "content":"{card,secondary_name}",
-                "fonts":["templates/street_fighter/fonts/WCManoNegraBoldBta.otf"],
-                "bounding_box":[110,805,750,850],
-                "default_font_size":50,
+                "fonts":["templates/seventh_cross/fonts/SHAXIZOR.TTF"],
+                "bounding_box":[110,825,750,870],
+                "default_font_size":28,
                 "default_line_height":50,
                 "align": "left",
-                "outline":[2,"#FFFFFF"]
+                "text_color":"#FFFFFF",
+                "outline":[2,"#000000"]
             },
             "range":{
                 "type":"text",
                 "content":"{card,range}",
-                "fonts":["templates/street_fighter/fonts/WCManoNegraBoldBta.otf"],
-                "bounding_box":[35,90,230,200],
-                "default_font_size":76,
-                "default_line_height":76,
-                "text_color":"#FFFFFF",
-                "outline":[5,"#263c85"]
+                "fonts":["templates/seventh_cross/fonts/MKX Title.ttf"],
+                "bounding_box":[25,100,220,210],
+                "default_font_size":72,
+                "default_line_height":72,
+                "text_color":"#000000"
             },
             "power":{
                 "type":"text",
                 "content":"{card,power}",
-                "fonts":["templates/street_fighter/fonts/WCManoNegraBoldBta.otf"],
-                "bounding_box":[42,180,155,315],
-                "default_font_size":76,
-                "default_line_height":76,
-                "text_color":"#FFFFFF",
-                "outline":[5,"#721714"]
+                "fonts":["templates/seventh_cross/fonts/MKX Title.ttf"],
+                "bounding_box":[57,195,170,330],
+                "default_font_size":72,
+                "default_line_height":72,
+                "text_color":"#000000"
             },
             "speed":{
                 "type":"text",
                 "content":"{card,speed}",
-                "fonts":["templates/street_fighter/fonts/WCManoNegraBoldBta.otf"],
-                "bounding_box":[35,290,140,395],
-                "default_font_size":76,
-                "default_line_height":76,
-                "text_color":"#FFFFFF",
-                "outline":[5,"#7f6c27"]
+                "fonts":["templates/seventh_cross/fonts/MKX Title.ttf"],
+                "bounding_box":[55,320,160,425],
+                "default_font_size":72,
+                "default_line_height":72,
+                "text_color":"#000000"
             },
             "force_special_symbol":{
                 "type":"image",
@@ -292,10 +284,9 @@
                 "show_if":["{card,cost}"],
                 "show_not_equal":[""],
                 "content":"{card,cost}",
-                "fonts":["templates/street_fighter/fonts/WCManoNegraBoldBta.otf"],
-                "bounding_box":[5,37,90,110],
-                "default_font_size":64,
-                "outline":[3,"#FFFFFF"]
+                "fonts":["templates/seventh_cross/fonts/MKX Title.ttf"],
+                "bounding_box":[0,37,80,110],
+                "default_font_size":68
             },
             "guard_stat_background":{
                 "type":"image",
@@ -314,29 +305,27 @@
                 "show_if":["{card,armor}"],
                 "show_not_equal":[""],
                 "content":"{card,armor}",
-                "fonts":["templates/street_fighter/fonts/WCManoNegraBoldBta.otf"],
-                "bounding_box":[17,400,160,500],
-                "default_font_size":76,
-                "default_line_height":76,
-                "text_color":"#FFFFFF",
-                "outline":[5,"#7a3b82"]
+                "fonts":["templates/seventh_cross/fonts/MKX Title.ttf"],
+                "bounding_box":[25,430,165,530],
+                "default_font_size":72,
+                "default_line_height":72,
+                "text_color":"#000000"
             },
             "guard":{
                 "type":"text",
                 "show_if":["{card,guard}"],
                 "show_not_equal":[""],
                 "content":"{card,guard}",
-                "fonts":["templates/street_fighter/fonts/WCManoNegraBoldBta.otf"],
-                "bounding_box":[27,480,190,585],
-                "default_font_size":76,
-                "default_line_height":76,
-                "text_color":"#FFFFFF",
-                "outline":[5,"#3e7c3b"]
+                "fonts":["templates/seventh_cross/fonts/MKX Title.ttf"],
+                "bounding_box":[25,535,165,635],
+                "default_font_size":72,
+                "default_line_height":72,
+                "text_color":"#000000"
             },
             "watermark":{
                 "type":"text",
                 "content":"FAN CARD NOT OFFICIAL. Exceed © Level 99 Games. Template by {template,creator}. Card by {config,creator}'. All assets copyright their respective owners.",
-                "fonts":["templates/street_fighter/fonts/FiraSansExtraCondensed-Bold.ttf"],
+                "fonts":["templates/seventh_cross/fonts/AlegreyaSans-Black.otf"],
                 "bounding_box":[0,1000,750,1024],
                 "default_font_size":13,
                 "default_line_height":14,
@@ -377,10 +366,9 @@
                 "show_if":["{card,secondary_cost}"],
                 "show_not_equal":[""],
                 "content":"{card,secondary_cost}",
-                "fonts":["templates/street_fighter/fonts/WCManoNegraBoldBta.otf"],
-                "bounding_box":[5,870,125,975],
-                "default_font_size":68,
-                "outline":[3,"#FFFFFF"]
+                "fonts":["templates/seventh_cross/fonts/MKX Title.ttf"],
+                "bounding_box":[5,885,125,990],
+                "default_font_size":68
             },
             "transformation_symbol":{
                 "type":"image",
@@ -403,11 +391,11 @@
                         "dest_offsets":[-5,0]
                     }
                 },
-                "fonts":["templates/street_fighter/fonts/FiraSansExtraCondensed-Regular.ttf",
-                "templates/street_fighter/fonts/FiraSansExtraCondensed-Bold.ttf",
-                "templates/street_fighter/fonts/FiraSansExtraCondensed-Italic.ttf",
-                "templates/street_fighter/fonts/FiraSansExtraCondensed-BoldItalic.ttf"],
-                "bounding_box":[50,615,700,790],
+                "fonts":["templates/seventh_cross/fonts/AlegreyaSans-Bold.otf",
+                "templates/seventh_cross/fonts/AlegreyaSans-Black.otf",
+                "templates/seventh_cross/fonts/AlegreyaSans-Italic.otf",
+                "templates/seventh_cross/fonts/AlegreyaSans-BoldItalic.otf"],
+                "bounding_box":[100,665,650,780],
                 "default_font_size":33,
                 "default_line_height":40
             },
@@ -420,80 +408,70 @@
                         "dest_offsets":[-5,0]
                     }
                 },
-                "fonts":["templates/street_fighter/fonts/FiraSansExtraCondensed-Regular.ttf",
-                "templates/street_fighter/fonts/FiraSansExtraCondensed-Bold.ttf",
-                "templates/street_fighter/fonts/FiraSansExtraCondensed-Italic.ttf",
-                "templates/street_fighter/fonts/FiraSansExtraCondensed-BoldItalic.ttf"],
-                "bounding_box":[100,850,700,1000],
+                "fonts":["templates/seventh_cross/fonts/AlegreyaSans-Bold.otf",
+                "templates/seventh_cross/fonts/AlegreyaSans-Black.otf",
+                "templates/seventh_cross/fonts/AlegreyaSans-Italic.otf",
+                "templates/seventh_cross/fonts/AlegreyaSans-BoldItalic.otf"],
+                "bounding_box":[150,850,650,1000],
                 "default_font_size":33,
                 "default_line_height":40
             },
             "card_name":{
                 "type":"text",
                 "content":"{card,card_name}",
-                "fonts":["templates/street_fighter/fonts/WCManoNegraBoldBta.otf"],
-                "bounding_box":[95,10,630,90],
-                "default_font_size":64,
-                "default_line_height":64,
-                "text_color":"#FFFFFF",
+                "fonts":["templates/seventh_cross/fonts/SHAXIZOR.TTF"],
+                "bounding_box":[95,15,630,95],
+                "default_font_size":56,
+                "default_line_height":56,
+                "text_color":"#000000",
                 "align": "left"
             },
             "secondary_title":{
                 "type":"text",
                 "content":"{card,secondary_name}",
-                "fonts":["templates/street_fighter/fonts/WCManoNegraBoldBta.otf"],
-                "bounding_box":[110,805,750,850],
-                "default_font_size":50,
+                "fonts":["templates/seventh_cross/fonts/SHAXIZOR.TTF"],
+                "bounding_box":[110,825,750,870],
+                "default_font_size":28,
                 "default_line_height":50,
                 "align": "left",
-                "outline":[2,"#FFFFFF"]
+                "text_color":"#FFFFFF",
+                "outline":[2,"#000000"]
             },
             "range":{
                 "type":"text",
                 "content":"{card,range}",
-                "fonts":["templates/street_fighter/fonts/WCManoNegraBoldBta.otf"],
-                "bounding_box":[35,90,230,200],
-                "default_font_size":76,
-                "default_line_height":76,
-                "text_color":"#FFFFFF",
-                "outline":[5,"#263c85"]
+                "fonts":["templates/seventh_cross/fonts/MKX Title.ttf"],
+                "bounding_box":[25,100,220,210],
+                "default_font_size":72,
+                "default_line_height":72,
+                "text_color":"#000000"
             },
             "power":{
                 "type":"text",
                 "content":"{card,power}",
-                "fonts":["templates/street_fighter/fonts/WCManoNegraBoldBta.otf"],
-                "bounding_box":[42,180,155,315],
-                "default_font_size":76,
-                "default_line_height":76,
-                "text_color":"#FFFFFF",
-                "outline":[5,"#721714"]
+                "fonts":["templates/seventh_cross/fonts/MKX Title.ttf"],
+                "bounding_box":[57,195,170,330],
+                "default_font_size":72,
+                "default_line_height":72,
+                "text_color":"#000000"
             },
             "speed":{
                 "type":"text",
                 "content":"{card,speed}",
-                "fonts":["templates/street_fighter/fonts/WCManoNegraBoldBta.otf"],
-                "bounding_box":[35,290,140,395],
-                "default_font_size":76,
-                "default_line_height":76,
-                "text_color":"#FFFFFF",
-                "outline":[5,"#7f6c27"]
-            },
-            "gauge_symbol":{
-                "type":"image",
-                "show_if":["{card,cost}"],
-                "show_not_equal":[""],
-                "path":"templates/seventh_cross/images/ultra_gauge_symbol.png",
-                "dest_offsets":[0,-10]
+                "fonts":["templates/seventh_cross/fonts/MKX Title.ttf"],
+                "bounding_box":[55,320,160,425],
+                "default_font_size":72,
+                "default_line_height":72,
+                "text_color":"#000000"
             },
             "ultra_cost":{
                 "type":"text",
                 "show_if":["{card,cost}"],
                 "show_not_equal":[""],
                 "content":"{card,cost}",
-                "fonts":["templates/street_fighter/fonts/WCManoNegraBoldBta.otf"],
-                "bounding_box":[28,15,90,105],
-                "default_font_size":64,
-                "outline":[3,"#FFFFFF"]
+                "fonts":["templates/seventh_cross/fonts/MKX Title.ttf"],
+                "bounding_box":[5,20,75,110],
+                "default_font_size":68
             },
             "guard_stat_background":{
                 "type":"image",
@@ -512,29 +490,27 @@
                 "show_if":["{card,armor}"],
                 "show_not_equal":[""],
                 "content":"{card,armor}",
-                "fonts":["templates/street_fighter/fonts/WCManoNegraBoldBta.otf"],
-                "bounding_box":[17,400,160,500],
-                "default_font_size":76,
-                "default_line_height":76,
-                "text_color":"#FFFFFF",
-                "outline":[5,"#7a3b82"]
+                "fonts":["templates/seventh_cross/fonts/MKX Title.ttf"],
+                "bounding_box":[25,430,165,530],
+                "default_font_size":72,
+                "default_line_height":72,
+                "text_color":"#000000"
             },
             "guard":{
                 "type":"text",
                 "show_if":["{card,guard}"],
                 "show_not_equal":[""],
                 "content":"{card,guard}",
-                "fonts":["templates/street_fighter/fonts/WCManoNegraBoldBta.otf"],
-                "bounding_box":[27,480,190,585],
-                "default_font_size":76,
-                "default_line_height":76,
-                "text_color":"#FFFFFF",
-                "outline":[5,"#3e7c3b"]
+                "fonts":["templates/seventh_cross/fonts/MKX Title.ttf"],
+                "bounding_box":[25,535,165,635],
+                "default_font_size":72,
+                "default_line_height":72,
+                "text_color":"#000000"
             },
             "watermark":{
                 "type":"text",
                 "content":"FAN CARD NOT OFFICIAL. Exceed © Level 99 Games. Template by {template,creator}. Card by {config,creator}'. All assets copyright their respective owners.",
-                "fonts":["templates/street_fighter/fonts/FiraSansExtraCondensed-Bold.ttf"],
+                "fonts":["templates/seventh_cross/fonts/AlegreyaSans-Black.otf"],
                 "bounding_box":[0,1000,750,1024],
                 "default_font_size":13,
                 "default_line_height":14,

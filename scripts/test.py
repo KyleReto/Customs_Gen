@@ -18,7 +18,7 @@ backGround = Image.open('.\\character_images\special_1.png')
 getImage = Image.open('.\\templates\seventh_cross\images\special_frame.png')
 
 backGround.paste(getImage, (0,0), getImage)
-pic = ImageTk.PhotoImage(backGround)
+pic = ImageTk.PhotoImage(master=root, image = backGround)
 display = Label(root, image=pic)
 display.pack()
 root.mainloop()
