@@ -258,11 +258,29 @@ def create_translation_table(obj, table, key_path):
         create_translation_table(value, table, key_path + ',' + key)
     return table
 
+
+# Returns True if that card attribute should be shown, or false otherwise
+def handle_conditional(attr_dict):
+    show_if = get_attr_if_present(attr_dict,'show_if', [])
+    show_equal = get_attr_if_present(attr_dict,'show_equal', [])
+    show_not_equal = get_attr_if_present(attr_dict,'show_not_equal', [])
+    result = True
+    if (len(show_if) == 0 and show_if != []):
+        if show_if == show_not_equal:
+            result = False
+        if show_if != show_equal:
+            result = False   
+    for idx in range(len(show_if)):
+        if idx < len(show_not_equal) and show_if[idx] == show_not_equal[idx]:
+            result = False
+        if idx < len(show_equal) and show_if[idx] != show_equal[idx]:
+            result = False
+    return result
+
 # TODO: Automatically insert newlines as necessary - insert potential newlines with priorities and replace those with \n or nothing as necessary. As a fallback, scale text.
 # TODO: Add support for default card types, in case of missing types
 # TODO: Readjust SF textboxes so that all text is readable even if the box if full.
 # TODO: Fix SF Character box to present newlines correctly
-# TODO: Make this function less ugly
 def generate_card(card):
     translation_table = {}
     translation_table = create_translation_table(card['template_info'], translation_table, 'template')
@@ -273,21 +291,8 @@ def generate_card(card):
     with Image.new("RGBA", tuple(card['config_info']['image_size_px']),(0,0,0,0)) as card_image:
         try:
             for attribute_label, card_attribute in card['template_info']['data'][card['card_type'].lower()].items():
-                show_if = get_attr_if_present(card_attribute,'show_if', [])
-                show_equal = get_attr_if_present(card_attribute,'show_equal', [])
-                show_not_equal = get_attr_if_present(card_attribute,'show_not_equal', [])
-                is_continue = False
-                if (len(show_if) == 0 and show_if != []):
-                    if show_if == show_not_equal:
-                        is_continue = True
-                    if show_if != show_equal:
-                        is_continue = True   
-                for idx in range(len(show_if)):
-                    if idx < len(show_not_equal) and show_if[idx] == show_not_equal[idx]:
-                        is_continue = True
-                    if idx < len(show_equal) and show_if[idx] != show_equal[idx]:
-                        is_continue = True
-                if is_continue: continue
+                # If the conditionals don't match, skip rendering
+                if not handle_conditional(card_attribute): continue
                 attribute_type = get_attr_if_present(card_attribute,'type', '', f'Template: {card["card_type"].lower()}: {attribute_label}')
                 if attribute_type == 'image':
                     composite_images(card_image, card_attribute)
