@@ -120,6 +120,7 @@ def composite_images(canvas, addition_dict):
         "make sure that it's defined correctly in template_info.json.")
     return canvas
 
+# Finds and replaces text according to badge_dict.
 def draw_badges(image, substr, font, substr_offset, badge_dict):
     draw = ImageDraw.Draw(image)
     out_im = image
@@ -157,6 +158,7 @@ def compose_text(markdown_objects, font_paths, font_size, badge_dict={}):
             x_offset += draw_box[2]-draw_box[0]+outline_weight/2
     return txt_arr
 
+# Given the font size, number of lines, and the space to fit them in, returns the correct height for each line.
 def get_line_height(font_size, num_lines, box_height):
     used_space = font_size * num_lines
     num_breaks = num_lines - 1
@@ -167,6 +169,9 @@ def get_line_height(font_size, num_lines, box_height):
         line_size = free_space + font_size
     return line_size
 
+# Get an attribute if it exists, or a default otherwise
+# If blame is set, it will print a descriptive message notifying the user that the attribute couldn't be found.
+#   Blame should be set to a human-readable name of the dictionary.
 def get_attr_if_present(dict, attr, default, blame=None):
     try:
         out = dict[attr]
@@ -176,6 +181,7 @@ def get_attr_if_present(dict, attr, default, blame=None):
         out = default
     return out
 
+# Draw text according to a given style dictionary
 def text_by_style(image, text, style_dict, badge_dict={}):
     return draw_text(image, text, 
                      style_dict['fonts'],
@@ -194,6 +200,8 @@ def text_by_style(image, text, style_dict, badge_dict={}):
 # bounding_box = (left, top, right, bottom), all in pixels from the top-left of the image
 # max_font_size = largest font size to scale up to, in pixels.
 # max_vertical_spacing = largest space between lines, in pixels.
+# badge_dict = A dictionary describing which text to replace and with what image. Used for things like Critical.
+# default_outline = A list [width in px, color in hex] describing the outline drawn around the text.
 
 def draw_text(canvas, text, font_files, bounding_box, max_font_size=33, max_vertical_spacing=50, align='center', badge_dict={}, default_color='#000000', default_outline=[0,'#000000']):
     markdown_objects = parse_markdown(text, default_color, default_outline)
@@ -250,6 +258,7 @@ def replace_data(obj, translation_table):
             obj[key] = replace_data(value, translation_table)
     return obj
 
+# Creates a table to find-and-replace {} strings with their data
 def create_translation_table(obj, table, key_path):
     table[key_path] = json.dumps(obj)
     if type(obj) != dict:
@@ -257,7 +266,6 @@ def create_translation_table(obj, table, key_path):
     for key, value in obj.items():
         create_translation_table(value, table, key_path + ',' + key)
     return table
-
 
 # Returns True if that card attribute should be shown, or false otherwise
 def handle_conditional(attr_dict):
@@ -303,7 +311,6 @@ def generate_card(card):
                 err.add_note(f"""Sorry, this template doesn't recognize card type {err}.\nPlease ensure that the card type is spelled correctly in the template.\nIf it is, please choose a different template.\nFor template designers: Make sure that the card type in template_info.json is in lowercase.""")
                 raise
     return card_image
-
 
 def format_color_words(text):
     for key in stat_words:
