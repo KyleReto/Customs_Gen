@@ -54,8 +54,8 @@ stat_words = {
 # End development code
 
 default_img = {"path":"assets/default_image.png",
-        "dest_offsets":[0,0],
-        "source_offsets":[0,0]}
+        "dest_offsets":[0,0]}
+
 default_text = {
         "fonts":["assets/Minion Pro Regular.ttf"],
         "bounding_box":[0,0]#+card['config_info']['image_size_px']
@@ -106,14 +106,26 @@ def parse_markdown(str, default_color, default_outline):
 # Composite two images, where the first is larger than the second.
 # canvas = PIL image object
 # addition_dict = dict with path and offsets defined
-# TODO: Add the ability to scale images, optionally
 def composite_images(canvas, addition_dict):
+    # The desired top-left corner position of the added image within the canvas.
     dest_offsets = get_attr_if_present(addition_dict, 'dest_offsets', [0,0])
-    src_offsets = get_attr_if_present(addition_dict, 'source_offsets', [0,0])
+    # The bounding box of the desired crop of the added image (or just the top left corner)
+    crop_size = get_attr_if_present(addition_dict, 'crop', None)
+    # The desired size to scale the added image up/down to
+    scale_size = get_attr_if_present(addition_dict, 'scale', None)
     try:
         with Image.open(addition_dict['path']) as addition_image:
-            # Workaround to handle non-transparent images .convert('RGBA')
-            canvas.alpha_composite(addition_image.convert('RGBA'), tuple([int(offset) for offset in dest_offsets]), tuple([int(offset) for offset in src_offsets]))
+            # Workaround to handle non-transparent images
+            img = addition_image.convert('RGBA')
+            # If the new image is too large to fit, automatically resize it.
+            if img.size > canvas.size:
+                scale_size = canvas.size
+            if crop_size:
+                print(crop_size)
+                img = addition_image.crop(crop_size)
+            if scale_size:
+                img = addition_image.resize(scale_size, Image.Resampling.LANCZOS)
+            canvas.alpha_composite(img, tuple([int(offset) for offset in dest_offsets]))
     except FileNotFoundError:
         print(f"Couldn't find a file at path \"{addition_dict['path']}.\" "\
         "If an image for this object exists in this template, "\
@@ -202,7 +214,6 @@ def text_by_style(image, text, style_dict, badge_dict={}):
 # max_vertical_spacing = largest space between lines, in pixels.
 # badge_dict = A dictionary describing which text to replace and with what image. Used for things like Critical.
 # default_outline = A list [width in px, color in hex] describing the outline drawn around the text.
-
 def draw_text(canvas, text, font_files, bounding_box, max_font_size=33, max_vertical_spacing=50, align='center', badge_dict={}, default_color='#000000', default_outline=[0,'#000000']):
     markdown_objects = parse_markdown(text, default_color, default_outline)
     text_size = (bounding_box[2] - bounding_box[0], bounding_box[3] - bounding_box[1])
