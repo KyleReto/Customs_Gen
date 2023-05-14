@@ -24,6 +24,9 @@ templatePath.set('Please select the template folder')
 outputPath = StringVar()
 outputPath.set('output')
 
+jsonOutputPath = StringVar()
+jsonOutputPath.set('TTSOutput')
+
 charImgPath = StringVar()
 charImgPath.set('Please select the character image')
 
@@ -110,6 +113,14 @@ def openOutputFolder():
     outputPath.set(folderPath) 
     window.update_idletasks()
 
+def openTTSFolder():
+    folderPath = filedialog.askdirectory(initialdir=".\\output",
+                                         title="Exceed Card Generator")
+    while parentFolder in folderPath:
+        folderPath = folderPath.split(parentFolder,1)[1]
+    jsonOutputPath.set(folderPath) 
+    window.update_idletasks()
+
 
 def generate_all_cards():
 
@@ -118,7 +129,7 @@ def generate_all_cards():
     #TODO: On release, put this in try block to notify user. It is easier to track error logs like this for now
     progress.set('Loading. Window will close automatically once complete.\nCheck the console for progress')
     window.update_idletasks()
-    create_cards(csvPath.get(), templatePath.get(), outputPath.get())
+    create_cards(csvPath.get(), templatePath.get(), outputPath.get(), jsonOutputPath.get())
     print('Finished')
     window.destroy()
 
@@ -225,6 +236,17 @@ column1height = column1height + labelbuffer
 
 outputButton = Button(text = "Change output folder", command=openOutputFolder)
 outputButton.place(x=column1Horz, y=column1height)
+
+column1height = column1height + buttonbuffer
+
+currentTTSOutputPath = Label(window, textvariable=jsonOutputPath, width=labelWidth, anchor="sw")
+currentTTSOutputPath.place(x=column1Horz, y=column1height)
+
+column1height = column1height + labelbuffer
+
+jsonOutputButton = Button(text = "Change TTS json Output Folder", command=openTTSFolder)
+jsonOutputButton.place(x=column1Horz, y=column1height)
+
 
 
 

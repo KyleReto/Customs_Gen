@@ -43,11 +43,11 @@
                         "dest_offsets":[-5,0]
                     }
                 },
-                "fonts":["templates/seventh_cross/fonts/AlegreyaSans-Bold.otf",
-                "templates/seventh_cross/fonts/AlegreyaSans-Black.otf",
+                "fonts":["templates/seventh_cross/fonts/AlegreyaSans-Medium.otf",
+                "templates/seventh_cross/fonts/AlegreyaSans-Bold.otf",
                 "templates/seventh_cross/fonts/AlegreyaSans-Italic.otf",
                 "templates/seventh_cross/fonts/AlegreyaSans-BoldItalic.otf"],
-                "bounding_box":[100,750,650,970],
+                "bounding_box":[100,820,650,970],
                 "default_font_size":33,
                 "default_line_height":40
             },
@@ -63,7 +63,7 @@
             "watermark":{
                 "type":"text",
                 "content":"FAN CARD NOT OFFICIAL. Exceed © Level 99 Games. Template by {template,creator}. Card by {config,creator}'. All assets copyright their respective owners.",
-                "fonts":["templates/seventh_cross/fonts/AlegreyaSans-Black.otf"],
+                "fonts":["templates/seventh_cross/fonts/AlegreyaSans-Bold.otf"],
                 "bounding_box":[0,1000,750,1024],
                 "default_font_size":14,
                 "default_line_height":14,
@@ -112,11 +112,11 @@
                         "dest_offsets":[-5,0]
                     }
                 },
-                "fonts":["templates/seventh_cross/fonts/AlegreyaSans-Bold.otf",
-                "templates/seventh_cross/fonts/AlegreyaSans-Black.otf",
+                "fonts":["templates/seventh_cross/fonts/AlegreyaSans-Medium.otf",
+                "templates/seventh_cross/fonts/AlegreyaSans-Bold.otf",
                 "templates/seventh_cross/fonts/AlegreyaSans-Italic.otf",
                 "templates/seventh_cross/fonts/AlegreyaSans-BoldItalic.otf"],
-                "bounding_box":[100,750,650,970],
+                "bounding_box":[100,800,650,970],
                 "default_font_size":33,
                 "default_line_height":40,
                 "text_color":"#FFFFFF"
@@ -133,7 +133,7 @@
             "watermark":{
                 "type":"text",
                 "content":"FAN CARD NOT OFFICIAL. Exceed © Level 99 Games. Template by {template,creator}. Card by {config,creator}'. All assets copyright their respective owners.",
-                "fonts":["templates/seventh_cross/fonts/AlegreyaSans-Black.otf"],
+                "fonts":["templates/seventh_cross/fonts/AlegreyaSans-Bold.otf"],
                 "bounding_box":[0,1000,750,1024],
                 "default_font_size":13,
                 "default_line_height":14,
@@ -199,8 +199,8 @@
                         "dest_offsets":[-5,0]
                     }
                 },
-                "fonts":["templates/seventh_cross/fonts/AlegreyaSans-Bold.otf",
-                "templates/seventh_cross/fonts/AlegreyaSans-Black.otf",
+                "fonts":["templates/seventh_cross/fonts/AlegreyaSans-Medium.otf",
+                "templates/seventh_cross/fonts/AlegreyaSans-Bold.otf",
                 "templates/seventh_cross/fonts/AlegreyaSans-Italic.otf",
                 "templates/seventh_cross/fonts/AlegreyaSans-BoldItalic.otf"],
                 "bounding_box":[100,665,650,780],
@@ -216,11 +216,11 @@
                         "dest_offsets":[-5,0]
                     }
                 },
-                "fonts":["templates/seventh_cross/fonts/AlegreyaSans-Bold.otf",
-                "templates/seventh_cross/fonts/AlegreyaSans-Black.otf",
+                "fonts":["templates/seventh_cross/fonts/AlegreyaSans-Medium.otf",
+                "templates/seventh_cross/fonts/AlegreyaSans-Bold.otf",
                 "templates/seventh_cross/fonts/AlegreyaSans-Italic.otf",
                 "templates/seventh_cross/fonts/AlegreyaSans-BoldItalic.otf"],
-                "bounding_box":[150,850,650,1000],
+                "bounding_box":[150,860,650,970],
                 "default_font_size":33,
                 "default_line_height":40
             },
@@ -325,7 +325,7 @@
             "watermark":{
                 "type":"text",
                 "content":"FAN CARD NOT OFFICIAL. Exceed © Level 99 Games. Template by {template,creator}. Card by {config,creator}'. All assets copyright their respective owners.",
-                "fonts":["templates/seventh_cross/fonts/AlegreyaSans-Black.otf"],
+                "fonts":["templates/seventh_cross/fonts/AlegreyaSans-Bold.otf"],
                 "bounding_box":[0,1000,750,1024],
                 "default_font_size":13,
                 "default_line_height":14,
@@ -391,8 +391,8 @@
                         "dest_offsets":[-5,0]
                     }
                 },
-                "fonts":["templates/seventh_cross/fonts/AlegreyaSans-Bold.otf",
-                "templates/seventh_cross/fonts/AlegreyaSans-Black.otf",
+                "fonts":["templates/seventh_cross/fonts/AlegreyaSans-Medium.otf",
+                "templates/seventh_cross/fonts/AlegreyaSans-Bold.otf",
                 "templates/seventh_cross/fonts/AlegreyaSans-Italic.otf",
                 "templates/seventh_cross/fonts/AlegreyaSans-BoldItalic.otf"],
                 "bounding_box":[100,665,650,780],
@@ -408,11 +408,11 @@
                         "dest_offsets":[-5,0]
                     }
                 },
-                "fonts":["templates/seventh_cross/fonts/AlegreyaSans-Bold.otf",
-                "templates/seventh_cross/fonts/AlegreyaSans-Black.otf",
+                "fonts":["templates/seventh_cross/fonts/AlegreyaSans-Medium.otf",
+                "templates/seventh_cross/fonts/AlegreyaSans-Bold.otf",
                 "templates/seventh_cross/fonts/AlegreyaSans-Italic.otf",
                 "templates/seventh_cross/fonts/AlegreyaSans-BoldItalic.otf"],
-                "bounding_box":[150,850,650,1000],
+                "bounding_box":[150,860,650,970],
                 "default_font_size":33,
                 "default_line_height":40
             },
@@ -510,7 +510,7 @@
             "watermark":{
                 "type":"text",
                 "content":"FAN CARD NOT OFFICIAL. Exceed © Level 99 Games. Template by {template,creator}. Card by {config,creator}'. All assets copyright their respective owners.",
-                "fonts":["templates/seventh_cross/fonts/AlegreyaSans-Black.otf"],
+                "fonts":["templates/seventh_cross/fonts/AlegreyaSans-Bold.otf"],
                 "bounding_box":[0,1000,750,1024],
                 "default_font_size":13,
                 "default_line_height":14,

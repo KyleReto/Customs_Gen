@@ -42,7 +42,7 @@ def concat_images(image_paths, size, shape=None):
     return image
 
 
-def create_cards(csvPath, templatePath, outputPath):
+def create_cards(csvPath, templatePath, outputPath, jsonOutputPath):
 
     #TODO allow pointing to Normals Deck
     jsonFile = open("./normals/Seventh_Cross/Normals Deck.json", "r") # Open the JSON file for reading
@@ -98,7 +98,7 @@ def create_cards(csvPath, templatePath, outputPath):
 
             card["secondary_type"] = row[14]
             card["secondary_subtype"] = row[13]
-            card["range"] = row[6].replace("~", "-")
+            card["range"] = row[6] #.replace("~", "-") Street Fighter template needs - instead of ~.
             card["power"] = row[7]
             card["speed"] = row[8]
 
@@ -164,7 +164,7 @@ def create_cards(csvPath, templatePath, outputPath):
         root.mainloop()
     elif(local):
         TtsAddCharacterLocal(ttsData, char_name, charImgPath, exceedImgPath)
-        generate_tts_json(ttsData, char_name, outputPath) 
+        generate_tts_json(ttsData, char_name, jsonOutputPath) 
     else: #We are uploading to Imgur and using the link for the TTS
         gridCards = concat_images(StrikeImages, (750, 1024), (2,4))
         gridSavePath = outputPath + '/' + char_name + 'Grid.jpg'
@@ -178,6 +178,6 @@ def create_cards(csvPath, templatePath, outputPath):
         exceedLink = UploadedLinks[2]
 
         TtsSyncToUpload(ttsData, char_name, decklink, cardList, charLink, exceedLink)
-        generate_tts_json(ttsData, char_name, outputPath) 
+        generate_tts_json(ttsData, char_name, jsonOutputPath) 
    
     return 0

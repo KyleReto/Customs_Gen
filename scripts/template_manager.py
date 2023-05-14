@@ -6,7 +6,7 @@ import unittest.mock as mock
 import csv
 
 #select bold 
-bold_words = ['Now:', 'Before:', 'Hit:', 'After:', 'Cleanup:', 'Ignore Armor', 'Ignore Guard', 'Critical', 'Strike', 'Advantage']
+bold_words = ['Now:', 'Before:', 'Hit:', 'After:', 'Cleanup:', 'Ignore Armor', 'Ignore Guard', 'Critical', 'Strike', 'Advantage', 'Stun Immunity']
 stat_words = {
     'Range': '#00abea',
     'Power': '#f54137',
@@ -302,7 +302,7 @@ def generate_card(card):
 
 def format_color_words(text):
     for key in stat_words:
-        text = re.sub('([\+\-])([0-9]*) ' + key, '<bold><' + stat_words[key] + '><@3#000000>' + "\\1\\2 " + key + '</@></#></bold>', text)
+        text = re.sub('(([\+\-])(([0-9]*)|[A-Z])|([\+\-]\d+~[\+\-]\d+)) ' + key, '<bold><' + stat_words[key] + '><@3#000000>' + "\\1 " + key + '</@></#></bold>', text)
     return text
 
 def format_bold_words(text):
