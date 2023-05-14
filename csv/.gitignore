@@ -1,0 +1,4 @@
+# Ignore all files that aren't this or the test csv(s)
+*
+!.gitignore
+!Test*

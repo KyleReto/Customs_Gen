@@ -54,8 +54,8 @@ stat_words = {
 # End development code
 
 default_img = {"path":"assets/default_image.png",
-        "dest_offsets":[0,0],
-        "source_offsets":[0,0]}
+        "dest_offsets":[0,0]}
+
 default_text = {
         "fonts":["assets/Minion Pro Regular.ttf"],
         "bounding_box":[0,0]#+card['config_info']['image_size_px']
@@ -106,20 +106,33 @@ def parse_markdown(str, default_color, default_outline):
 # Composite two images, where the first is larger than the second.
 # canvas = PIL image object
 # addition_dict = dict with path and offsets defined
-# TODO: Add the ability to scale images, optionally
 def composite_images(canvas, addition_dict):
+    # The desired top-left corner position of the added image within the canvas.
     dest_offsets = get_attr_if_present(addition_dict, 'dest_offsets', [0,0])
-    src_offsets = get_attr_if_present(addition_dict, 'source_offsets', [0,0])
+    # The bounding box of the desired crop of the added image (or just the top left corner)
+    crop_size = get_attr_if_present(addition_dict, 'crop', None)
+    # The desired size to scale the added image up/down to
+    scale_size = get_attr_if_present(addition_dict, 'scale', None)
     try:
         with Image.open(addition_dict['path']) as addition_image:
-            # Workaround to handle non-transparent images .convert('RGBA')
-            canvas.alpha_composite(addition_image.convert('RGBA'), tuple([int(offset) for offset in dest_offsets]), tuple([int(offset) for offset in src_offsets]))
+            # Workaround to handle non-transparent images
+            img = addition_image.convert('RGBA')
+            # If the new image is too large to fit, automatically resize it.
+            if img.size > canvas.size:
+                scale_size = canvas.size
+            if crop_size:
+                print(crop_size)
+                img = addition_image.crop(crop_size)
+            if scale_size:
+                img = addition_image.resize(scale_size, Image.Resampling.LANCZOS)
+            canvas.alpha_composite(img, tuple([int(offset) for offset in dest_offsets]))
     except FileNotFoundError:
         print(f"Couldn't find a file at path \"{addition_dict['path']}.\" "\
         "If an image for this object exists in this template, "\
         "make sure that it's defined correctly in template_info.json.")
     return canvas
 
+# Finds and replaces text according to badge_dict.
 def draw_badges(image, substr, font, substr_offset, badge_dict):
     draw = ImageDraw.Draw(image)
     out_im = image
@@ -157,6 +170,7 @@ def compose_text(markdown_objects, font_paths, font_size, badge_dict={}):
             x_offset += draw_box[2]-draw_box[0]+outline_weight/2
     return txt_arr
 
+# Given the font size, number of lines, and the space to fit them in, returns the correct height for each line.
 def get_line_height(font_size, num_lines, box_height):
     used_space = font_size * num_lines
     num_breaks = num_lines - 1
@@ -167,6 +181,9 @@ def get_line_height(font_size, num_lines, box_height):
         line_size = free_space + font_size
     return line_size
 
+# Get an attribute if it exists, or a default otherwise
+# If blame is set, it will print a descriptive message notifying the user that the attribute couldn't be found.
+#   Blame should be set to a human-readable name of the dictionary.
 def get_attr_if_present(dict, attr, default, blame=None):
     try:
         out = dict[attr]
@@ -176,6 +193,7 @@ def get_attr_if_present(dict, attr, default, blame=None):
         out = default
     return out
 
+# Draw text according to a given style dictionary
 def text_by_style(image, text, style_dict, badge_dict={}):
     return draw_text(image, text, 
                      style_dict['fonts'],
@@ -194,7 +212,8 @@ def text_by_style(image, text, style_dict, badge_dict={}):
 # bounding_box = (left, top, right, bottom), all in pixels from the top-left of the image
 # max_font_size = largest font size to scale up to, in pixels.
 # max_vertical_spacing = largest space between lines, in pixels.
-
+# badge_dict = A dictionary describing which text to replace and with what image. Used for things like Critical.
+# default_outline = A list [width in px, color in hex] describing the outline drawn around the text.
 def draw_text(canvas, text, font_files, bounding_box, max_font_size=33, max_vertical_spacing=50, align='center', badge_dict={}, default_color='#000000', default_outline=[0,'#000000']):
     markdown_objects = parse_markdown(text, default_color, default_outline)
     text_size = (bounding_box[2] - bounding_box[0], bounding_box[3] - bounding_box[1])
@@ -250,6 +269,7 @@ def replace_data(obj, translation_table):
             obj[key] = replace_data(value, translation_table)
     return obj
 
+# Creates a table to find-and-replace {} strings with their data
 def create_translation_table(obj, table, key_path):
     table[key_path] = json.dumps(obj)
     if type(obj) != dict:
@@ -258,11 +278,28 @@ def create_translation_table(obj, table, key_path):
         create_translation_table(value, table, key_path + ',' + key)
     return table
 
+# Returns True if that card attribute should be shown, or false otherwise
+def handle_conditional(attr_dict):
+    show_if = get_attr_if_present(attr_dict,'show_if', [])
+    show_equal = get_attr_if_present(attr_dict,'show_equal', [])
+    show_not_equal = get_attr_if_present(attr_dict,'show_not_equal', [])
+    result = True
+    if (len(show_if) == 0 and show_if != []):
+        if show_if == show_not_equal:
+            result = False
+        if show_if != show_equal:
+            result = False   
+    for idx in range(len(show_if)):
+        if idx < len(show_not_equal) and show_if[idx] == show_not_equal[idx]:
+            result = False
+        if idx < len(show_equal) and show_if[idx] != show_equal[idx]:
+            result = False
+    return result
+
 # TODO: Automatically insert newlines as necessary - insert potential newlines with priorities and replace those with \n or nothing as necessary. As a fallback, scale text.
 # TODO: Add support for default card types, in case of missing types
 # TODO: Readjust SF textboxes so that all text is readable even if the box if full.
 # TODO: Fix SF Character box to present newlines correctly
-# TODO: Make this function less ugly
 def generate_card(card):
     translation_table = {}
     translation_table = create_translation_table(card['template_info'], translation_table, 'template')
@@ -273,21 +310,8 @@ def generate_card(card):
     with Image.new("RGBA", tuple(card['config_info']['image_size_px']),(0,0,0,0)) as card_image:
         try:
             for attribute_label, card_attribute in card['template_info']['data'][card['card_type'].lower()].items():
-                show_if = get_attr_if_present(card_attribute,'show_if', [])
-                show_equal = get_attr_if_present(card_attribute,'show_equal', [])
-                show_not_equal = get_attr_if_present(card_attribute,'show_not_equal', [])
-                is_continue = False
-                if (len(show_if) == 0 and show_if != []):
-                    if show_if == show_not_equal:
-                        is_continue = True
-                    if show_if != show_equal:
-                        is_continue = True   
-                for idx in range(len(show_if)):
-                    if idx < len(show_not_equal) and show_if[idx] == show_not_equal[idx]:
-                        is_continue = True
-                    if idx < len(show_equal) and show_if[idx] != show_equal[idx]:
-                        is_continue = True
-                if is_continue: continue
+                # If the conditionals don't match, skip rendering
+                if not handle_conditional(card_attribute): continue
                 attribute_type = get_attr_if_present(card_attribute,'type', '', f'Template: {card["card_type"].lower()}: {attribute_label}')
                 if attribute_type == 'image':
                     composite_images(card_image, card_attribute)
@@ -298,7 +322,6 @@ def generate_card(card):
                 err.add_note(f"""Sorry, this template doesn't recognize card type {err}.\nPlease ensure that the card type is spelled correctly in the template.\nIf it is, please choose a different template.\nFor template designers: Make sure that the card type in template_info.json is in lowercase.""")
                 raise
     return card_image
-
 
 def format_color_words(text):
     for key in stat_words:
