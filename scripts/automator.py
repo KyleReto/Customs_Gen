@@ -49,11 +49,18 @@ def create_cards(csvPath, templatePath, outputPath, jsonOutputPath):
     ttsData = json.load(jsonFile) # Read the JSON into the buffer
     jsonFile.close() # Close the JSON file
 
+    jsonFile = open("./normals/Seventh_Cross/RefEmpty.json", "r") # Open the JSON file for reading
+    refTTS =  json.load(jsonFile) # Read the JSON into the buffer
+    jsonFile.close() # Close the JSON file
+    
+
     char_name = "Character"
     charImgPath = ""
     exceedImgPath = ""
     csv_path = csvPath
     StrikeImages = []
+    UniqueImages = []
+    UniqueCards = []
 
 
 
@@ -127,17 +134,16 @@ def create_cards(csvPath, templatePath, outputPath, jsonOutputPath):
                 StrikeImages.append(savePath)
 
                 if (local):
-                    AddStrikeToLocalTts(ttsData, char_name, card, savePath)
+                    AddStrikeToLocalTts(ttsData, refTTS, char_name, card, savePath)
                 cardList.append(card)
                 print("Generated " + row[0])
 
             elif row[1] == 'Unique':
                 generate_card(card).save(savePath)
-                StrikeImages.append(savePath)
+                UniqueImages.append(savePath)
+                UniqueCards.append(card)
+                    
 
-                if (local):
-                    AddStrikeToLocalTts(ttsData, char_name, card, savePath)
-                cardList.append(card)
                 print("Generated " + row[0])
 
             elif row[1] == 'Character':
@@ -171,21 +177,37 @@ def create_cards(csvPath, templatePath, outputPath, jsonOutputPath):
         display.pack()
         root.mainloop()
     elif(local):
+        for unique in UniqueCards:
+            AddUniqueToLocalTts(ttsData, char_name, unique, UniqueImages[UniqueCards.index(unique)])
         TtsAddCharacterLocal(ttsData, char_name, charImgPath, exceedImgPath)
-        generate_tts_json(ttsData, char_name, jsonOutputPath) 
+        generate_tts_json(ttsData, refTTS, char_name, jsonOutputPath) 
     else: #We are uploading to Imgur and using the link for the TTS
         gridCards = concat_images(StrikeImages, (750, 1024), (2,4))
         gridSavePath = outputPath + '/' + char_name + 'Grid.jpg'
         gridCards.save(gridSavePath, 'JPEG')
 
-        ImagesToUpload = [gridSavePath, charImgPath, exceedImgPath]
+        hasUniqueCards = (UniqueCards.__len__ != 0)
+        if (hasUniqueCards):
+            uniqueCards = concat_images(UniqueImages, (750, 1024), (2,4))
+            uniqueSavePath = outputPath + '/' + char_name + 'UniqueGrid.jpg'
+            uniqueCards.save(uniqueSavePath, 'JPEG')
+            ImagesToUpload = [gridSavePath, charImgPath, exceedImgPath, uniqueSavePath]
+        else:
+            ImagesToUpload = [gridSavePath, charImgPath, exceedImgPath]
+
+
         UploadedLinks = upload_images(ImagesToUpload, char_name)
 
         decklink = UploadedLinks[0]
         charLink = UploadedLinks[1]
         exceedLink = UploadedLinks[2]
 
-        TtsSyncToUpload(ttsData, char_name, decklink, cardList, charLink, exceedLink)
-        generate_tts_json(ttsData, char_name, jsonOutputPath) 
+        if (hasUniqueCards):
+            uniqueLink = UploadedLinks[3]
+        else:
+            uniqueLink = "none"
+
+        TtsSyncToUpload(ttsData, refTTS, char_name, decklink, cardList, uniqueLink, uniqueCards, charLink, exceedLink)
+        generate_tts_json(ttsData, refTTS, char_name, jsonOutputPath) 
    
     return 0

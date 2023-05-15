@@ -9,7 +9,7 @@ gridHeight = 2
 # Since we are using individual images, we need a custom deck
 # for each card generated. This is only a reference; we will still
 # end with just a single deck object
-def TtsAddLocalCardToCustomDeck(ttsData, imgPath, backPath = "https://i.imgur.com/igYZhPh.png"):
+def TtsGenerateCustomDeck(ttsData, imgPath, backPath = "https://i.imgur.com/igYZhPh.png"):
     # each custom deck requires its own ID
     global deckNum
     deckNum = deckNum + 1
@@ -24,10 +24,21 @@ def TtsAddLocalCardToCustomDeck(ttsData, imgPath, backPath = "https://i.imgur.co
           "Type": 0
         }
 
+    return customDeck
+
+def TtsAddLocalStrikeToCustomDeck(ttsData, refData, imgPath, backPath = "https://i.imgur.com/igYZhPh.png"):
+
+    customDeck = TtsGenerateCustomDeck(ttsData, imgPath, backPath)
+
     ttsData["ObjectStates"][0]["CustomDeck"][deckNum] = customDeck
+    refData["ObjectStates"][0]["CustomDeck"][deckNum] = customDeck
     return deckNum
 
+def TtsAddLocalCharToCustomDeck(ttsData, imgPath, backPath = "https://i.imgur.com/igYZhPh.png"):
+    customDeck = TtsGenerateCustomDeck(ttsData, imgPath, backPath)
 
+    ttsData["ObjectStates"][0]["CustomDeck"][deckNum] = customDeck
+    return deckNum
 
 
 def TtsAddDeckID(ttsData, deckNum):
@@ -91,6 +102,7 @@ def TtsAddLocalContainedCard(ttsData, deckNum, charName, card):
     
     customDeck = ttsData["ObjectStates"][0]["CustomDeck"][deckNum]
     contained_card["CustomDeck"][deckNum] = customDeck
+    contained_card["CardID"] =  deckNum*100
     ttsData["ObjectStates"][0]["ContainedObjects"].append(contained_card)
 
 def TtsAddLocalContainedCharacter(ttsData, deckNum, charName):
@@ -149,10 +161,10 @@ def TtsAddLocalContainedCharacter(ttsData, deckNum, charName):
 
     
 
-def AddStrikeToLocalTts(ttsData, charName, card, imgPath):
+def AddStrikeToLocalTts(ttsData, refDeck, charName, card, imgPath):
 
     #Add Custom Decks
-    deckID = TtsAddLocalCardToCustomDeck(ttsData, imgPath)
+    deckID = TtsAddLocalStrikeToCustomDeck(ttsData, refDeck, imgPath)
     
     for i in range(int(card["copies"])):
         #Add DeckID
@@ -161,7 +173,25 @@ def AddStrikeToLocalTts(ttsData, charName, card, imgPath):
         #Add Contained Objects
         TtsAddLocalContainedCard(ttsData, deckID, charName, card)
 
+    TtsAddDeckID(refDeck, deckID)
 
+
+    TtsAddLocalContainedCard(refDeck, deckID, charName, card)
+
+
+    return 0
+
+def AddUniqueToLocalTts(ttsData, charName, card, imgPath):
+
+    #Add Custom Decks
+    deckID = TtsAddLocalCharToCustomDeck(ttsData, imgPath)
+    
+    for i in range(int(card["copies"])):
+        #Add DeckID
+        TtsAddDeckID(ttsData, deckID)
+
+        #Add Contained Objects
+        TtsAddLocalContainedCard(ttsData, deckID, charName, card)
     return 0
 
 
@@ -169,14 +199,14 @@ def AddStrikeToLocalTts(ttsData, charName, card, imgPath):
 
 
 def TtsAddCharacterLocal(ttsData, charName, charImgPath, exceedImgPath):
-    deckID = TtsAddLocalCardToCustomDeck(ttsData, charImgPath, exceedImgPath)
+    deckID = TtsAddLocalCharToCustomDeck(ttsData, charImgPath, exceedImgPath)
     TtsAddDeckID(ttsData, deckID)
     TtsAddLocalContainedCharacter(ttsData, deckID, charName)
 
 
 
 
-def TtsAddCustomDeckForGrid(ttsData, imgPath, backPath = "https://i.imgur.com/igYZhPh.png"):
+def TtsCreateCustomDeckForGrid(imgPath, backPath):
     # each custom deck requires its own ID
     global deckNum
     deckNum = deckNum + 1
@@ -190,10 +220,21 @@ def TtsAddCustomDeckForGrid(ttsData, imgPath, backPath = "https://i.imgur.com/ig
           "UniqueBack": False,
           "Type": 0
         }
+    return customDeck
+
+def TtsAddStrikeDeckForGrid(ttsData, refDeck, imgPath, backPath = "https://i.imgur.com/igYZhPh.png"):
+    customDeck = TtsCreateCustomDeckForGrid(imgPath, backPath)
+
+    ttsData["ObjectStates"][0]["CustomDeck"][deckNum] = customDeck
+    refDeck["ObjectStates"][0]["CustomDeck"][deckNum] = customDeck
+    return deckNum
+
+
+def TtsAddUniqueDeckForGrid(ttsData, imgPath, backPath = "https://i.imgur.com/igYZhPh.png"):
+    customDeck = TtsCreateCustomDeckForGrid(imgPath, backPath)
 
     ttsData["ObjectStates"][0]["CustomDeck"][deckNum] = customDeck
     return deckNum
-
 
 def TtsAddGridContainedCard(ttsData, cardNum, deckNum, card):
     #Note: I am not sure what many of these do. Some of these values
@@ -262,13 +303,25 @@ def TtsAddDeckIDForGrid(ttsData, deckID, cardNum):
 
 
 def addUploadedCharCard(ttsData, char_name, charLink, exceedLink):
-    deckID = TtsAddLocalCardToCustomDeck(ttsData, charLink, exceedLink)
+    deckID = TtsAddLocalStrikeToCustomDeck(ttsData, charLink, exceedLink)
     TtsAddDeckID(ttsData, deckID)
     TtsAddLocalContainedCharacter(ttsData, deckID, char_name)
 
 
-def TtsSyncToUpload(ttsData, char_name, decklink, cardList, charLink, exceedLink):
-    deckNum = TtsAddCustomDeckForGrid(ttsData, decklink)
+def TTSSyncStrikesToUpload(ttsData, refDeck, decklink, cardList):
+    deckNum = TtsAddStrikeDeckForGrid(ttsData, refDeck, decklink)
+    cardNum= 0
+    for card in cardList:
+        cardID = deckNum*100 + cardNum
+        for i in range(int(card["copies"])):
+            TtsAddDeckIDForGrid(ttsData, cardID, cardNum)
+            TtsAddGridContainedCard(ttsData, cardID, deckNum, card)
+        TtsAddDeckIDForGrid(refDeck, cardID, cardNum)
+        TtsAddGridContainedCard(refDeck, cardID, deckNum, card)
+        cardNum = cardNum + 1
+
+def TTSSyncUniqueToUpload(ttsData, decklink, cardList):
+    deckNum = TtsAddUniqueDeckForGrid(ttsData, decklink)
     cardNum= 0
     for card in cardList:
         cardID = deckNum*100 + cardNum
@@ -276,12 +329,27 @@ def TtsSyncToUpload(ttsData, char_name, decklink, cardList, charLink, exceedLink
             TtsAddDeckIDForGrid(ttsData, cardID, cardNum)
             TtsAddGridContainedCard(ttsData, cardID, deckNum, card)
         cardNum = cardNum + 1
+
+def TtsSyncToUpload(ttsData, refDeck, char_name, decklink, cardList, uniquelink, uniqueCards, charLink, exceedLink):
+    TTSSyncStrikesToUpload(ttsData, refDeck, decklink, cardList)
+    if (uniqueCards.__len__ != 0):
+        TTSSyncUniqueToUpload(ttsData, uniquelink, uniqueCards)
     addUploadedCharCard(ttsData, char_name, charLink, exceedLink)
 
-def generate_tts_json(ttsData, charName, outputPath):
-    jsonSavePath = outputPath + '/' + charName + 'Deck.json'
+def generate_tts_json(ttsData, refDeck, charName, outputPath):
+    jsonSavePath = outputPath + '/' + charName + ' Deck.json'
     #Apparently we need to check for new line characters here
     jsonSavePath = jsonSavePath.replace("\n", " ")
     jsonFile = open(jsonSavePath, "w+")
     jsonFile.write(json.dumps(ttsData))
     jsonFile.close()
+
+
+    #Adds a ref file. Currently bugged where the last card doesnt load correctly?
+    
+    #jsonSavePath = outputPath + '/' + charName + ' Reference.json'
+    #Apparently we need to check for new line characters here
+    #jsonSavePath = jsonSavePath.replace("\n", " ")
+    #jsonFile = open(jsonSavePath, "w+")
+    #jsonFile.write(json.dumps(refDeck))
+    #jsonFile.close()
