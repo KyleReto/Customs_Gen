@@ -247,6 +247,8 @@ def TtsAddGridContainedCard(ttsData, cardNum, deckNum, card):
         nickname += " (S)"
     elif card["card_type"] == "Ultra":
         nickname += " (U)"
+    elif card["card_type"] == "Unique":
+        nickname += " (C)"
     contained_card["Nickname"] = nickname
     
     customDeck = ttsData["ObjectStates"][0]["CustomDeck"][deckNum]

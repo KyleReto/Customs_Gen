@@ -350,5 +350,5 @@ def format_common_text(text):
     text = capitalize_important_words(text)
     text = format_bold_words(text)
     text = format_color_words(text)
-    text = createNewLines(text)
+    #text = createNewLines(text)
     return text

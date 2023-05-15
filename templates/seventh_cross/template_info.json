@@ -55,7 +55,76 @@
                 "type":"text",
                 "content":"{card,card_name}",
                 "fonts":["templates/seventh_cross/fonts/SHAXIZOR.TTF"],
-                "bounding_box":[310,712,410,805],
+                "bounding_box":[300,712,420,805],
+                "default_font_size":54,
+                "default_line_height":54,
+                "text_color":"#000000"
+            },
+            "watermark":{
+                "type":"text",
+                "content":"FAN CARD NOT OFFICIAL. Exceed © Level 99 Games. Template by {template,creator}. Card by {config,creator}'. All assets copyright their respective owners.",
+                "fonts":["templates/seventh_cross/fonts/AlegreyaSans-Bold.otf"],
+                "bounding_box":[0,1000,750,1024],
+                "default_font_size":14,
+                "default_line_height":14,
+                "text_color":"#FFFFFF",
+                "outline":[2,"#000000"]
+            }
+        },
+        "unique":{
+            "character_background":{
+                "type":"image",
+                "path":"templates/seventh_cross/images/character_background.png"
+            },
+            "card_art":"{config,images,character_image}",
+            "character_frame":{
+                "type":"image",
+                "path":"templates/seventh_cross/images/character_frame.png"
+            },
+            "character_critical":{
+                "type":"image",
+                "path":"templates/seventh_cross/images/character_critical.png",
+                "show_if":"{card,secondary_type}",
+                "show_equal":"Critical"
+            },
+            "exceed_flip":{
+                "type":"image",
+                "path":"templates/seventh_cross/images/exceed_flip.png",
+                "show_if":"{card,cost}",
+                "show_not_equal":""
+            },
+            "exceed_cost":{
+                "type":"text",
+                "content":"{card,cost}",
+                "show_if":"{card,cost}",
+                "show_not_equal":"",
+                "fonts":["templates/seventh_cross/fonts/MKX Title.ttf"],
+                "bounding_box":[660,830,710,910],
+                "default_font_size":64,
+                "default_line_height":64
+            },
+            "character_effect":{
+                "type":"text",
+                "content":"{card,text_box}",
+                "text_to_image":{
+                    " --":{
+                        "path":"templates/seventh_cross/images/critical_icon.png",
+                        "dest_offsets":[-5,0]
+                    }
+                },
+                "fonts":["templates/seventh_cross/fonts/AlegreyaSans-Medium.otf",
+                "templates/seventh_cross/fonts/AlegreyaSans-Bold.otf",
+                "templates/seventh_cross/fonts/AlegreyaSans-Italic.otf",
+                "templates/seventh_cross/fonts/AlegreyaSans-BoldItalic.otf"],
+                "bounding_box":[100,820,650,970],
+                "default_font_size":33,
+                "default_line_height":40
+            },
+            "character_name":{
+                "type":"text",
+                "content":"{card,card_name}",
+                "fonts":["templates/seventh_cross/fonts/SHAXIZOR.TTF"],
+                "bounding_box":[220,712,520,805],
                 "default_font_size":54,
                 "default_line_height":54,
                 "text_color":"#000000"
@@ -125,7 +194,7 @@
                 "type":"text",
                 "content":"{card,card_name}",
                 "fonts":["templates/seventh_cross/fonts/SHAXIZOR.TTF"],
-                "bounding_box":[310,712,410,805],
+                "bounding_box":[300,712,420,805],
                 "default_font_size":54,
                 "default_line_height":54,
                 "text_color":"#000000"

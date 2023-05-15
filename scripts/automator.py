@@ -131,6 +131,14 @@ def create_cards(csvPath, templatePath, outputPath, jsonOutputPath):
                 cardList.append(card)
                 print("Generated " + row[0])
 
+            elif row[1] == 'Unique':
+                generate_card(card).save(savePath)
+                StrikeImages.append(savePath)
+
+                if (local):
+                    AddStrikeToLocalTts(ttsData, char_name, card, savePath)
+                cardList.append(card)
+                print("Generated " + row[0])
 
             elif row[1] == 'Character':
                 char_name = row[0]
