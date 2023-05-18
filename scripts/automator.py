@@ -139,16 +139,19 @@ def create_cards(csvPath, templatePath, outputPath, jsonOutputPath):
                 print("Generated " + row[0])
 
             elif row[1] == 'Unique':
-                generate_card(card).save(savePath)
-                UniqueImages.append(savePath)
-                UniqueCards.append(card)
-                    
-
-                print("Generated " + row[0])
+                if (card["text_box"].__len__==0):
+                    generate_card(card).save(savePath)
+                    UniqueImages.append(savePath)
+                    UniqueCards.append(card)
+                    print("Generated " + row[0])
 
             elif row[1] == 'Character':
                 char_name = row[0]
-                generate_card(card).save(savePath)
+                charCard = generate_card(card)
+                charCard.save(savePath)
+
+                #Saves a picture to serve as the image for mod in TTS. This MUST have the same name as json output file to take effect.
+                charCard.save(jsonOutputPath + '/' + char_name + ' Deck.png')
                 charImgPath = savePath
                 print("Generated " + row[0])
 
