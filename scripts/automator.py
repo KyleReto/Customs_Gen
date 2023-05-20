@@ -42,15 +42,15 @@ def concat_images(image_paths, size, shape=None):
     return image
 
 
-def create_cards_full_config():
+def create_cards_full_config(Imgur):
     config_path = './config.json'
     f = open(config_path, encoding='utf-8')
     data = json.load(f)
     f.close()
 
-    create_cards(data["character_csv"], data["template"], data["output_folder"], data["TTSOutput"])
+    create_cards(data["character_csv"], data["template"], data["output_folder"], data["TTSOutput"], Imgur, False)
 
-def create_cards(csvPath, templatePath, outputPath, jsonOutputPath):
+def create_cards(csvPath, templatePath, outputPath, jsonOutputPath, Imgur, GenerateCharJson):
 
     #TODO allow pointing to Normals Deck
     jsonFile = open("./normals/Seventh_Cross/Normals Deck.json", "r") # Open the JSON file for reading
@@ -70,9 +70,11 @@ def create_cards(csvPath, templatePath, outputPath, jsonOutputPath):
     UniqueImages = []
     UniqueCards = []
 
-
+    
 
     local = True
+    if (Imgur):
+        local = False
     test = False
 
 
@@ -147,7 +149,7 @@ def create_cards(csvPath, templatePath, outputPath, jsonOutputPath):
                 print("Generated " + row[0])
 
             elif row[1] == 'Unique':
-                if (card["text_box"].__len__==0):
+                if (card["text_box"].__len__!=0):
                     generate_card(card).save(savePath)
                     UniqueImages.append(savePath)
                     UniqueCards.append(card)
@@ -172,9 +174,25 @@ def create_cards(csvPath, templatePath, outputPath, jsonOutputPath):
                 generate_card(card).save(savePath)
                 exceedImgPath = savePath
                 print("Generated " + row[0])
-            
+
+
+    #Output a json to speed up future character generation 
+    if (GenerateCharJson):
+        config_path = './config.json'
+        f = open(config_path, encoding='utf-8')
+        data = json.load(f)
+        f.close()
+
+        data["character_csv"] = csvPath
+        data["template"] = templatePath
+        data["output_folder"] = outputPath
+        data["TTSOutput"] = jsonOutputPath
+        jsonFile = open(outputPath + "/" + char_name + ".json", "w+")
+        jsonFile.write(json.dumps(data))
+        jsonFile.close()
     
-    
+
+    #Allows testers to see grid image. Does not create a TTS json
     if (test):
         grid = concat_images(StrikeImages, (750, 1024), (2,4))
         img= grid.resize((1500,1024), Image.ANTIALIAS)
@@ -187,12 +205,14 @@ def create_cards(csvPath, templatePath, outputPath, jsonOutputPath):
         display = Label(root, image=pic)
         display.pack()
         root.mainloop()
+
+    # Uses a local copy of card grid to create TTS json. Does not allow others to see cards online, as images are stored locally, but requires no imgur authentification or internet access
     elif(local):
         for unique in UniqueCards:
             AddUniqueToLocalTts(ttsData, char_name, unique, UniqueImages[UniqueCards.index(unique)])
         TtsAddCharacterLocal(ttsData, char_name, charImgPath, exceedImgPath)
         generate_tts_json(ttsData, refTTS, char_name, jsonOutputPath) 
-    else: #We are uploading to Imgur and using the link for the TTS
+    else: #We are uploading card images to Imgur and using the link for the TTS
         gridCards = concat_images(StrikeImages, (750, 1024), (2,4))
         gridSavePath = outputPath + '/' + char_name + 'Grid.jpg'
         gridCards.save(gridSavePath, 'JPEG')

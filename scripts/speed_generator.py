@@ -48,7 +48,7 @@ def generate_all_cards():
     #TODO: On release, put this in try block to notify user. It is easier to track error logs like this for now
     progress.set('Loading. Window will close automatically once complete.\nCheck the console for progress')
     window.update_idletasks()
-    create_cards_full_config()
+    create_cards_full_config(CheckVar1.get())
     print('Finished')
     window.destroy()
 
@@ -68,6 +68,8 @@ labelbuffer = 25
 column2height = 35
 generatebuffer = 200
 labelWidth = 45
+checkboxBuffer = 25
+checkboxAdjust = -150
 
 currentConfigPath = Label(window, textvariable=configPath, width=labelWidth, anchor="sw")
 currentConfigPath.place(x=column1Horz, y=column1height)
@@ -75,8 +77,15 @@ currentConfigPath.place(x=column1Horz, y=column1height)
 column1height = column1height + labelbuffer
 
 window.minsize(width=800, height=500)
-configButton = Button(text = "Select csv", command=openConfigFile)
+configButton = Button(text = "Select json file", command=openConfigFile)
 configButton.place(x=column1Horz, y=column1height)
+
+column1height = column1height + buttonbuffer
+
+CheckVar1 = IntVar()
+C1 = Checkbutton(window, text = "Upload to Imgur", variable = CheckVar1, onvalue = 1, offvalue = 0, height=0, width = 0)
+C1.place(x=column1Horz, y=column1height)
+column1height = column1height + generatebuffer
 
 Loading = Label(window, textvariable=progress, width=labelWidth, anchor="sw")
 Loading.place(x=column2Horz, y=column2height)

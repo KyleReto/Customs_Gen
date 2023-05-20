@@ -129,7 +129,7 @@ def generate_all_cards():
     #TODO: On release, put this in try block to notify user. It is easier to track error logs like this for now
     progress.set('Loading. Window will close automatically once complete.\nCheck the console for progress')
     window.update_idletasks()
-    create_cards(csvPath.get(), templatePath.get(), outputPath.get(), jsonOutputPath.get())
+    create_cards(csvPath.get(), templatePath.get(), outputPath.get(), jsonOutputPath.get(), CheckVar1.get(), CheckVar2.get())
     print('Finished')
     window.destroy()
 
@@ -149,6 +149,8 @@ labelbuffer = 25
 column2height = 35
 generatebuffer = 200
 labelWidth = 45
+checkboxBuffer = 25
+checkboxAdjust = -150
 
 currentCSVPath = Label(window, textvariable=csvPath, width=labelWidth, anchor="sw")
 currentCSVPath.place(x=column1Horz, y=column1height)
@@ -219,6 +221,16 @@ setAllAttackImgButton.place(x=column2Horz, y=column2height)
 
 column2height = column2height + generatebuffer
 
+column2height = column2height + checkboxAdjust
+CheckVar1 = IntVar()
+CheckVar2 = IntVar()
+C1 = Checkbutton(window, text = "Upload to Imgur", variable = CheckVar1, onvalue = 1, offvalue = 0, height=0, width = 0)
+C2 = Checkbutton(window, text = "Create character json at output (eases updating character)", variable = CheckVar2, onvalue = 1, offvalue = 0, height=0, width = 0)
+C1.place(x=column2Horz, y=column2height)
+column2height = column2height + checkboxBuffer
+C2.place(x=column2Horz, y=column2height)
+column2height = column2height + generatebuffer
+
 currentTemplatePath = Label(window, textvariable=templatePath, width=labelWidth, anchor="sw")
 currentTemplatePath.place(x=column1Horz, y=column1height)
 
@@ -248,8 +260,7 @@ jsonOutputButton = Button(text = "Change TTS json Output Folder", command=openTT
 jsonOutputButton.place(x=column1Horz, y=column1height)
 
 
-
-
+column2height = column2height + checkboxAdjust
 
 Loading = Label(window, textvariable=progress, width=labelWidth, anchor="sw")
 Loading.place(x=column2Horz, y=column2height)
