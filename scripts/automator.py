@@ -42,6 +42,14 @@ def concat_images(image_paths, size, shape=None):
     return image
 
 
+def create_cards_full_config():
+    config_path = './config.json'
+    f = open(config_path, encoding='utf-8')
+    data = json.load(f)
+    f.close()
+
+    create_cards(data["character_csv"], data["template"], data["output_folder"], data["TTSOutput"])
+
 def create_cards(csvPath, templatePath, outputPath, jsonOutputPath):
 
     #TODO allow pointing to Normals Deck
