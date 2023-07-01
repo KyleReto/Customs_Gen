@@ -4,6 +4,7 @@ import re
 import copy
 import unittest.mock as mock
 import csv
+import textwrap
 
 #select bold 
 bold_words = ['Now:', 'Before:', 'Hit:', 'After:', 'Cleanup:', 'Ignore Armor', 'Ignore Guard', 'Critical', 'Strike', 'Advantage', 'Stun Immunity']
@@ -80,8 +81,8 @@ def manage_tags(tag_str, color_list, style_list, outline_list):
             style_list.append(tag_str)
 
 # Converts a string with bespoke markdown into a plaintext string and corresponding formatting information
+# returns an array of 5-tuples (style, color, outline_weight, outline_color, text)
 def parse_markdown(str, default_color, default_outline):
-    # array of 5-tuples (style, color, outline_weight, outline_color, text)
     string_data = []
     style = ['regular']
     color = [default_color]
@@ -205,6 +206,64 @@ def text_by_style(image, text, style_dict, badge_dict={}):
                      default_color=get_attr_if_present(style_dict,'text_color', '#000000'),
                      default_outline=get_attr_if_present(style_dict,'outline', [0,'#000000']))
 
+# Add the appropriate number of line breaks to text according to the size of the textbox
+# Returns a tuple of (new md_objs, estimated font size)
+# Target char determines the aggression of the algorithm. Wider characters make for more aggressive wrapping.
+# TODO: Make this function less terrible
+def wrap_text(markdown_objects, font_size, box_width, box_height, font_files=default_text['fonts'], target_char="l"):
+    new_text_components = []
+    # Get an array of only the text components of the old md_objs array
+    old_text_components = [md_obj[4] for md_obj in markdown_objects]
+    text_str = "".join(old_text_components)
+
+    # Wrap that, as normal
+    # Add line breaks before triggers, if necessary
+    str_list = list(text_str)
+    # Matches any words surrounded by " " and ":"
+    for trigger in re.finditer(r" \w+:", text_str):
+        str_list[trigger.start()] = "\n"
+    text_str = "".join(str_list)
+
+    # Here, if a line ends in \u200b, that means text was cut off.
+    wrapped_lines = "\u200b"
+    font_size += 1
+    while wrapped_lines[-1][-1] == "\u200b":
+        font_size -= 1
+        font = ImageFont.truetype(font_files[0], size=font_size)
+        m_bbox = font.getbbox(target_char)
+        max_chars_per_line = box_width // (m_bbox[2] - m_bbox[0])
+        max_lines = box_height // (m_bbox[3] - m_bbox[1])
+        print(f"Box width is {box_width}, bbox width is {((m_bbox[2] - m_bbox[0])//2)}, max_chars is {max_chars_per_line}")
+        print(f"Font size is {font_size}, Box height is {box_height}")
+        if max_chars_per_line and max_lines:
+            wrapped_lines = textwrap.wrap(text_str, width=max_chars_per_line, placeholder="\u200b", max_lines=max_lines,
+                                replace_whitespace=False, break_long_words=False, break_on_hyphens=False)
+            print(f"Text is {wrapped_lines}")
+    
+    break_indices = []
+    total_len = 0
+    for line in wrapped_lines[:-1]:
+        total_len += len(line)
+        break_indices.append(total_len)
+    
+    char_index = 0
+    new_chunk = []
+    for old_text_chunk in old_text_components:
+        for old_text_char in old_text_chunk:
+            new_chunk.append(old_text_char)
+            if char_index in break_indices:
+                if new_chunk[-1] == " ": new_chunk.pop()
+                new_chunk.append("\n")
+            char_index += 1
+        new_text_components.append("".join(new_chunk))
+        new_chunk = []
+    
+    # Recreate markdown_objects but with the new text components.
+    out_md_objs = []
+    for idx, old_md_obj in enumerate(markdown_objects):
+        out_md_objs.append((old_md_obj[0], old_md_obj[1], old_md_obj[2], old_md_obj[3], new_text_components[idx]))
+    return out_md_objs, font_size
+
 # Draws text in the canvas, converting between styles and adjusting size and spacing on the fly
 # canvas = PIL Image object
 # text = raw string data (to be passed to the markdown parser)
@@ -215,8 +274,9 @@ def text_by_style(image, text, style_dict, badge_dict={}):
 # badge_dict = A dictionary describing which text to replace and with what image. Used for things like Critical.
 # default_outline = A list [width in px, color in hex] describing the outline drawn around the text.
 def draw_text(canvas, text, font_files, bounding_box, max_font_size=33, max_vertical_spacing=50, align='center', badge_dict={}, default_color='#000000', default_outline=[0,'#000000']):
-    markdown_objects = parse_markdown(text, default_color, default_outline)
     text_size = (bounding_box[2] - bounding_box[0], bounding_box[3] - bounding_box[1])
+    markdown_objects = parse_markdown(text, default_color, default_outline)
+    markdown_objects, max_font_size = wrap_text(markdown_objects, max_font_size, text_size[0], text_size[1], font_files)
     image_lines = compose_text(markdown_objects, font_files, max_font_size, badge_dict=badge_dict)
     line_height = min(max_vertical_spacing, get_line_height(max_font_size, len(image_lines),text_size[1]))
     text_image = Image.new("RGBA", (5000,5000),(0,0,0,0))
@@ -237,6 +297,7 @@ def draw_text(canvas, text, font_files, bounding_box, max_font_size=33, max_vert
         text_image.alpha_composite(line,text_location,(0,0))
         if line_bbox[2] > max_width:
             max_width = line_bbox[2]
+    # In case the text is still too wide for whatever reason, shrink it
     if max_width > text_size[0]:
         print('Text is too wide, shrinking...')
         resize_factor = text_size[0] / max_width
