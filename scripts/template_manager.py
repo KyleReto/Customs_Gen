@@ -339,6 +339,9 @@ def capitalize_important_words(text):
     for word in bold_words:
         uncapped = word.lower()
         text = text.replace(uncapped, word)
+    for key in stat_words:
+        uncapped = key.lower()
+        text = text.replace(uncapped, key)
     return text
 
 def createNewLines(text):
