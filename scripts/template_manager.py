@@ -395,7 +395,7 @@ def generate_card(card):
 
 def format_color_words(text):
     for key in stat_words:
-        text = re.sub('(([\+\-])(([0-9]*)|[A-Z])|([\+\-]\d+[~\-][\+\-]\d+)) ' + key, '<bold><' + stat_words[key] + '><@3#000000>' + "\\1 " + key + '</@></#></bold>', text)
+        text = re.sub('(([\+\-])(([0-9]*)|[A-Z])|([\+\-]\d+[~\-]([\+\-])?\d+)) ' + key, '<bold><' + stat_words[key] + '><@3#000000>' + "\\1 " + key + '</@></#></bold>', text)
     return text
 
 def format_bold_words(text):
