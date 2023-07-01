@@ -7,7 +7,7 @@ import csv
 import textwrap
 
 #select bold 
-bold_words = ['Now:', 'Before:', 'Hit:', 'After:', 'Cleanup:', 'Ignore Armor', 'Ignore Guard', 'Critical', 'Strike', 'Advantage', 'Stun Immunity']
+bold_words = ['Now:', 'Before:', 'Hit:', 'After:', 'Cleanup:', 'Ignore Guard and Armor', 'Ignore Armor and Guard', 'Ignore Armor', 'Ignore Guard', 'Critical', 'Strike', 'Advantage', 'Stun Immunity']
 stat_words = {
     'Range': '#00abea',
     'Power': '#f54137',
@@ -204,13 +204,14 @@ def text_by_style(image, text, style_dict, badge_dict={}):
                      align=get_attr_if_present(style_dict,'align', 'center'),
                      badge_dict=badge_dict,
                      default_color=get_attr_if_present(style_dict,'text_color', '#000000'),
-                     default_outline=get_attr_if_present(style_dict,'outline', [0,'#000000']))
+                     default_outline=get_attr_if_present(style_dict,'outline', [0,'#000000']),
+                     no_wrap=get_attr_if_present(style_dict,'no_wrap', False))
 
 # Add the appropriate number of line breaks to text according to the size of the textbox
 # Returns a tuple of (new md_objs, estimated font size)
 # Target char determines the aggression of the algorithm. Wider characters make for more aggressive wrapping.
 # TODO: Make this function less terrible
-def wrap_text(markdown_objects, font_size, box_width, box_height, font_files=default_text['fonts'], target_char="l"):
+def wrap_text(markdown_objects, font_size, box_width, box_height, font_files=default_text['fonts'], target_char="L"):
     new_text_components = []
     # Get an array of only the text components of the old md_objs array
     old_text_components = [md_obj[4] for md_obj in markdown_objects]
@@ -220,9 +221,11 @@ def wrap_text(markdown_objects, font_size, box_width, box_height, font_files=def
     # Add line breaks before triggers, if necessary
     str_list = list(text_str)
     # Matches any words surrounded by " " and ":"
-    for trigger in re.finditer(r" \w+:", text_str):
+    for trigger in re.finditer(r"\.\w+:", text_str):
         str_list[trigger.start()] = "\n"
     text_str = "".join(str_list)
+    # Re-split, in case of preexisting \ns
+    broken_old_lines = text_str.split("\n")
 
     # Here, if a line ends in \u200b, that means text was cut off.
     wrapped_lines = "\u200b"
@@ -233,23 +236,28 @@ def wrap_text(markdown_objects, font_size, box_width, box_height, font_files=def
         m_bbox = font.getbbox(target_char)
         max_chars_per_line = box_width // (m_bbox[2] - m_bbox[0])
         max_lines = box_height // (m_bbox[3] - m_bbox[1])
-        print(f"Box width is {box_width}, bbox width is {((m_bbox[2] - m_bbox[0])//2)}, max_chars is {max_chars_per_line}")
-        print(f"Font size is {font_size}, Box height is {box_height}")
         if max_chars_per_line and max_lines:
-            wrapped_lines = textwrap.wrap(text_str, width=max_chars_per_line, placeholder="\u200b", max_lines=max_lines,
-                                replace_whitespace=False, break_long_words=False, break_on_hyphens=False)
-            print(f"Text is {wrapped_lines}")
+            new_wrapped_lines = []
+            for line in broken_old_lines:
+                lines_remaining = max_lines - len(new_wrapped_lines)
+                new_wrapped_lines += (textwrap.wrap(line, width=max_chars_per_line, placeholder="\u200b", max_lines=lines_remaining,
+                                replace_whitespace=False, break_long_words=False, break_on_hyphens=False))
+            wrapped_lines = new_wrapped_lines
     
     break_indices = []
     total_len = 0
     for line in wrapped_lines[:-1]:
-        total_len += len(line)
-        break_indices.append(total_len)
+        total_len += len(line)+1
+        break_indices.append(total_len-2)
     
     char_index = 0
     new_chunk = []
     for old_text_chunk in old_text_components:
         for old_text_char in old_text_chunk:
+            if old_text_char == "\n": 
+                new_chunk.append(" ")
+                char_index += 1
+                continue
             new_chunk.append(old_text_char)
             if char_index in break_indices:
                 if new_chunk[-1] == " ": new_chunk.pop()
@@ -273,10 +281,12 @@ def wrap_text(markdown_objects, font_size, box_width, box_height, font_files=def
 # max_vertical_spacing = largest space between lines, in pixels.
 # badge_dict = A dictionary describing which text to replace and with what image. Used for things like Critical.
 # default_outline = A list [width in px, color in hex] describing the outline drawn around the text.
-def draw_text(canvas, text, font_files, bounding_box, max_font_size=33, max_vertical_spacing=50, align='center', badge_dict={}, default_color='#000000', default_outline=[0,'#000000']):
+# no_wrap = If true, disable automatic text wrapping. Useful for things like titles.
+def draw_text(canvas, text, font_files, bounding_box, max_font_size=33, max_vertical_spacing=50, align='center', badge_dict={}, default_color='#000000', default_outline=[0,'#000000'], no_wrap=False):
     text_size = (bounding_box[2] - bounding_box[0], bounding_box[3] - bounding_box[1])
     markdown_objects = parse_markdown(text, default_color, default_outline)
-    markdown_objects, max_font_size = wrap_text(markdown_objects, max_font_size, text_size[0], text_size[1], font_files)
+    if not no_wrap:
+        markdown_objects, max_font_size = wrap_text(markdown_objects, max_font_size, text_size[0], text_size[1], font_files)
     image_lines = compose_text(markdown_objects, font_files, max_font_size, badge_dict=badge_dict)
     line_height = min(max_vertical_spacing, get_line_height(max_font_size, len(image_lines),text_size[1]))
     text_image = Image.new("RGBA", (5000,5000),(0,0,0,0))
@@ -357,7 +367,6 @@ def handle_conditional(attr_dict):
             result = False
     return result
 
-# TODO: Automatically insert newlines as necessary - insert potential newlines with priorities and replace those with \n or nothing as necessary. As a fallback, scale text.
 # TODO: Add support for default card types, in case of missing types
 # TODO: Readjust SF textboxes so that all text is readable even if the box if full.
 # TODO: Fix SF Character box to present newlines correctly
@@ -402,14 +411,8 @@ def capitalize_important_words(text):
         text = text.replace(uncapped, word)
     return text
 
-def createNewLines(text):
-    text = text.replace(". ", ".\n")
-    text = text.replace(" \"", "\n\"")
-    return text
-
 def format_common_text(text):
     text = capitalize_important_words(text)
     text = format_bold_words(text)
     text = format_color_words(text)
-    #text = createNewLines(text)
     return text

@@ -48,7 +48,7 @@
                 "templates/street_fighter/fonts/FiraSansExtraCondensed-Bold.ttf",
                 "templates/street_fighter/fonts/FiraSansExtraCondensed-Italic.ttf",
                 "templates/street_fighter/fonts/FiraSansExtraCondensed-BoldItalic.ttf"],
-                "bounding_box":[100,750,650,970],
+                "bounding_box":[100,780,650,970],
                 "default_font_size":33,
                 "default_line_height":40
             },
@@ -56,7 +56,7 @@
                 "type":"text",
                 "content":"{card,card_name}",
                 "fonts":["templates/street_fighter/fonts/WCManoNegraBoldBta.otf"],
-                "bounding_box":[20,660,400,751],
+                "bounding_box":[20,640,400,731],
                 "default_font_size":88,
                 "default_line_height":88,
                 "align": "left",
@@ -70,7 +70,8 @@
                 "default_font_size":14,
                 "default_line_height":14,
                 "text_color":"#FFFFFF",
-                "outline":[2,"#000000"]
+                "outline":[2,"#000000"],
+                "no_wrap":true
             }
         },
         "exceed":{
@@ -119,7 +120,7 @@
                 "templates/street_fighter/fonts/FiraSansExtraCondensed-Bold.ttf",
                 "templates/street_fighter/fonts/FiraSansExtraCondensed-Italic.ttf",
                 "templates/street_fighter/fonts/FiraSansExtraCondensed-BoldItalic.ttf"],
-                "bounding_box":[100,750,650,970],
+                "bounding_box":[100,780,650,970],
                 "default_font_size":33,
                 "default_line_height":40,
                 "text_color":"#FFFFFF"
@@ -128,7 +129,7 @@
                 "type":"text",
                 "content":"{card,card_name}",
                 "fonts":["templates/street_fighter/fonts/WCManoNegraBoldBta.otf"],
-                "bounding_box":[20,660,400,751],
+                "bounding_box":[20,640,400,731],
                 "default_font_size":88,
                 "default_line_height":88,
                 "text_color":"#FFFFFF",
@@ -143,7 +144,8 @@
                 "default_font_size":13,
                 "default_line_height":14,
                 "text_color":"#FFFFFF",
-                "outline":[2,"#000000"]
+                "outline":[2,"#000000"],
+                "no_wrap":true
             }
         },
         "special":{
@@ -238,7 +240,8 @@
                 "default_font_size":64,
                 "default_line_height":64,
                 "text_color":"#FFFFFF",
-                "align": "left"
+                "align": "left",
+                "no_wrap": true
             },
             "secondary_title":{
                 "type":"text",
@@ -341,7 +344,8 @@
                 "default_font_size":13,
                 "default_line_height":14,
                 "text_color":"#FFFFFF",
-                "outline":[2,"#000000"]
+                "outline":[2,"#000000"],
+                "no_wrap":true
             }
         },
         "ultra":{
@@ -539,7 +543,8 @@
                 "default_font_size":13,
                 "default_line_height":14,
                 "text_color":"#FFFFFF",
-                "outline":[2,"#000000"]
+                "outline":[2,"#000000"],
+                "no_wrap":true
             }
         }
     }
