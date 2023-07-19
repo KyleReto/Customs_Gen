@@ -194,7 +194,17 @@ def AddUniqueToLocalTts(ttsData, charName, card, imgPath):
         TtsAddLocalContainedCard(ttsData, deckID, charName, card)
     return 0
 
+def TtsConvertToBag(ttsData, charName):
+    deckData = ttsData
+    jsonFile = open("./normals/Seventh_Cross/SampleBag.json", "r") # Open the JSON file for reading
+    bagData = json.load(jsonFile) # Read the JSON into the buffer
+    jsonFile.close() # Close the JSON file
 
+    bagData["ObjectStates"][0]["Nickname"] = charName
+    bagData["ObjectStates"][0]["Description"] = "Cards for " + charName
+    bagData["ObjectStates"][0]["ContainedObjects"].append(deckData["ObjectStates"][0])
+
+    return bagData
 
 
 
@@ -202,6 +212,7 @@ def TtsAddCharacterLocal(ttsData, charName, charImgPath, exceedImgPath):
     deckID = TtsAddLocalCharToCustomDeck(ttsData, charImgPath, exceedImgPath)
     TtsAddDeckID(ttsData, deckID)
     TtsAddLocalContainedCharacter(ttsData, deckID, charName)
+    
 
 
 
@@ -337,13 +348,13 @@ def TtsSyncToUpload(ttsData, refDeck, char_name, decklink, cardList, uniquelink,
     addUploadedCharCard(ttsData, char_name, charLink, exceedLink)
 
 def generate_tts_json(ttsData, refDeck, charName, outputPath):
-    jsonSavePath = outputPath + '/' + charName + ' Deck.json'
+    ttsData = TtsConvertToBag(ttsData, charName)
+    jsonSavePath = outputPath + '/' + charName + ' Bag.json'
     #Apparently we need to check for new line characters here
     jsonSavePath = jsonSavePath.replace("\n", " ")
     jsonFile = open(jsonSavePath, "w+")
     jsonFile.write(json.dumps(ttsData))
     jsonFile.close()
-
 
     #Adds a ref file. Currently bugged where the last card doesnt load correctly?
     

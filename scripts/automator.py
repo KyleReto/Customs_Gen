@@ -161,7 +161,7 @@ def create_cards(csvPath, templatePath, outputPath, jsonOutputPath, Imgur, Gener
                 charCard.save(savePath)
 
                 #Saves a picture to serve as the image for mod in TTS. This MUST have the same name as json output file to take effect.
-                charCard.save(jsonOutputPath + '/' + char_name + ' Deck.png')
+                charCard.save(jsonOutputPath + '/' + char_name + ' Bag.png')
                 charImgPath = savePath
                 print("Generated " + row[0])
 
