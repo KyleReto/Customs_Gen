@@ -149,7 +149,7 @@ def create_cards(csvPath, templatePath, outputPath, jsonOutputPath, Imgur, Gener
                 print("Generated " + row[0])
 
             elif row[1] == 'Unique':
-                if (card["text_box"].__len__!=0):
+                if (card["card_name"]!="Unique"):
                     generate_card(card).save(savePath)
                     UniqueImages.append(savePath)
                     UniqueCards.append(card)

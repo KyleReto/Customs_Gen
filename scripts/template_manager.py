@@ -230,7 +230,7 @@ def wrap_text(markdown_objects, font_size, box_width, box_height, font_files=def
     # Here, if a line ends in \u200b, that means text was cut off.
     wrapped_lines = "\u200b"
     font_size += 1
-    while wrapped_lines[-1] == "\u200b":
+    while wrapped_lines == "\u200b":
         font_size -= 1
         font = ImageFont.truetype(font_files[0], size=font_size)
         m_bbox = font.getbbox(target_char)
