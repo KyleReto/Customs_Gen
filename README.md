@@ -1,3 +1,5 @@
+Fair warning, the below instructions haven't been tested in a while and may not be up to date. Feel free to contact @Shabacka for help if something breaks.
+
 ***Development Setup Instructions:***
 
 1. In VSCode, activate the virtual environment:   
